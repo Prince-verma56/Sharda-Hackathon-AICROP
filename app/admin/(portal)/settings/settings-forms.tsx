@@ -11,8 +11,23 @@ import { MITRA_SETTING_GROUPS } from '@/lib/mitra/settings-options';
 import { createRoleInvitation, updateMitraDefaults, updateSettings, type ActionState } from '@/server/admin/actions';
 import type { PlatformSettings } from '@/server/cropai/settings';
 
+/**
+ * Wraps a server action for useActionState: if the call itself fails (most often a page opened
+ * before a deploy / dev rebuild, whose action id no longer exists), show a clear message instead
+ * of failing silently.
+ */
+function reportFailures(action: (prev: ActionState, form: FormData) => Promise<ActionState>) {
+  return async (prev: ActionState, form: FormData): Promise<ActionState> => {
+    try {
+      return await action(prev, form);
+    } catch {
+      return { error: 'Could not reach the server — this page is out of date. Refresh the page (Ctrl+F5) and try again.' };
+    }
+  };
+}
+
 export function PlatformSettingsForm({ values }: { values: PlatformSettings }) {
-  const [state, action, pending] = useActionState<ActionState, FormData>(updateSettings, {});
+  const [state, action, pending] = useActionState<ActionState, FormData>(reportFailures(updateSettings), {});
   return (
     <form action={action} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5"><Label htmlFor="ret">Photo retention (days)</Label><Input id="ret" name="image_retention_days" type="number" min={7} max={730} defaultValue={values.image_retention_days} className="w-40 bg-white" /><span className="text-xs text-muted-foreground">Applies to new uploads; photos are stored without EXIF/GPS metadata.</span></div>
@@ -28,7 +43,7 @@ export function PlatformSettingsForm({ values }: { values: PlatformSettings }) {
 
 /** Invite by mobile number. role=VOLUNTEER (admins) or ADMIN (super admins only, enforced server-side). */
 export function InviteForm({ role, allowAdmin = false }: { role: 'VOLUNTEER' | 'ADMIN'; allowAdmin?: boolean }) {
-  const [state, action, pending] = useActionState<ActionState, FormData>(createRoleInvitation, {});
+  const [state, action, pending] = useActionState<ActionState, FormData>(reportFailures(createRoleInvitation), {});
   return (
     <form action={action} className="flex flex-col gap-3">
       <input type="hidden" name="role" value={role} />
@@ -53,7 +68,7 @@ export function InviteForm({ role, allowAdmin = false }: { role: 'VOLUNTEER' | '
 
 /** Mitra defaults (language, tone, voice, pace, length) + extra guidance appended to Mitra's prompt. */
 export function MitraDefaultsForm({ values }: { values: Record<'language' | 'tone' | 'voice' | 'pace' | 'length', string> & { extraInstructions: string } }) {
-  const [state, action, pending] = useActionState<ActionState, FormData>(updateMitraDefaults, {});
+  const [state, action, pending] = useActionState<ActionState, FormData>(reportFailures(updateMitraDefaults), {});
   return (
     <form action={action} className="flex flex-col gap-4">
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">

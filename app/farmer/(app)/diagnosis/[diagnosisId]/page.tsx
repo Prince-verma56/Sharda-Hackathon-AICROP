@@ -7,16 +7,22 @@ import {
   BadgeCheck,
   Bug,
   CalendarClock,
+  CalendarDays,
   Camera,
   Clock,
+  CloudRain,
   CloudSun,
   Cpu,
   Droplets,
   Eye,
   FlaskConical,
   Gauge,
+  Grid2x2,
   ImageOff,
   Leaf,
+  MapPin,
+  NotebookPen,
+  Sprout,
   ShieldCheck,
   Thermometer,
   TriangleAlert,
@@ -27,11 +33,13 @@ import { getMitraSettings } from "@/ai/settings/mitra-settings";
 import { eyebrowClass } from "@/components/app/page-intro";
 import { CropThumb } from "@/components/crops/crop-thumb";
 import { LeafMark } from "@/components/marketing/home/brand";
+import { FIELD_LABELS, FIELD_OPTIONS, type FieldContext } from "@/lib/cropai/field-context";
 import { cropName, splitLabel } from "@/lib/crops";
 import { cn } from "@/lib/utils";
 import { requireFarmer } from "@/server/auth/dal";
 import { getCropImages } from "@/server/cropai/crop-images";
 import { getDiagnosisForFarmer } from "@/server/cropai/diagnosis-service";
+import { getFieldContext } from "@/server/cropai/field-context";
 import { getApprovedGuidance } from "@/server/cropai/knowledge";
 import { db } from "@/server/db";
 import { ForecastChart, ReportActions, ScoreChart, ScoreGauge } from "./report-client";
@@ -72,7 +80,7 @@ export default async function DiagnosisReport({ params }: { params: Promise<{ di
   if (!d) notFound();
   const lang = farmer.language === "en" ? "en" : "hi";
   const hi = lang === "hi";
-  const [guidance, healthyRef, history, cropImages, mitra] = await Promise.all([
+  const [guidance, healthyRef, history, cropImages, mitra, fieldCtx] = await Promise.all([
     getApprovedGuidance(d.predictedLabel),
     d.isHealthy ? null : getApprovedGuidance(`${d.predictedCrop}::Healthy`),
     db.diagnosis.findMany({
@@ -83,6 +91,7 @@ export default async function DiagnosisReport({ params }: { params: Promise<{ di
     }),
     getCropImages(),
     getMitraSettings(farmer.userId),
+    getFieldContext(d.id),
   ]);
 
   // The page follows the language toggle: if the stored explanation is in the other language, the
@@ -286,6 +295,8 @@ export default async function DiagnosisReport({ params }: { params: Promise<{ di
 
       {/* Row 2 — actions */}
       <ReportActions id={d.id} lang={lang} speech={speech} speechFallback={speechFallback} shareText={shareText} reviewStatus={d.reviewStatus} feedback={d.feedback[0]?.helpful ?? null} />
+
+      {fieldCtx && <FieldNotes ctx={fieldCtx} lang={lang} />}
 
       {/* Row 3 — what the model considered + Mitra */}
       <div className="grid gap-5 lg:grid-cols-12 lg:gap-6">
@@ -598,5 +609,46 @@ function WeatherTile({ icon: Icon, label, value, unit, lang }: { icon: React.Com
         </span>
       </dd>
     </div>
+  );
+}
+
+/** What the farmer told us at check time (optional field details) — also part of Mitra's context. */
+function FieldNotes({ ctx, lang }: { ctx: FieldContext; lang: "hi" | "en" }) {
+  const hi = lang === "hi";
+  const label = (key: "cropStage" | "firstNoticed" | "spread" | "recentWeather" | "sprayed", value?: string) =>
+    value ? (FIELD_OPTIONS[key] as Record<string, { en: string; hi: string }>)[value]?.[lang] : undefined;
+  const chips: { icon: React.ComponentType<{ className?: string }>; title: string; value: string }[] = [
+    { icon: Sprout, title: FIELD_LABELS.cropStage[lang], value: label("cropStage", ctx.cropStage) ?? "" },
+    { icon: CalendarDays, title: FIELD_LABELS.firstNoticed[lang], value: label("firstNoticed", ctx.firstNoticed) ?? "" },
+    { icon: Grid2x2, title: FIELD_LABELS.spread[lang], value: label("spread", ctx.spread) ?? "" },
+    { icon: Leaf, title: FIELD_LABELS.parts[lang], value: (ctx.parts ?? []).map((p) => FIELD_OPTIONS.parts[p][lang]).join(", ") },
+    { icon: CloudRain, title: FIELD_LABELS.recentWeather[lang], value: label("recentWeather", ctx.recentWeather) ?? "" },
+    { icon: FlaskConical, title: FIELD_LABELS.sprayed[lang], value: label("sprayed", ctx.sprayed) ?? "" },
+    { icon: Clock, title: hi ? "फोटो का समय" : "Photo time", value: ctx.capturedAt ? new Date(ctx.capturedAt).toLocaleString(hi ? "hi-IN" : "en-IN", { dateStyle: "medium", timeStyle: "short" }) : "" },
+    { icon: MapPin, title: hi ? "जगह" : "Location", value: ctx.location ? `${ctx.location.latitude.toFixed(2)}, ${ctx.location.longitude.toFixed(2)}` : "" },
+  ].filter((c) => c.value);
+  if (!chips.length && !ctx.note) return null;
+  return (
+    <section className="flex flex-col gap-3 rounded-[28px] bg-white p-5 ring-1 ring-border sm:p-6">
+      <p className={cn(eyebrowClass(lang), "text-[var(--crop-green-600)]")}>{hi ? "आपकी खेत की जानकारी · मित्र भी इसे जानता है" : "Your field notes · Mitra knows these too"}</p>
+      <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        {chips.map(({ icon: Icon, title, value }) => (
+          <li key={title} className="flex items-center gap-3 rounded-2xl bg-[var(--crop-cream)] p-3 ring-1 ring-border">
+            <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-[var(--crop-green-100)] text-[var(--crop-green-600)]">
+              <Icon className="size-4" />
+            </span>
+            <span className="min-w-0">
+              <span className={cn("block text-[9px] font-semibold text-muted-foreground", !hi && "tracking-[0.14em] uppercase")}>{title}</span>
+              <span className="block truncate text-sm font-semibold">{value}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+      {ctx.note && (
+        <p className="flex items-start gap-2 rounded-2xl bg-[var(--crop-cream)] px-4 py-3 text-sm ring-1 ring-border">
+          <NotebookPen className="mt-0.5 size-4 shrink-0 text-[var(--crop-green-600)]" /> {ctx.note}
+        </p>
+      )}
+    </section>
   );
 }

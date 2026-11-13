@@ -8,6 +8,8 @@ import { createDiagnosis, DiagnosisError } from '@/server/cropai/diagnosis-servi
 import { isSupportedCrop } from '@/server/cropai/taxonomy';
 import { db } from '@/server/db';
 import { fail, limit, ok } from '@/server/http/respond';
+import { FieldContextSchema, sanitizeFieldContext, type FieldContext } from '@/lib/cropai/field-context';
+import { saveFieldContext } from '@/server/cropai/field-context';
 
 export const maxDuration = 90;
 
@@ -61,6 +63,28 @@ export async function POST(req: Request) {
     await db.farmerProfile.update({ where: { userId: farmer.userId }, data: { photoConsentAt: new Date() } });
   }
 
+  // Optional field details (never required). Invalid details are ignored, never block a check.
+  let fieldContext: FieldContext | null = null;
+  let saveFarmLocation = false;
+  const rawContext = form.get('context');
+  if (typeof rawContext === 'string' && rawContext.length < 4000) {
+    try {
+      const json = JSON.parse(rawContext) as Record<string, unknown>;
+      saveFarmLocation = json.saveFarmLocation === true;
+      const parsed = FieldContextSchema.safeParse(json);
+      if (parsed.success) fieldContext = sanitizeFieldContext(parsed.data);
+    } catch {}
+  }
+  // The farmer allowed device location and has no farm location yet: save it (~1 km) so this check
+  // and future ones get local weather.
+  if (fieldContext?.location && saveFarmLocation) {
+    const farm = await db.farm.findFirst({ where: { ownerId: farmer.userId }, orderBy: [{ isPrimary: 'desc' }, { createdAt: 'asc' }] });
+    const { latitude, longitude } = fieldContext.location;
+    const label = farmer.language === 'hi' ? 'फोन की लोकेशन' : 'Phone location';
+    if (!farm) await db.farm.create({ data: { ownerId: farmer.userId, latitude, longitude, locationLabel: label, isPrimary: true } });
+    else if (farm.latitude == null || farm.longitude == null) await db.farm.update({ where: { id: farm.id }, data: { latitude, longitude, locationLabel: farm.locationLabel ?? label } });
+  }
+
   try {
     const diagnosis = await createDiagnosis({
       farmerId: farmer.userId,
@@ -70,6 +94,7 @@ export async function POST(req: Request) {
       language: farmer.language === 'en' ? 'en' : 'hi',
       farmerName: farmer.preferredName,
     });
+    if (fieldContext) await saveFieldContext(diagnosis.id, fieldContext).catch((error) => console.warn('[farmer-diagnosis] field details not saved', (error as Error).message));
     return ok({ id: diagnosis.id }, 201);
   } catch (error) {
     if (error instanceof DiagnosisError) {

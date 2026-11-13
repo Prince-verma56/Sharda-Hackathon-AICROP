@@ -10,10 +10,11 @@ export const metadata = { title: 'Check my crop' };
 
 export default async function ScanPage({ searchParams }: { searchParams: Promise<{ crop?: string }> }) {
   const farmer = await requireFarmer();
-  const [taxonomy, profile, params] = await Promise.all([
+  const [taxonomy, profile, params, farm] = await Promise.all([
     tryGetTaxonomy(),
     db.farmerProfile.findUnique({ where: { userId: farmer.userId }, select: { mainCrops: true, photoConsentAt: true } }),
     searchParams,
+    db.farm.findFirst({ where: { ownerId: farmer.userId, latitude: { not: null } }, select: { id: true } }),
   ]);
   if (!taxonomy) {
     const hi = farmer.language !== 'en';
@@ -37,6 +38,7 @@ export default async function ScanPage({ searchParams }: { searchParams: Promise
       initialCrop={params.crop ?? null}
       samples={samples}
       cropImages={cropImages}
+      farmHasLocation={Boolean(farm)}
     />
   );
 }

@@ -284,6 +284,9 @@ model Diagnosis {
   selectedCrop String?
   status       DiagnosisStatus @default(COMPLETED)
 
+  /// Optional field details from the farmer at check time (crop stage, spread, recent weather,
+  /// device time, ~1 km location...). Written via server/cropai/field-context.ts.
+  fieldContext Json?
   // image (private storage; see PlatformSetting image_retention_days)
   imageKey         String?
   imageSha256      String?

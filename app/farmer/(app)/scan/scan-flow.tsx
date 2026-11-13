@@ -17,6 +17,12 @@ import {
 } from "lucide-react";
 import { displayClass, eyebrowClass } from "@/components/app/page-intro";
 import { CropThumb } from "@/components/crops/crop-thumb";
+import {
+  answeredCount,
+  deviceTimestamp,
+  FIELD_OPTIONS,
+} from "@/lib/cropai/field-context";
+import { FieldDetailsStep, type FieldDetailsValue } from "./field-details-step";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -99,6 +105,7 @@ export function ScanFlow({
   initialCrop,
   samples = [],
   cropImages = {},
+  farmHasLocation = false,
 }: {
   crops: string[];
   mainCrops: string[];
@@ -107,6 +114,8 @@ export function ScanFlow({
   initialCrop: string | null;
   samples?: ScanSample[];
   cropImages?: Record<string, string>;
+  /** the farmer already has a farm location (no need to offer saving the device location) */
+  farmHasLocation?: boolean;
 }) {
   const router = useRouter();
   const tx = t(lang);
@@ -124,10 +133,15 @@ export function ScanFlow({
     "idle",
   );
   const [progress, setProgress] = useState(0);
+  const [details, setDetails] = useState<FieldDetailsValue>({
+    context: {},
+    saveFarmLocation: true,
+  });
+  const [detailsDone, setDetailsDone] = useState(false);
   const cameraRef = useRef<HTMLInputElement>(null);
   const galleryRef = useRef<HTMLInputElement>(null);
 
-  const step = !crop ? 1 : !file ? 2 : 3;
+  const step = !crop ? 1 : !file ? 2 : !detailsDone ? 3 : 4;
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return crops.filter(
@@ -185,6 +199,15 @@ export function ScanFlow({
     form.set("image", file, file.name || "leaf.jpg");
     form.set("crop", crop);
     form.set("consent", String(consent));
+    // optional field details (automatic date/time + location if allowed + the farmer's answers)
+    form.set(
+      "context",
+      JSON.stringify({
+        ...details.context,
+        ...deviceTimestamp(),
+        saveFarmLocation: details.saveFarmLocation,
+      }),
+    );
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/api/v1/farmer/diagnoses");
     xhr.upload.onprogress = (e) => {
@@ -233,17 +256,23 @@ export function ScanFlow({
             size="icon-lg"
             className="rounded-2xl bg-white"
             aria-label={tx.back}
-            onClick={() => (step === 3 ? reset() : setCrop(null))}
+            onClick={() =>
+              step === 4
+                ? setDetailsDone(false)
+                : step === 3
+                  ? reset()
+                  : setCrop(null)
+            }
           >
             <ArrowLeft />
           </Button>
         )}
         <div className="flex-1">
           <p className={cn(eyebrowClass(lang), "text-[var(--crop-green-600)]")}>
-            {tx.step(step, 3)}
+            {tx.step(step, 4)}
           </p>
           <div className="mt-1.5 flex gap-1.5">
-            {[1, 2, 3].map((s) => (
+            {[1, 2, 3, 4].map((s) => (
               <span
                 key={s}
                 className={cn(
@@ -331,7 +360,9 @@ export function ScanFlow({
                     variant="secondary"
                     size="sm"
                     className="rounded-full"
-                    onClick={() => speak(tx.tips.join(lang === "hi" ? "। " : ". "))}
+                    onClick={() =>
+                      speak(tx.tips.join(lang === "hi" ? "। " : ". "))
+                    }
                   >
                     <Volume2 /> {tx.listenTips}
                   </Button>
@@ -441,7 +472,32 @@ export function ScanFlow({
         </section>
       )}
 
-      {step === 3 && crop && preview && (
+      {step === 3 && crop && (
+        <FieldDetailsStep
+          lang={lang}
+          value={details}
+          onChange={setDetails}
+          onSkip={() => setDetailsDone(true)}
+          onContinue={() => setDetailsDone(true)}
+          farmHasLocation={farmHasLocation}
+          preview={preview}
+          header={
+            <div className="flex flex-col gap-2">
+              <CropBadge id={crop} lang={lang} images={cropImages} />
+              <h1
+                className={cn(
+                  "text-[clamp(2rem,5vw,3.4rem)]",
+                  displayClass(lang),
+                )}
+              >
+                {lang === "hi" ? "खेत की जानकारी" : "Field details"}
+              </h1>
+            </div>
+          }
+        />
+      )}
+
+      {step === 4 && crop && preview && (
         <section className="mt-6 flex flex-col gap-5 lg:gap-6">
           <div className="flex flex-col gap-2">
             <CropBadge id={crop} lang={lang} images={cropImages} />
@@ -496,6 +552,57 @@ export function ScanFlow({
                   </span>
                 </div>
               )}
+              <div className="flex flex-wrap items-center gap-2 rounded-2xl bg-[var(--crop-cream)] px-3 py-2.5 text-xs ring-1 ring-border">
+                <span className="font-semibold text-muted-foreground">
+                  {lang === "hi" ? "खेत की जानकारी:" : "Field details:"}
+                </span>
+                {answeredCount(details.context) || details.context.location ? (
+                  <>
+                    {(
+                      [
+                        "cropStage",
+                        "firstNoticed",
+                        "spread",
+                        "recentWeather",
+                        "sprayed",
+                      ] as const
+                    ).map((key) => {
+                      const v = details.context[key];
+                      return v ? (
+                        <span
+                          key={key}
+                          className="rounded-full bg-white px-2.5 py-1 ring-1 ring-border"
+                        >
+                          {
+                            (
+                              FIELD_OPTIONS[key] as Record<
+                                string,
+                                { en: string; hi: string }
+                              >
+                            )[v][hi ? "hi" : "en"]
+                          }
+                        </span>
+                      ) : null;
+                    })}
+                    {details.context.location && (
+                      <span className="rounded-full bg-white px-2.5 py-1 ring-1 ring-border">
+                        {lang === "hi" ? "जगह ✓" : "Location ✓"}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <span className="text-muted-foreground">
+                    {lang === "hi" ? "नहीं जोड़ी" : "none added"}
+                  </span>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setDetailsDone(false)}
+                  className="ml-auto font-semibold text-[var(--crop-green-800)] hover:underline"
+                >
+                  {lang === "hi" ? "बदलें" : "Edit"}
+                </button>
+              </div>
               {!hasConsent && (
                 <label className="flex items-start gap-3 rounded-2xl bg-white px-4 py-3 text-sm ring-1 ring-border">
                   <Checkbox

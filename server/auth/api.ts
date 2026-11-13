@@ -26,6 +26,6 @@ export const DENIAL_MESSAGES = {
   ACCOUNT_SUSPENDED: 'This account has been suspended.',
   ACCOUNT_PENDING: 'This account is waiting for approval.',
   ACCOUNT_DISABLED: 'This account has been disabled.',
-  VOLUNTEER_NOT_AUTHORISED: 'Your volunteer access is not active yet. Please contact your programme administrator.',
+  VOLUNTEER_NOT_AUTHORISED: 'This number has no volunteer invitation yet. Ask your admin to invite this exact number, then sign in again.',
   ADMIN_NOT_AUTHORISED: 'This mobile number is not authorised for the admin workspace.',
 } as const;

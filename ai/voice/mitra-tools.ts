@@ -10,6 +10,8 @@ import { auditService } from '@/server/audit';
 import { getApprovedGuidance } from '@/server/cropai/knowledge';
 import { fetchWeather } from '@/server/cropai/weather';
 import { db } from '@/server/db';
+import { describeFieldContext } from '@/lib/cropai/field-context';
+import { getFieldContext } from '@/server/cropai/field-context';
 
 export type MitraToolName =
   | 'get_farmer_profile'
@@ -77,6 +79,8 @@ export async function runMitraTool(name: string, args: Record<string, unknown>, 
         summary: explanation?.summary ?? null,
         next_steps: explanation?.recommended_actions?.map((a) => a.text) ?? [],
         severity: 'Not assessed',
+        // what the farmer told us at check time (optional; the farmer's own observations)
+        field_notes: describeFieldContext(await getFieldContext(d.id)),
       };
     }
     case 'get_previous_diagnoses': {
