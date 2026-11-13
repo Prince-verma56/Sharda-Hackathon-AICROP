@@ -1,22 +1,20 @@
-/** POST /api/v1/auth/logout  { scope?: "farmer" | "staff", everywhere?: boolean } */
+/** POST /api/v1/auth/logout  { everywhere?: boolean } — revokes the session(s) and clears the cookie. */
 import { z } from 'zod';
-import { getCurrentFarmer, getStaffSession } from '@/server/auth/dal';
+import { auditService } from '@/server/audit';
+import { getAppUser } from '@/server/auth/dal';
 import { destroyCurrentSession, revokeAllSessions } from '@/server/auth/session';
-import { ok, readJson } from '@/server/http/respond';
+import { ok, readJson, rejectCrossSite } from '@/server/http/respond';
 
-const schema = z.object({ scope: z.enum(['farmer', 'staff']).default('farmer'), everywhere: z.boolean().default(false) });
+const schema = z.object({ everywhere: z.boolean().default(false) });
 
 export async function POST(req: Request) {
+  const blocked = rejectCrossSite(req);
+  if (blocked) return blocked;
   const body = await readJson(req, schema);
-  const { scope, everywhere } = 'data' in body ? body.data : { scope: 'farmer' as const, everywhere: false };
-  if (scope === 'staff') {
-    const staff = await getStaffSession();
-    if (staff && everywhere) await revokeAllSessions(staff.userId);
-    await destroyCurrentSession('STAFF');
-    return ok({ next: '/admin/login' });
-  }
-  const farmer = await getCurrentFarmer();
-  if (farmer && everywhere) await revokeAllSessions(farmer.userId);
-  await destroyCurrentSession('FARMER');
-  return ok({ next: '/farmer/login' });
+  const everywhere = 'data' in body ? body.data.everywhere : false;
+  const user = await getAppUser();
+  if (user && everywhere) await revokeAllSessions(user.userId);
+  await destroyCurrentSession();
+  if (user) await auditService.audit({ actorId: user.userId, action: everywhere ? 'auth.logout_everywhere' : 'auth.logout', resource: 'user', resourceId: user.userId });
+  return ok({ next: '/login' });
 }

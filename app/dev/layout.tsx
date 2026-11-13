@@ -1,11 +1,14 @@
 /**
  * /dev/* — internal engineering tools. Not part of the farmer-facing product.
- * Returns 404 in production builds unless ENABLE_DEV_TOOLS=true is set explicitly.
+ * Returns 404 in production builds unless ENABLE_DEV_TOOLS=true is set explicitly, and always
+ * requires a signed-in administrator (proxy.ts sends signed-out visitors to /login?role=admin).
  */
 import { notFound } from 'next/navigation';
+import { requireStaff } from '@/server/auth/dal';
 import { isDevToolsEnabled } from './dev-tools';
 
-export default function DevToolsLayout({ children }: { children: React.ReactNode }) {
+export default async function DevToolsLayout({ children }: { children: React.ReactNode }) {
   if (!isDevToolsEnabled()) notFound();
+  await requireStaff('diagnoses:view');
   return <div className="flex min-h-full flex-1 flex-col bg-muted/30 font-sans">{children}</div>;
 }

@@ -37,3 +37,26 @@ export async function limit(req: Request, bucket: string, max: number, windowSec
   const result = await rateLimiter.check(`${bucket}:${clientKey(req)}`, max, windowSeconds);
   return result.allowed ? null : fail('TOO_MANY_REQUESTS', 429, 'Too many requests. Please wait and try again.');
 }
+
+/**
+ * CSRF guard for cookie-authenticated, state-changing JSON endpoints: the body must be JSON
+ * (cross-site HTML forms cannot send application/json without a CORS preflight) and a browser
+ * Origin header, when present, must match this host. Native apps send no Origin and use Bearer tokens.
+ */
+export function rejectCrossSite(req: Request) {
+  if (!req.headers.get('content-type')?.toLowerCase().startsWith('application/json')) {
+    return fail('UNSUPPORTED_MEDIA_TYPE', 415, 'Send the request as application/json.');
+  }
+  const origin = req.headers.get('origin');
+  if (origin) {
+    let originHost: string | null = null;
+    try {
+      originHost = new URL(origin).host;
+    } catch {
+      originHost = null;
+    }
+    const host = req.headers.get('x-forwarded-host') ?? req.headers.get('host');
+    if (!originHost || originHost !== host) return fail('CROSS_SITE_REQUEST', 403, 'Cross-site request blocked.');
+  }
+  return null;
+}

@@ -30,7 +30,7 @@ export type ApiHandler<TReq, TRes> = (ctx: ApiContext, input: TReq) => Promise<T
  * Universal API Route Wrapper
  * Handles:
  * - Next.js Request / Response formatting
- * - Clerk Authentication (supports Mobile Bearer tokens via Clerk's middleware)
+ * - Phone-OTP sessions (HttpOnly cookie for the web, `Authorization: Bearer` for the mobile app)
  * - Schema validation
  * - Error normalization
  * - Idempotency
@@ -46,7 +46,7 @@ export async function createApiRoute<TReq, TRes>(
   let permissions: string[] = [];
 
   try {
-    // 1. Authentication (Clerk when AUTH_PROVIDER=clerk, otherwise CropAI sessions)
+    // 1. Authentication (application session + database roles)
     const identity = await resolveIdentity();
     userId = identity.userId;
     role = identity.role;
@@ -134,13 +134,7 @@ export async function createApiRoute<TReq, TRes>(
 }
 
 async function resolveIdentity(): Promise<{ userId: string | null; role: string; permissions: string[] }> {
-  if ((process.env.AUTH_PROVIDER || 'credentials').toLowerCase() === 'clerk') {
-    const { auth } = await import('@clerk/nextjs/server');
-    const authResult = await auth();
-    return authResult?.userId
-      ? { userId: authResult.userId, role: 'user', permissions: ['user'] }
-      : { userId: null, role: 'guest', permissions: [] };
-  }
+  // Session (cookie or mobile Bearer token) -> CropAI user + database roles.
   const { getCurrentFarmer, getCurrentStaff } = await import('../auth/dal');
   const staff = await getCurrentStaff();
   if (staff) return { userId: staff.userId, role: staff.role, permissions: ['user', 'staff'] };

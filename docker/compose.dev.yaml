@@ -78,8 +78,41 @@ services:
       timeout: 5s
       retries: 5
 
+  # --- Local data inspection (profile "tools"; loopback only, never in production) ---
+  adminer:
+    image: adminer:4.8.1@sha256:34d37131366c5aa84e1693dbed48593ed6f95fb450b576c1a7a59d3a9c9e8802
+    container_name: hackathon-adminer
+    restart: unless-stopped
+    profiles:
+      - tools
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres   # log in: System PostgreSQL, user/pass from .env, db hackathon_db
+    ports:
+      - "127.0.0.1:${ADMINER_PORT:-8080}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  redisinsight:
+    image: redis/redisinsight@sha256:b5e19ee240abef6edb435871b90ff8a210995422e8e018ab61c0339d318a1f84
+    container_name: hackathon-redisinsight
+    restart: unless-stopped
+    profiles:
+      - tools
+    environment:
+      RI_REDIS_HOST: redis
+      RI_REDIS_PORT: "6379"
+      RI_REDIS_ALIAS: hackathon-redis
+      RI_ACCEPT_TERMS_AND_CONDITIONS: "true"
+    ports:
+      - "127.0.0.1:${REDISINSIGHT_PORT:-5540}:5540"
+    volumes:
+      - redisinsightdata:/data
+
 volumes:
   pgdata:
     name: hackathon-pgdata
   redisdata:
     name: hackathon-redisdata
+  redisinsightdata:
+    name: hackathon-redisinsightdata

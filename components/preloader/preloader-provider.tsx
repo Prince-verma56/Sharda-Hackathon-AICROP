@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { isFeatureEnabled } from "@/config/features";
 
 interface PreloaderContextType {
@@ -12,8 +13,12 @@ const PreloaderContext = createContext<PreloaderContextType | undefined>(undefin
 
 export function PreloaderProvider({ children }: { children: ReactNode }) {
   const isPreloaderFeatureEnabled = isFeatureEnabled("preloader");
-  // If preloader is disabled, it's instantly complete
-  const [isPreloaderComplete, setPreloaderComplete] = useState(!isPreloaderFeatureEnabled);
+  // The intro preloader belongs to the public marketing site only. Farmer, admin and dev
+  // tools must render immediately (slow phones, repeated hard navigations).
+  const pathname = usePathname() ?? "/";
+  const isAppRoute = /^\/(farmer|admin|dev|volunteer|login|signup|register|workspaces|auth)(\/|$)/.test(pathname);
+  // If preloader is disabled (or not wanted on this route), it's instantly complete
+  const [isPreloaderComplete, setPreloaderComplete] = useState(!isPreloaderFeatureEnabled || isAppRoute);
 
   return (
     <PreloaderContext.Provider value={{ isPreloaderComplete, setPreloaderComplete }}>

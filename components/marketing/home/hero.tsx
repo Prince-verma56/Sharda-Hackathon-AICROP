@@ -1,115 +1,171 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Bug, CloudSun, Leaf, Play, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Bug, CloudSun, Leaf, Sparkles } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { buttonVariants } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { LeafMark } from './brand';
 import { FEATURES } from './content';
 import { SmoothLink } from './smooth-link';
 
 const FEATURE_ICONS = { leaf: Leaf, bug: Bug, cloud: CloudSun, sparkles: Sparkles } as const;
 
+/** One headline word inside a clipping mask, animated by the hero timeline. */
+function Word({ children, accent = false }: { children: React.ReactNode; accent?: boolean }) {
+  return (
+    <span className="inline-block overflow-hidden pb-[0.06em] align-bottom">
+      <span data-hero-word className={cn('inline-block', accent && 'text-[var(--crop-green-500)]')}>
+        {children}
+      </span>
+    </span>
+  );
+}
+
 export function Hero({ advisorHref }: { advisorHref: string }) {
   return (
-    <section id="top" className="relative isolate overflow-hidden pt-[72px]">
-      {/* Background photograph: full-bleed on mobile (lower half), right-side on desktop */}
-      <div
-        data-hero-media
-        className="absolute inset-x-0 bottom-0 -z-10 h-[58%] overflow-hidden lg:top-0 lg:left-auto lg:h-full lg:w-[74%] lg:rounded-bl-[48px] lg:rounded-tl-[340px]"
-      >
-        <div data-parallax="0.18" className="absolute -inset-y-[8%] inset-x-0">
-          <Image
-            src="/images/home/hero.jpg"
-            alt="Crop sprayers working across a lush green field at sunrise"
-            fill
-            priority
-            sizes="(min-width: 1024px) 74vw, 100vw"
-            className="object-cover object-[60%_center]"
-          />
-        </div>
-        {/* soft fades into the cream page colour */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,var(--crop-cream)_0%,transparent_32%)] lg:bg-[linear-gradient(90deg,var(--crop-cream)_0%,color-mix(in_srgb,var(--crop-cream)_82%,transparent)_22%,color-mix(in_srgb,var(--crop-cream)_25%,transparent)_48%,transparent_70%)]" />
-        <div className="absolute inset-x-0 top-0 hidden h-48 bg-gradient-to-b from-[var(--crop-cream)]/70 to-transparent lg:block" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[var(--crop-cream)]/80 to-transparent" />
-        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white/50 to-transparent mix-blend-soft-light" />
-      </div>
-
-      {/* Decorative blurred leaf, bottom-left */}
-      <div data-parallax="-0.25" className="pointer-events-none absolute -bottom-10 -left-16 -z-10 hidden md:block">
-        <LeafMark className="size-64 -rotate-[24deg] text-[var(--crop-green-600)]/35 blur-[6px]" />
-      </div>
-
-      <div className="mx-auto grid min-h-[640px] max-w-7xl px-4 pb-48 sm:px-6 lg:min-h-[760px] lg:px-8 lg:pb-44">
-        <div className="flex max-w-2xl flex-col justify-center pt-10 lg:pt-0">
-          <h1 className="text-[2.6rem] leading-[1.05] font-semibold tracking-[-0.035em] sm:text-6xl lg:text-[4.25rem] lg:whitespace-nowrap">
-            <span data-hero-line className="block">Smarter Farming.</span>
-            <span data-hero-line className="block text-[var(--crop-green-600)]">Greener Tomorrow.</span>
-          </h1>
-          <p data-hero-line className="mt-6 max-w-sm text-base leading-relaxed text-muted-foreground sm:text-lg">
-            AI-powered leaf diagnosis for healthier crops, earlier action and a more sustainable harvest.
-          </p>
-          <div data-hero-line className="mt-9 flex flex-wrap items-center gap-3">
-            <Link href={advisorHref} className={cn(buttonVariants({ size: 'lg' }), 'h-11 rounded-full px-6 text-sm shadow-lg shadow-[var(--crop-green-900)]/20')}>
-              Get Started <ArrowRight />
-            </Link>
-            <SmoothLink
-              href="#how-it-works"
-              className={cn(buttonVariants({ variant: 'outline', size: 'lg' }), 'h-11 rounded-full bg-white/70 px-5 text-sm backdrop-blur')}
-            >
-              <span className="grid size-6 place-items-center rounded-full bg-[var(--crop-green-900)] text-white">
-                <Play className="size-3 fill-current" />
+    <section id="top" className="relative pt-[88px] sm:pt-[96px]">
+      <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
+        {/* ---------- Headline row ---------- */}
+        {/*
+          Layout is fixed BEFORE any animation runs: explicit lines that never auto-wrap,
+          and the pill reserves its full size (it is revealed with clip-path, not width).
+          Mobile: SMARTER [pill] / FARMING / GREENER / TOMORROW. sm+: two lines.
+        */}
+        <div className="grid items-start gap-6 pt-6 xl:grid-cols-[1fr_auto] xl:gap-10 lg:pt-10">
+          <h1
+            data-hero-title
+            className="text-[clamp(2.9rem,13.2vw,4.6rem)] leading-[0.92] font-semibold tracking-[-0.045em] whitespace-nowrap uppercase sm:text-[clamp(2.5rem,7.1vw,6.4rem)] xl:text-[clamp(4rem,6.15vw,6.6rem)]"
+          >
+            <span className="flex flex-nowrap items-center gap-x-[0.2em]">
+              <Word>Smarter</Word>
+              <span
+                data-hero-pill
+                className="relative inline-block h-[0.74em] w-[1.9em] shrink-0 overflow-hidden rounded-full align-middle ring-1 ring-black/5 sm:w-[2.2em]"
+              >
+                <Image
+                  src="/images/home/hero.jpg"
+                  alt=""
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 300px, 160px"
+                  data-hero-pill-image
+                  className="object-cover object-[55%_62%]"
+                />
               </span>
-              Watch Demo
-            </SmoothLink>
+              <span className="hidden sm:inline-block">
+                <Word>Farming</Word>
+              </span>
+            </span>
+            <span className="mt-[0.06em] flex sm:hidden">
+              <Word>Farming</Word>
+            </span>
+            <span className="mt-[0.06em] flex flex-col sm:flex-row sm:gap-x-[0.2em]">
+              <Word>Greener</Word>
+              <Word accent>Tomorrow</Word>
+            </span>
+          </h1>
+
+          <div className="flex items-start justify-between gap-6 xl:flex-col xl:items-end xl:pt-3">
+            <p
+              data-hero-fade
+              className="max-w-[15rem] text-[11px] leading-relaxed font-semibold tracking-[0.18em] text-foreground/70 uppercase xl:text-right"
+            >
+              Turning every leaf photo
+              <br className="hidden xl:block" /> into early action
+            </p>
+            <div data-hero-fade className="flex gap-1.5" aria-hidden>
+              {[0, 1, 2].map((i) => (
+                <span key={i} data-hero-dot className="size-3 rounded-[3px] bg-[var(--crop-green-500)]/80" />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div data-hero-line className="absolute top-[120px] right-8 hidden border-l-2 border-[var(--crop-green-600)]/70 pl-4 text-sm leading-snug font-medium text-foreground/80 lg:block xl:right-[max(2rem,calc((100vw-80rem)/2+2rem))]">
-        AI for
-        <br />
-        Modern Agriculture
-      </div>
-
-      {/* Feature strip overlapping the hero */}
-      <div id="features" className="relative z-10 mx-auto -mt-32 max-w-7xl scroll-mt-28 px-4 pb-6 sm:px-6 lg:px-8">
-        <Card
-          data-feature-strip
-          className="grid grid-cols-2 gap-0 rounded-3xl border-0 bg-white/85 py-0 shadow-[0_24px_60px_-28px_rgba(28,46,22,0.35)] ring-black/5 backdrop-blur-xl lg:grid-cols-4"
+        {/* ---------- Image card ---------- */}
+        <div
+          data-hero-card
+          className="relative mt-8 overflow-hidden rounded-[28px] bg-[var(--crop-green-900)] sm:mt-10 lg:mt-12"
         >
-          {FEATURES.map((feature, index) => {
-            const Icon = FEATURE_ICONS[feature.icon];
-            return (
-              <div
-                key={feature.title}
-                data-feature-item
-                className={cn(
-                  'group flex flex-col items-start gap-3 px-4 py-5 sm:flex-row sm:items-center sm:gap-4 sm:px-7 sm:py-6 lg:py-8',
-                  index % 2 === 1 && 'border-l border-border/70',
-                  index >= 2 && 'border-t border-border/70 lg:border-t-0',
-                  index === 2 && 'lg:border-l',
-                )}
-              >
-                <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[var(--crop-green-100)] text-[var(--crop-green-600)] transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:rotate-[-6deg]">
-                  <Icon className="size-6" strokeWidth={1.6} />
-                </span>
-                <span className="flex min-w-0 flex-col gap-0.5">
-                  <span className="flex flex-wrap items-center gap-1.5 text-sm font-semibold">
-                    {feature.title}
-                    {!feature.live && (
-                      <Badge variant="secondary" className="h-4 px-1.5 text-[10px]">
+          <div className="relative aspect-[4/5] sm:aspect-[16/10] lg:aspect-[16/6.4]">
+            <div data-hero-card-image className="absolute inset-0">
+              <div data-parallax="0.14" className="absolute -inset-y-[10%] inset-x-0">
+                <Image
+                  src="/images/home/field-band.jpg"
+                  alt="Aerial view of green crop fields"
+                  fill
+                  priority
+                  sizes="(min-width: 1408px) 1376px, 100vw"
+                  className="object-cover object-[50%_45%]"
+                />
+              </div>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-black/20" />
+
+            <div data-hero-card-label className="absolute top-5 left-5 text-base font-semibold tracking-tight text-white sm:top-7 sm:left-8 sm:text-xl">
+              CROPAI<sup className="ml-0.5 text-[0.55em]">®</sup>
+            </div>
+
+            <div className="absolute inset-x-4 bottom-4 flex flex-col gap-4 sm:inset-x-7 sm:bottom-7 lg:flex-row lg:items-end lg:justify-between">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
+                <div className="flex gap-2.5">
+                  <div data-hero-chip className="flex size-[84px] flex-col justify-between rounded-2xl bg-[var(--crop-ink)]/85 p-3 text-white backdrop-blur-md sm:size-[96px]">
+                    <span className="text-2xl font-semibold tracking-tight sm:text-[1.7rem]">59</span>
+                    <span className="text-[9px] leading-tight font-semibold tracking-[0.14em] uppercase opacity-80">Crops covered</span>
+                  </div>
+                  <div data-hero-chip className="flex size-[84px] flex-col justify-between rounded-2xl bg-white/95 p-3 text-[var(--crop-ink)] backdrop-blur-md sm:size-[96px]">
+                    <span className="text-2xl font-semibold tracking-tight sm:text-[1.7rem]">387</span>
+                    <span className="text-[9px] leading-tight font-semibold tracking-[0.14em] uppercase opacity-70">Diseases &amp; pests</span>
+                  </div>
+                </div>
+                <p data-hero-copy className="max-w-sm text-sm leading-relaxed text-white/90">
+                  Photograph one leaf, choose your crop and get an AI screening in under a second — explained in simple
+                  words and by voice, so you can act early and confirm with an expert.
+                </p>
+              </div>
+
+              <div data-hero-cta className="flex flex-wrap gap-2">
+                <Link
+                  href={advisorHref}
+                  className="group inline-flex h-12 items-center gap-2 rounded-2xl bg-white px-5 text-[12px] font-semibold tracking-[0.12em] text-[var(--crop-ink)] uppercase shadow-lg transition-colors hover:bg-[var(--crop-green-100)]"
+                >
+                  Try the AI advisor
+                  <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </Link>
+                <SmoothLink
+                  href="#how-it-works"
+                  className="inline-flex h-12 items-center rounded-2xl border border-white/35 px-5 text-[12px] font-semibold tracking-[0.12em] text-white uppercase backdrop-blur-md transition-colors hover:bg-white/10"
+                >
+                  How it works
+                </SmoothLink>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ---------- Feature row ---------- */}
+        <div id="features" className="scroll-mt-28 py-8 sm:py-10">
+          <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-border/70 lg:grid-cols-4">
+            {FEATURES.map((feature) => {
+              const Icon = FEATURE_ICONS[feature.icon];
+              return (
+                <li key={feature.title} data-feature-item className="group flex flex-col gap-3 bg-[var(--crop-cream)] p-5 sm:p-6">
+                  <span className="flex items-center justify-between">
+                    <span className="grid size-10 place-items-center rounded-xl bg-[var(--crop-green-100)] text-[var(--crop-green-600)] transition-transform duration-500 group-hover:-rotate-6">
+                      <Icon className="size-5" strokeWidth={1.7} />
+                    </span>
+                    {feature.live ? (
+                      <span className="text-[10px] font-semibold tracking-[0.16em] text-[var(--crop-green-600)] uppercase">Live</span>
+                    ) : (
+                      <Badge variant="secondary" className="h-5 text-[10px] tracking-[0.12em] uppercase">
                         Soon
                       </Badge>
                     )}
                   </span>
-                  <span className="text-xs text-muted-foreground">{feature.text}</span>
-                </span>
-              </div>
-            );
-          })}
-        </Card>
+                  <span className="text-sm font-semibold tracking-tight sm:text-base">{feature.title}</span>
+                  <span className="-mt-2 text-xs text-muted-foreground sm:text-sm">{feature.text}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </section>
   );

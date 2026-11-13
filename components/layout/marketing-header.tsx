@@ -5,7 +5,6 @@ import { buttonVariants } from "@/components/ui/button";
 import { MarketingNav } from "@/components/navigation/marketing-nav";
 import { useScroll } from "@/animations/hooks/use-scroll";
 import { cn } from "@/lib/utils";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
 import {
   Sheet,
@@ -39,20 +38,12 @@ export function MarketingHeader() {
         
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-4">
-            <SignedOut>
-              <Link href="/login" className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "font-medium text-foreground/80 hover:text-foreground")}>
-                  Log In
-              </Link>
-              <Link href="/register" className={cn(buttonVariants({ size: "sm" }), "font-medium px-6 shadow-sm")}>
-                  Get Started
-              </Link>
-            </SignedOut>
-            <SignedIn>
-              <Link href="/dashboard" className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "mr-2")}>
-                  Dashboard
-              </Link>
-              <UserButton appearance={{ elements: { avatarBox: "h-8 w-8" } }} />
-            </SignedIn>
+            <Link href="/login" className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "font-medium text-foreground/80 hover:text-foreground")}>
+                Log In
+            </Link>
+            <Link href="/login?role=farmer&next=/farmer" className={cn(buttonVariants({ size: "sm" }), "font-medium px-6 shadow-sm")}>
+                Get Started
+            </Link>
           </div>
 
           <div className="md:hidden">
@@ -69,16 +60,8 @@ export function MarketingHeader() {
                   <Link href="/features" className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors">Features</Link>
                   <Link href="/pricing" className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors">Pricing</Link>
                   <hr className="my-4" />
-                  <SignedOut>
-                    <Link href="/login" className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors">Log In</Link>
-                    <Link href="/register" className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors">Get Started</Link>
-                  </SignedOut>
-                  <SignedIn>
-                    <Link href="/dashboard" className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors">Dashboard</Link>
-                    <div className="mt-4">
-                      <UserButton />
-                    </div>
-                  </SignedIn>
+                  <Link href="/login" className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors">Log In</Link>
+                  <Link href="/login?role=farmer&next=/farmer" className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors">Get Started</Link>
                 </div>
               </SheetContent>
             </Sheet>

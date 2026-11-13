@@ -1,17 +1,6 @@
 /**
- * Auth Layout
- *
- * Layout for authentication pages (login, register, forgot password, etc.)
+ * Auth Layout — CropAI uses a single phone + OTP login (Clerk) for every role.
  */
-
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950">
-      <div className="w-full max-w-md p-6">{children}</div>
-    </div>
-  );
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
+  return <div className="flex min-h-screen flex-1 flex-col">{children}</div>;
 }

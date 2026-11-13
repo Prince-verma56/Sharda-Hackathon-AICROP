@@ -1,0 +1,70 @@
+# Crop photo credits
+
+Photos of the 59 crops supported by the diagnosis model, used in place of emoji icons.
+All images come from [Wikimedia Commons](https://commons.wikimedia.org/) under free licenses
+(Public Domain, CC0, CC BY or CC BY-SA). Each file was downscaled to 480 px on the longest side
+and re-encoded as JPEG; some were also cropped to frame the crop.
+Machine-readable data for every file is in `manifest.json`. When a photo is shown in the app, credit it as
+"Photo: author, license, via Wikimedia Commons" (linking the source page where possible).
+
+| Crop | File | Author | License | Source |
+|---|---|---|---|---|
+| Apple | apple.jpg | Aomorikuma | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) | [Rosaceae Malus pumila Malus pumila Var domestica Apples Fuji.jpg](https://commons.wikimedia.org/wiki/File:Rosaceae_Malus_pumila_Malus_pumila_Var_domestica_Apples_Fuji.jpg) |
+| Ash gourd | ash_gourd.jpg | Hugo Rincón | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Benincasa Hispida (2 grados de desarrollo del fruto).jpg](https://commons.wikimedia.org/wiki/File:Benincasa_Hispida_%282_grados_de_desarrollo_del_fruto%29.jpg) |
+| Banana | banana.jpg | Mmaua1 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Banana fruit at Nguruman Kenya.jpg](https://commons.wikimedia.org/wiki/File:Banana_fruit_at_Nguruman_Kenya.jpg) |
+| Bean | bean.jpg | Juan Emilio Prades Bel | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | [Judías verdes (Phaseolus vulgaris).jpg](https://commons.wikimedia.org/wiki/File:Jud%C3%ADas_verdes_%28Phaseolus_vulgaris%29.jpg) |
+| Bell pepper | bell_pepper.jpg | Forest & Kim Starr | [CC BY 3.0 us](https://creativecommons.org/licenses/by/3.0/us/deed.en) | [Starr-150326-0872-Capsicum annuum-green Bell fruit in Hydroponics greenhouse-Town Sand Island-Midway Atoll (24971458160).jpg](https://commons.wikimedia.org/wiki/File:Starr-150326-0872-Capsicum_annuum-green_Bell_fruit_in_Hydroponics_greenhouse-Town_Sand_Island-Midway_Atoll_%2824971458160%29.jpg) |
+| Betel | betel.jpg | Aathavan jaffna | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [Betel leaf.JPG](https://commons.wikimedia.org/wiki/File:Betel_leaf.JPG) |
+| Bitter gourd | bitter_gourd.jpg | Challiyan at Malayalam Wikipedia | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) | [Bittergourd.jpg](https://commons.wikimedia.org/wiki/File:Bittergourd.jpg) |
+| Black gram | black_gram.jpg | Sanjay Acharya | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) | [Black gram.jpg](https://commons.wikimedia.org/wiki/File:Black_gram.jpg) |
+| Blueberry | blueberry.jpg | Darkone | [CC BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5) | [Vaccinium corymbosum Beeren.jpg](https://commons.wikimedia.org/wiki/File:Vaccinium_corymbosum_Beeren.jpg) |
+| Bottle gourd | bottle_gourd.jpg | Tulsi Bhagat | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Lagenaria siceraria baby fruit.jpeg](https://commons.wikimedia.org/wiki/File:Lagenaria_siceraria_baby_fruit.jpeg) |
+| Brinjal | brinjal_eggplant.jpg | Joydeep | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [Solanum melongena 24 08 2012 (1).JPG](https://commons.wikimedia.org/wiki/File:Solanum_melongena_24_08_2012_%281%29.JPG) |
+| Cabbage | cabbage.jpg | George Chernilevsky | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) | [Brassica oleracea 2011 G1.jpg](https://commons.wikimedia.org/wiki/File:Brassica_oleracea_2011_G1.jpg) |
+| Cashew | cashew.jpg | Abhishek Jacob | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [Cashew apples.jpg](https://commons.wikimedia.org/wiki/File:Cashew_apples.jpg) |
+| Cauliflower | cauliflower.jpg | DelwarHossain | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Brassica oleracea var in pabna.jpg](https://commons.wikimedia.org/wiki/File:Brassica_oleracea_var_in_pabna.jpg) |
+| Cherry | cherry.jpg | Andrikkos | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [Prunus avium twigs.JPG](https://commons.wikimedia.org/wiki/File:Prunus_avium_twigs.JPG) |
+| Chilli | chilli.jpg | Vyacheslav Argenberg | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | [Shan Hills, Myanmar, Red chili pepper plant.jpg](https://commons.wikimedia.org/wiki/File:Shan_Hills,_Myanmar,_Red_chili_pepper_plant.jpg) |
+| Orange | citrus_orange.jpg | Cherishsantosh | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Nagpur orange article.JPG](https://commons.wikimedia.org/wiki/File:Nagpur_orange_article.JPG) |
+| Coconut | coconut.jpg | Yasagan | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [Coconut bunch in the tree.JPG](https://commons.wikimedia.org/wiki/File:Coconut_bunch_in_the_tree.JPG) |
+| Coffee | coffee.jpg | Kızıldeniz | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Coffea arabica 3.jpg](https://commons.wikimedia.org/wiki/File:Coffea_arabica_3.jpg) |
+| Maize | corn_maize.jpg | Famartin | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [2023-10-13 12 32 59 A dying corn stalk with an ear of corn in autumn along Millstone Road at Mercer County Route 535 (Old Trenton Road) in East Windsor Township, Mercer County, New Jersey.jpg](https://commons.wikimedia.org/wiki/File:2023-10-13_12_32_59_A_dying_corn_stalk_with_an_ear_of_corn_in_autumn_along_Millstone_Road_at_Mercer_County_Route_535_%28Old_Trenton_Road%29_in_East_Windsor_Township,_Mercer_County,_New_Jersey.jpg) |
+| Cotton | cotton.jpg | കാക്കര | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [Cotton - പരുത്തി 03.JPG](https://commons.wikimedia.org/wiki/File:Cotton_-_%E0%B4%AA%E0%B4%B0%E0%B5%81%E0%B4%A4%E0%B5%8D%E0%B4%A4%E0%B4%BF_03.JPG) |
+| Cowpea | cowpea.jpg | Toby Hudson | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [BlackEyedPeas.JPG](https://commons.wikimedia.org/wiki/File:BlackEyedPeas.JPG) |
+| Cucumber | cucumber.jpg | Stephen Ausmus, USDA ARS | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) | [ARS cucumber.jpg](https://commons.wikimedia.org/wiki/File:ARS_cucumber.jpg) |
+| Custard apple | custard_apple.jpg | Adityamadhav83 | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [Annona squamosa (custard apple) fruit 03.JPG](https://commons.wikimedia.org/wiki/File:Annona_squamosa_%28custard_apple%29_fruit_03.JPG) |
+| Ragi | finger_millet_ragi.jpg | Agnieszka Kwiecień, Nova | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Eleusine coracana Manneczka łękowata 2020-10-03 01.jpg](https://commons.wikimedia.org/wiki/File:Eleusine_coracana_Manneczka_%C5%82%C4%99kowata_2020-10-03_01.jpg) |
+| Garlic | garlic.jpg | Matthew Pilachowski | [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en) | [Garlic Bulbs (Unsplash).jpg](https://commons.wikimedia.org/wiki/File:Garlic_Bulbs_%28Unsplash%29.jpg) |
+| Ginger | ginger.jpg | Judethedeus | [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en) | [Ginger rhizomes.jpg](https://commons.wikimedia.org/wiki/File:Ginger_rhizomes.jpg) |
+| Grape | grape.jpg | Ian Schneider on Unsplash | [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en) | [A bunch of grapes on a vine.jpg](https://commons.wikimedia.org/wiki/File:A_bunch_of_grapes_on_a_vine.jpg) |
+| Groundnut | groundnut.jpg | Abhay iari | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Groundnut Harvest.jpg](https://commons.wikimedia.org/wiki/File:Groundnut_Harvest.jpg) |
+| Guava | guava.jpg | Rajeeb (Marajozkee) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Fresh Guava.jpg](https://commons.wikimedia.org/wiki/File:Fresh_Guava.jpg) |
+| Jamun | jamun.jpg | Ton Rulkens | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) | [Syzygium cumini - fruits.jpg](https://commons.wikimedia.org/wiki/File:Syzygium_cumini_-_fruits.jpg) |
+| Jute | jute.jpg | Malcolm Manners from Lakeland FL, USA | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | [Jute Field Bangladesh (7749587518).jpg](https://commons.wikimedia.org/wiki/File:Jute_Field_Bangladesh_%287749587518%29.jpg) |
+| Lemon | lemon.jpg | Kuldeepburjbhalaike | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Five Lemons on lemon tree, Burj Bhalaike.jpg](https://commons.wikimedia.org/wiki/File:Five_Lemons_on_lemon_tree,_Burj_Bhalaike.jpg) |
+| Lentil | lentil.jpg | Sanjay Acharya | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Split Red Lentil.jpg](https://commons.wikimedia.org/wiki/File:Split_Red_Lentil.jpg) |
+| Malabar spinach | malabar_spinach.jpg | Joydeep | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [Basella alba leaves 26052014.jpg](https://commons.wikimedia.org/wiki/File:Basella_alba_leaves_26052014.jpg) |
+| Mango | mango.jpg | daSupremo | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Mango fruits on a tree 01.jpg](https://commons.wikimedia.org/wiki/File:Mango_fruits_on_a_tree_01.jpg) |
+| Moringa | moringa.jpg | Mangosapiens | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Drumsticks or Moringa.jpg](https://commons.wikimedia.org/wiki/File:Drumsticks_or_Moringa.jpg) |
+| Okra | okra.jpg | Earth100 | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [Hong Kong Okra Aug 25 2012.JPG](https://commons.wikimedia.org/wiki/File:Hong_Kong_Okra_Aug_25_2012.JPG) |
+| Onion | onion.jpg | Jubair Bin Iqbal | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Indian Onion.jpg](https://commons.wikimedia.org/wiki/File:Indian_Onion.jpg) |
+| Papaya | papaya.jpg | Joydeep | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [Carica papaya 14 7 2012.jpg](https://commons.wikimedia.org/wiki/File:Carica_papaya_14_7_2012.jpg) |
+| Peach | peach.jpg | Prianxi | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Ripe peach.jpg](https://commons.wikimedia.org/wiki/File:Ripe_peach.jpg) |
+| Pomegranate | pomegranate.jpg | Nikolai Bulykin | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Схолари, гранат.jpg](https://commons.wikimedia.org/wiki/File:%D0%A1%D1%85%D0%BE%D0%BB%D0%B0%D1%80%D0%B8,_%D0%B3%D1%80%D0%B0%D0%BD%D0%B0%D1%82.jpg) |
+| Potato | potato.jpg | Scott Bauer, USDA ARS | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) | [Patates.jpg](https://commons.wikimedia.org/wiki/File:Patates.jpg) |
+| Pumpkin | pumpkin.jpg | Infrogmation of New Orleans | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [FrenchMarketPumpkinsB.jpg](https://commons.wikimedia.org/wiki/File:FrenchMarketPumpkinsB.jpg) |
+| Radish | radish.jpg | Eric Polk | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Daikon radish - Minowase.jpg](https://commons.wikimedia.org/wiki/File:Daikon_radish_-_Minowase.jpg) |
+| Raspberry | raspberry.jpg | Vassil | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) | [Framboise Margy 3.jpg](https://commons.wikimedia.org/wiki/File:Framboise_Margy_3.jpg) |
+| Rice (paddy) | rice.jpg | Augustus Binu | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [Mature Rice (India) by Augustus Binu.jpg](https://commons.wikimedia.org/wiki/File:Mature_Rice_%28India%29_by_Augustus_Binu.jpg) |
+| Soybean | soybean.jpg | United Soybean Board | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | [Soybean Pod (48754451708).jpg](https://commons.wikimedia.org/wiki/File:Soybean_Pod_%2848754451708%29.jpg) |
+| Spinach | spinach.jpg | Rameshng | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [Palak - spinach plant from lalbagh 2350.JPG](https://commons.wikimedia.org/wiki/File:Palak_-_spinach_plant_from_lalbagh_2350.JPG) |
+| Squash | squash.jpg | nociveglia from Appennino Emiliano, Italy | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | [Cucurbita pepo Summer Squash Yellow and Green Zucchini zucchine.jpg](https://commons.wikimedia.org/wiki/File:Cucurbita_pepo_Summer_Squash_Yellow_and_Green_Zucchini_zucchine.jpg) |
+| Strawberry | strawberry.jpg | Alabama Extension | [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en) | [Strawberry Plant with Fruit (close-up).jpg](https://commons.wikimedia.org/wiki/File:Strawberry_Plant_with_Fruit_%28close-up%29.jpg) |
+| Sugarcane | sugarcane.jpg | Jubair Bin Iqbal | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Sugarcane jbi gallery.jpg](https://commons.wikimedia.org/wiki/File:Sugarcane_jbi_gallery.jpg) |
+| Sunflower | sunflower.jpg | Dietmar Rabich | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Dülmen, Weddern, Sonnenblumen -- 2026 -- 2005.jpg](https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Weddern,_Sonnenblumen_--_2026_--_2005.jpg) |
+| Tea | tea.jpg | AxelBoldt at en.wikipedia | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) | [Csinensis.jpg](https://commons.wikimedia.org/wiki/File:Csinensis.jpg) |
+| Tobacco | tobacco.jpg | Jebulon | [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en) | [Plant nicotiana tabacum.jpg](https://commons.wikimedia.org/wiki/File:Plant_nicotiana_tabacum.jpg) |
+| Tomato | tomato.jpg | George Chernilevsky | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | [Tomatoes 2026 G1.jpg](https://commons.wikimedia.org/wiki/File:Tomatoes_2026_G1.jpg) |
+| Turmeric | turmeric.jpg | MattPicks | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Organic Turmeric Rhizome (Root).jpg](https://commons.wikimedia.org/wiki/File:Organic_Turmeric_Rhizome_%28Root%29.jpg) |
+| Watermelon | watermelon.jpg | Fred Hsu | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | [Taiwan 2009 Tainan City Organic Farm Watermelon FRD 7962.jpg](https://commons.wikimedia.org/wiki/File:Taiwan_2009_Tainan_City_Organic_Farm_Watermelon_FRD_7962.jpg) |
+| Wheat | wheat.jpg | kallerna | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Vehnäpelto 6.jpg](https://commons.wikimedia.org/wiki/File:Vehn%C3%A4pelto_6.jpg) |

@@ -17,18 +17,17 @@ datasource db {
 /// Core user model. Extended by domain modules as needed.
 model User {
   id              String     @id @default(cuid())
-  /// Legacy Clerk identity (only when AUTH_PROVIDER=clerk).
-  clerkUserId     String?    @unique
-  /// Staff sign in with email; farmers usually have none.
+  /// Optional contact address only — never used to sign in (phone + OTP is the only login).
   email           String?    @unique
-  /// E.164, e.g. +919876543210. Farmers sign in with this.
+  /// Login identity: normalised E.164, e.g. +919876543210 (unique).
   phone           String?    @unique
   phoneVerifiedAt DateTime?
   name            String?
   avatarUrl       String?
   role            String     @default("user")
-  kind            UserKind   @default(FARMER)
   status          UserStatus @default(ACTIVE)
+  /// Last workspace chosen by a multi-role user ("farmer" | "volunteer" | "admin").
+  activeWorkspace String?
   lastLoginAt     DateTime?
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
@@ -38,40 +37,89 @@ model User {
   documents     Document[]
   notifications Notification[]
 
-  sessions        Session[]
-  farmerProfile   FarmerProfile?
-  staffProfile    StaffProfile?
-  farms           Farm[]
-  diagnoses       Diagnosis[]
-  feedback        DiagnosisFeedback[]
-  expertReviews   ExpertReview[]       @relation("ReviewAuthor")
-  knowledgeAuthored KnowledgeEntry[]   @relation("KnowledgeAuthor")
-  knowledgeReviewed KnowledgeEntry[]   @relation("KnowledgeReviewer")
-  invitesSent     StaffInvite[]        @relation("InviteSender")
+  roles             UserRole[]          @relation("UserRoles")
+  rolesGranted      UserRole[]          @relation("RoleGrantor")
+  farmerProfile     FarmerProfile?
+  volunteerProfile  VolunteerProfile?
+  adminProfile      AdminProfile?
+  farms             Farm[]
+  diagnoses         Diagnosis[]
+  feedback          DiagnosisFeedback[]
+  expertReviews     ExpertReview[]      @relation("ReviewAuthor")
+  knowledgeAuthored KnowledgeEntry[]    @relation("KnowledgeAuthor")
+  knowledgeReviewed KnowledgeEntry[]    @relation("KnowledgeReviewer")
+  invitationsSent   RoleInvitation[]    @relation("InvitationSender")
+  sessions          Session[]
 
-  @@index([kind, createdAt])
+  @@index([createdAt])
   @@map("users")
+}
+
+/// Application sessions (phone OTP login). The cookie / Bearer token is random; only its SHA-256 is stored.
+model Session {
+  id         String    @id @default(cuid())
+  tokenHash  String    @unique
+  userId     String
+  /// "web" (HttpOnly cookie) or "mobile" (Bearer token for the Flutter app)
+  client     String    @default("web")
+  userAgent  String?
+  createdAt  DateTime  @default(now())
+  lastSeenAt DateTime  @default(now())
+  expiresAt  DateTime
+  revokedAt  DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, revokedAt])
+  @@index([expiresAt])
+  @@map("sessions")
 }
 
 // =============================================================================
 // CropAI platform
 // =============================================================================
 
-enum UserKind {
-  FARMER
-  STAFF
-}
-
+/// Only ACTIVE accounts can sign in, even after a correct OTP.
 enum UserStatus {
   ACTIVE
   SUSPENDED
+  PENDING
+  DISABLED
 }
 
-enum StaffRole {
+/// Application roles (the database is the only source of permissions).
+enum AppRole {
+  FARMER
+  VOLUNTEER
+  ADMIN
   SUPER_ADMIN
+}
+
+/// Admin specialisation used by the permission matrix.
+enum AdminLevel {
+  ADMIN
   AGRONOMIST
   REVIEWER
   ANALYST
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REVOKED
+  EXPIRED
+}
+
+enum VolunteerVerification {
+  PENDING
+  VERIFIED
+  SUSPENDED
+}
+
+enum TrainingStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
 }
 
 enum DiagnosisStatus {
@@ -100,80 +148,95 @@ enum KnowledgeStatus {
   REJECTED
 }
 
-/// Opaque, server-side session. The cookie holds a random token; only its hash is stored.
-model Session {
-  id          String    @id @default(cuid())
-  tokenHash   String    @unique
-  userId      String
-  kind        UserKind
-  /// Staff sessions are only fully authorised after the second factor.
-  mfaVerified Boolean   @default(false)
-  userAgent   String?
-  createdAt   DateTime  @default(now())
-  lastSeenAt  DateTime  @default(now())
-  expiresAt   DateTime
-  revokedAt   DateTime?
+model UserRole {
+  id           String   @id @default(cuid())
+  userId       String
+  role         AppRole
+  assignedAt   DateTime @default(now())
+  assignedById String?
+
+  user       User  @relation("UserRoles", fields: [userId], references: [id], onDelete: Cascade)
+  assignedBy User? @relation("RoleGrantor", fields: [assignedById], references: [id], onDelete: SetNull)
+
+  @@unique([userId, role])
+  @@index([role])
+  @@map("user_roles")
+}
+
+/// Invitation for a phone number to receive VOLUNTEER or ADMIN on verified sign-in.
+model RoleInvitation {
+  id             String           @id @default(cuid())
+  phone          String
+  role           AppRole
+  adminLevel     AdminLevel?
+  serviceArea    String?
+  invitedById    String
+  status         InvitationStatus @default(PENDING)
+  expiresAt      DateTime
+  acceptedAt     DateTime?
+  acceptedUserId String?
+  createdAt      DateTime         @default(now())
+
+  invitedBy User @relation("InvitationSender", fields: [invitedById], references: [id], onDelete: Cascade)
+
+  @@index([phone, status])
+  @@map("role_invitations")
+}
+
+model VolunteerProfile {
+  userId             String                @id
+  serviceArea        String?
+  district           String?
+  state              String?
+  languages          String[]              @default([])
+  verificationStatus VolunteerVerification @default(PENDING)
+  trainingStatus     TrainingStatus        @default(NOT_STARTED)
+  profileCompletedAt DateTime?
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId, revokedAt])
-  @@map("sessions")
+  @@map("volunteer_profiles")
+}
+
+model AdminProfile {
+  userId      String     @id
+  adminLevel  AdminLevel @default(ADMIN)
+  permissions String[]   @default([])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("admin_profiles")
 }
 
 model FarmerProfile {
-  userId        String    @id
-  preferredName String?
-  language      String    @default("hi")
-  state         String?
-  district      String?
-  village       String?
-  mainCrops     String[]  @default([])
-  farmSizeAcres Decimal?  @db.Decimal(10, 2)
-  voiceEnabled  Boolean   @default(true)
+  userId                   String    @id
+  preferredName            String?
+  language                 String    @default("hi")
+  state                    String?
+  district                 String?
+  village                  String?
+  mainCrops                String[]  @default([])
+  farmSizeAcres            Decimal?  @db.Decimal(10, 2)
+  voiceEnabled             Boolean   @default(true)
   /// Consent to keep uploaded photos for history and expert review.
-  photoConsentAt DateTime?
-  onboardedAt   DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  photoConsentAt           DateTime?
+  /// Consent to save Mitra text-chat history (null = not saved / withdrawn).
+  chatHistoryConsentAt     DateTime?
+  /// Consent to save Mitra voice TRANSCRIPTS as conversation history (audio is never recorded).
+  voiceTranscriptConsentAt DateTime?
+  /// Privacy-policy version the farmer last consented under, e.g. "2026-11-13".
+  consentPolicyVersion     String?
+  onboardedAt              DateTime?
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("farmer_profiles")
-}
-
-model StaffProfile {
-  userId        String    @id
-  role          StaffRole
-  passwordHash  String
-  /// AES-256-GCM encrypted TOTP secret (key derived from AUTH_SECRET).
-  mfaSecretEnc  String?
-  mfaEnabledAt  DateTime?
-  invitedById   String?
-  failedLogins  Int       @default(0)
-  lockedUntil   DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("staff_profiles")
-}
-
-model StaffInvite {
-  id          String    @id @default(cuid())
-  email       String
-  role        StaffRole
-  tokenHash   String    @unique
-  invitedById String
-  expiresAt   DateTime
-  acceptedAt  DateTime?
-  revokedAt   DateTime?
-  createdAt   DateTime  @default(now())
-
-  invitedBy User @relation("InviteSender", fields: [invitedById], references: [id], onDelete: Cascade)
-
-  @@index([email])
-  @@map("staff_invites")
 }
 
 model Farm {
@@ -212,22 +275,22 @@ model CropRecord {
 }
 
 model Diagnosis {
-  id                 String          @id @default(cuid())
-  farmerId           String
-  farmId             String?
-  cropRecordId       String?
-  selectedCrop       String?
-  status             DiagnosisStatus @default(COMPLETED)
+  id           String          @id @default(cuid())
+  farmerId     String
+  farmId       String?
+  cropRecordId String?
+  selectedCrop String?
+  status       DiagnosisStatus @default(COMPLETED)
 
   // image (private storage; see PlatformSetting image_retention_days)
-  imageKey           String?
-  imageSha256        String?
-  imageMime          String?
-  imageBytes         Int?
-  imageWidth         Int?
-  imageHeight        Int?
-  originalFilename   String?
-  imageExpiresAt     DateTime?
+  imageKey         String?
+  imageSha256      String?
+  imageMime        String?
+  imageBytes       Int?
+  imageWidth       Int?
+  imageHeight      Int?
+  originalFilename String?
+  imageExpiresAt   DateTime?
 
   // model output, exactly as returned by the inference service
   modelName          String
@@ -245,30 +308,31 @@ model Diagnosis {
   inferenceMs        Int
   latencyMs          Int
   qualityStatus      String
-  qualityWarnings    Json            @default("[]")
-  advisories         Json            @default("[]")
+  qualityWarnings    Json    @default("[]")
+  advisories         Json    @default("[]")
   rawOutput          Json
 
   // derived context
   weatherObservationId String?
   knowledgeEntryId     String?
   explanation          Json?
-  explanationSource    String?   // "llm" | "approved_guidance" | "none"
+  explanationSource    String? // "llm" | "approved_guidance" | "none"
   explanationLanguage  String?
 
-  reviewStatus       ReviewStatus    @default(UNREVIEWED)
-  reviewRequestedAt  DateTime?
-  createdAt          DateTime        @default(now())
-  updatedAt          DateTime        @updatedAt
+  reviewStatus      ReviewStatus @default(UNREVIEWED)
+  reviewRequestedAt DateTime?
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
 
-  farmer      User                @relation(fields: [farmerId], references: [id], onDelete: Cascade)
-  farm        Farm?               @relation(fields: [farmId], references: [id], onDelete: SetNull)
-  cropRecord  CropRecord?         @relation(fields: [cropRecordId], references: [id], onDelete: SetNull)
-  weather     WeatherObservation? @relation(fields: [weatherObservationId], references: [id], onDelete: SetNull)
-  knowledge   KnowledgeEntry?     @relation(fields: [knowledgeEntryId], references: [id], onDelete: SetNull)
-  predictions ModelPrediction[]
-  reviews     ExpertReview[]
-  feedback    DiagnosisFeedback[]
+  farmer        User                    @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  farm          Farm?                   @relation(fields: [farmId], references: [id], onDelete: SetNull)
+  cropRecord    CropRecord?             @relation(fields: [cropRecordId], references: [id], onDelete: SetNull)
+  weather       WeatherObservation?     @relation(fields: [weatherObservationId], references: [id], onDelete: SetNull)
+  knowledge     KnowledgeEntry?         @relation(fields: [knowledgeEntryId], references: [id], onDelete: SetNull)
+  predictions   ModelPrediction[]
+  reviews       ExpertReview[]
+  conversations ConversationDiagnosis[]
+  feedback      DiagnosisFeedback[]
 
   @@index([farmerId, createdAt])
   @@index([createdAt])
@@ -369,19 +433,19 @@ model KnowledgeEntry {
 }
 
 model WeatherObservation {
-  id               String   @id @default(cuid())
-  farmId           String?
-  latitude         Float
-  longitude        Float
-  provider         String   @default("open-meteo")
-  observedAt       DateTime
-  temperatureC     Float?
-  humidityPct      Float?
-  precipitationMm  Float?
-  rainLast24hMm    Float?
-  rainLast72hMm    Float?
-  forecast         Json?
-  fetchedAt        DateTime @default(now())
+  id              String   @id @default(cuid())
+  farmId          String?
+  latitude        Float
+  longitude       Float
+  provider        String   @default("open-meteo")
+  observedAt      DateTime
+  temperatureC    Float?
+  humidityPct     Float?
+  precipitationMm Float?
+  rainLast24hMm   Float?
+  rainLast72hMm   Float?
+  forecast        Json?
+  fetchedAt       DateTime @default(now())
 
   farm      Farm?       @relation(fields: [farmId], references: [id], onDelete: SetNull)
   diagnoses Diagnosis[]
@@ -404,15 +468,15 @@ model PlatformSetting {
 model Notification {
   id        String    @id @default(cuid())
   userId    String
-  type      String    
+  type      String
   title     String
   message   String
-  channel   String    
+  channel   String
   readAt    DateTime?
   createdAt DateTime  @default(now())
   metadata  Json?
 
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("notifications")
 }
@@ -436,11 +500,11 @@ model AuditLog {
 // --- Idempotency Model ---
 
 model IdempotencyKey {
-  key        String   @id
-  status     String   // 'processing', 'completed', 'failed'
-  result     Json?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  key       String   @id
+  status    String // 'processing', 'completed', 'failed'
+  result    Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("idempotency_keys")
 }
@@ -451,7 +515,7 @@ model Job {
   id          String    @id @default(cuid())
   name        String
   payload     Json?
-  status      String    // 'queued', 'running', 'completed', 'failed', 'retrying', 'cancelled'
+  status      String // 'queued', 'running', 'completed', 'failed', 'retrying', 'cancelled'
   attempts    Int       @default(0)
   maxRetries  Int       @default(3)
   error       String?
@@ -482,14 +546,14 @@ model ScheduledJob {
 }
 
 model DeviceRegistration {
-  id         String   @id @default(cuid())
-  userId     String
-  deviceId   String
-  platform   String   // 'ios', 'android', 'web'
-  token      String
-  metadata   Json?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String   @id @default(cuid())
+  userId    String
+  deviceId  String
+  platform  String // 'ios', 'android', 'web'
+  token     String
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([userId, deviceId])
   @@index([userId])
@@ -499,46 +563,83 @@ model DeviceRegistration {
 // --- AI Core Models ---
 
 model Conversation {
-  id        String   @id @default(cuid())
-  userId    String?
-  channel   String   @default("text") // text, voice, agent
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  metadata  Json?
+  id                  String    @id @default(cuid())
+  userId              String?
+  /// text | voice | mixed (Mitra) | agent. A Mitra conversation continues across text and voice.
+  channel             String    @default("text")
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  metadata            Json?
+  /// Mitra fields
+  title               String?
+  language            String?
+  status              String    @default("active") // active | archived
+  /// true when messages are stored (farmer consented); otherwise only a short-lived cache exists
+  persisted           Boolean   @default(false)
+  /// rolling summary of older turns (context compression, not a substitute for diagnosis records)
+  summary             String?
+  summaryVersion      Int       @default(0)
+  summarizedMessageId String?
+  lastMessageAt       DateTime?
 
   messages  Message[]
-  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  diagnoses ConversationDiagnosis[]
+  user      User?                   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId, lastMessageAt])
   @@map("conversations")
 }
 
-model Message {
-  id             String       @id @default(cuid())
+/// Crop checks discussed in a conversation (the verified link Mitra uses to find "my report").
+model ConversationDiagnosis {
   conversationId String
-  role           String       // user, assistant, system, tool
-  content        String
-  createdAt      DateTime     @default(now())
-  sequence       Int          @default(0)
-  metadata       Json?
+  diagnosisId    String
+  createdAt      DateTime @default(now())
 
-  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  diagnosis    Diagnosis    @relation(fields: [diagnosisId], references: [id], onDelete: Cascade)
+
+  @@id([conversationId, diagnosisId])
+  @@index([diagnosisId])
+  @@map("conversation_diagnoses")
+}
+
+model Message {
+  id             String   @id @default(cuid())
+  conversationId String
+  role           String // user, assistant, tool (system prompts are never stored)
+  content        String
+  createdAt      DateTime @default(now())
+  sequence       Int      @default(0)
+  metadata       Json?
+  /// text | voice_transcript | tool_result
+  modality       String   @default("text")
+  /// complete | failed | interrupted
+  status         String   @default("complete")
+  provider       String?
+  model          String?
+  /// client/Vapi turn id — makes repeated events idempotent
+  turnId         String?  @unique
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   @@index([conversationId, sequence])
+  @@index([conversationId, createdAt])
   @@map("messages")
 }
 
 model Memory {
-  id         String   @id @default(cuid())
+  id         String    @id @default(cuid())
   userId     String
   content    String
-  sourceId   String?  // e.g., conversationId
-  importance Int      @default(0)
+  sourceId   String? // e.g., conversationId
+  importance Int       @default(0)
   expiresAt  DateTime?
   metadata   Json?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("memories")
 }
@@ -546,33 +647,33 @@ model Memory {
 // --- RAG / Document Models ---
 
 model Document {
-  id             String          @id @default(cuid())
+  id             String   @id @default(cuid())
   userId         String?
   organizationId String?
   filename       String
   mimeType       String
   source         String?
   metadata       Json?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  chunks         DocumentChunk[]
-  user           User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chunks DocumentChunk[]
+  user   User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("documents")
 }
 
 model DocumentChunk {
-  id         String   @id @default(cuid())
+  id         String @id @default(cuid())
   documentId String
   content    String
   chunkIndex Int
   metadata   Json?
-  
-  // Note: Adjust the vector dimension based on your embedding model (e.g., 1536 for OpenAI)
-  embedding  Unsupported("vector(1536)")?
 
-  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  // Note: Adjust the vector dimension based on your embedding model (e.g., 1536 for OpenAI)
+  embedding Unsupported("vector(1536)")?
+
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
   @@map("document_chunks")
 }

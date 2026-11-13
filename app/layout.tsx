@@ -34,7 +34,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      {/* Browser extensions (e.g. ColorZilla's cz-shortcut-listen) add attributes to <body> before
+          React hydrates; this only ignores attribute differences on this one element. */}
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <Providers>
           <SmoothScrollProvider>
             <TooltipProvider>

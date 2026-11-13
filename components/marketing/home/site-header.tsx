@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ArrowRight, Menu } from 'lucide-react';
 import { useScroll } from '@/animations/hooks/use-scroll';
 import { buttonVariants } from '@/components/ui/button';
@@ -12,29 +12,10 @@ import { Logo } from './brand';
 import { NAV_LINKS } from './content';
 import { SmoothLink } from './smooth-link';
 
-function useActiveSection() {
-  const [active, setActive] = useState('#top');
-  useEffect(() => {
-    const ids = NAV_LINKS.map((link) => link.href.slice(1));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]) setActive(`#${visible[0].target.id}`);
-      },
-      { rootMargin: '-40% 0px -50% 0px', threshold: [0, 0.25, 0.5] },
-    );
-    ids.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
-    return () => observer.disconnect();
-  }, []);
-  return active;
-}
-
 export function SiteHeader({ advisorHref }: { advisorHref: string }) {
   const scrolled = useScroll(24);
-  const active = useActiveSection();
+  const pathname = usePathname();
+  const active = NAV_LINKS.find((l) => (l.href === '/' ? pathname === '/' : pathname.startsWith(l.href)))?.href ?? '';
 
   return (
     <header
@@ -43,8 +24,8 @@ export function SiteHeader({ advisorHref }: { advisorHref: string }) {
         scrolled ? 'bg-[var(--crop-cream)]/80 shadow-[0_1px_0_rgba(0,0,0,0.06)] backdrop-blur-xl' : 'bg-transparent',
       )}
     >
-      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
-        <SmoothLink href="#top" aria-label="CropAI home">
+      <div className="mx-auto flex h-[72px] max-w-[88rem] items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
+        <SmoothLink href={pathname === '/' ? '#top' : '/'} aria-label="Home">
           <Logo />
         </SmoothLink>
 
@@ -54,7 +35,7 @@ export function SiteHeader({ advisorHref }: { advisorHref: string }) {
               key={link.href}
               href={link.href}
               className={cn(
-                'relative py-1 text-[13px] font-medium text-foreground/70 transition-colors hover:text-foreground',
+                'relative py-1 text-[11px] font-semibold tracking-[0.16em] text-foreground/65 uppercase transition-colors hover:text-foreground',
                 'after:absolute after:inset-x-0 after:-bottom-1 after:h-[2px] after:origin-left after:rounded-full after:bg-[var(--crop-green-600)] after:transition-transform after:duration-300',
                 active === link.href ? 'text-foreground after:scale-x-100' : 'after:scale-x-0 hover:after:scale-x-100',
               )}
@@ -67,7 +48,7 @@ export function SiteHeader({ advisorHref }: { advisorHref: string }) {
         <div className="flex items-center gap-2">
           <Link
             href={advisorHref}
-            className={cn(buttonVariants({ size: 'lg' }), 'hidden rounded-full px-5 text-[13px] sm:inline-flex')}
+            className={cn(buttonVariants({ size: 'lg' }), 'hidden h-10 rounded-xl px-4 text-[11px] font-semibold tracking-[0.14em] uppercase sm:inline-flex')}
           >
             Try AI Advisor <ArrowRight />
           </Link>

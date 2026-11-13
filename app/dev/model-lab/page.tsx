@@ -37,3 +37,5 @@ export default async function ModelLabPage() {
   const samples = await loadSamples();
   return <ModelLab samples={samples} />;
 }
+
+

@@ -8,7 +8,8 @@ import { mkdir, readFile, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { randomToken, sha256 } from '@/server/auth/crypto';
 
-const ROOT = path.resolve(process.env.PRIVATE_STORAGE_DIR || path.join(process.cwd(), 'storage', 'private'));
+// Runtime-only location: tell Turbopack not to trace it (otherwise the whole project is bundled).
+const ROOT = path.resolve(/* turbopackIgnore: true */ process.env.PRIVATE_STORAGE_DIR || path.join(/* turbopackIgnore: true */ process.cwd(), 'storage', 'private'));
 const KEY_PATTERN = /^(diagnoses|knowledge)\/\d{4}\/\d{2}\/[A-Za-z0-9_-]{16,64}\.(jpg|png|webp)$/;
 
 export interface StoredImage {

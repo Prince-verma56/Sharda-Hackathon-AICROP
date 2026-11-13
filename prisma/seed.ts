@@ -11,7 +11,6 @@ async function main() {
     update: {},
     create: {
       id: 'demo-user',
-      clerkUserId: 'demo-clerk-123',
       name: 'Demo User',
       email: 'demo@example.com',
       role: 'user',

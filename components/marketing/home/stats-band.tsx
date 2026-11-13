@@ -11,7 +11,7 @@ export function StatsBand() {
       >
         <div data-parallax="0.15" className="absolute -inset-y-[25%] inset-x-0">
           <Image
-            src="/images/home/field-band.jpg"
+            src="/images/home/hero.jpg"
             alt=""
             fill
             sizes="(min-width: 1280px) 1280px, 100vw"

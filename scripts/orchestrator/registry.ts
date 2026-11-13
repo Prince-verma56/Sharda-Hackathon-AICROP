@@ -11,7 +11,7 @@ export interface CapabilityDef {
 
 export const CAPABILITIES: CapabilityDef[] = [
   // CORE
-  { id: 'auth', name: 'Authentication', category: 'core', requires: [], env: ['NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY', 'CLERK_SECRET_KEY'] },
+  { id: 'auth', name: 'Authentication', category: 'core', requires: [], env: ['AUTH_SECRET', 'AUTH_OTP_PROVIDER', 'TWILIO_ACCOUNT_SID', 'TWILIO_AUTH_TOKEN', 'TWILIO_VERIFY_SERVICE_SID'] },
   { id: 'database', name: 'PostgreSQL', category: 'core', requires: [], env: ['DATABASE_URL'] },
   { id: 'storage', name: 'Storage', category: 'core', requires: [], env: [] },
   { id: 'email', name: 'Email', category: 'core', requires: [], env: ['SMTP_HOST'] },

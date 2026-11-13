@@ -1,56 +1,24 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { getAppUser } from "@/server/auth/dal";
 import { db } from "@/server/db";
 import { UpdateProfileInput } from "./index";
 
+/** Users are created only by the phone-OTP login (server/auth/identity.ts); this reads/updates them. */
 export class UserService {
   static async getCurrentUser() {
-    const { userId } = await auth();
-    if (!userId) return null;
-
-    return await db.user.findUnique({
-      where: { clerkUserId: userId },
-    });
+    const identity = await getAppUser();
+    if (!identity) return null;
+    return db.user.findUnique({ where: { id: identity.userId } });
   }
 
   static async getOrCreateCurrentUser() {
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
-
-    const clerkUser = await currentUser();
-    if (!clerkUser) throw new Error("User not found in Clerk");
-
-    const email = clerkUser.emailAddresses[0]?.emailAddress;
-    if (!email) throw new Error("User has no email address");
-
-    const name = clerkUser.firstName 
-      ? `${clerkUser.firstName} ${clerkUser.lastName || ''}`.trim() 
-      : null;
-
-    const user = await db.user.upsert({
-      where: { clerkUserId: userId },
-      update: {
-        email,
-        name,
-        avatarUrl: clerkUser.imageUrl,
-      },
-      create: {
-        clerkUserId: userId,
-        email,
-        name,
-        avatarUrl: clerkUser.imageUrl,
-      },
-    });
-
+    const user = await this.getCurrentUser();
+    if (!user) throw new Error("Unauthorized");
     return user;
   }
 
   static async updateProfile(data: UpdateProfileInput) {
     const user = await this.getCurrentUser();
     if (!user) throw new Error("Unauthorized");
-
-    return await db.user.update({
-      where: { id: user.id },
-      data,
-    });
+    return db.user.update({ where: { id: user.id }, data });
   }
 }

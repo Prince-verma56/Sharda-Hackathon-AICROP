@@ -4,18 +4,18 @@
  */
 
 export const NAV_LINKS = [
-  { label: 'Home', href: '#top' },
-  { label: 'Features', href: '#features' },
-  { label: 'About', href: '#about' },
-  { label: 'Insights', href: '#insights' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/' },
+  { label: 'Features', href: '/features' },
+  { label: 'About', href: '/about' },
+  { label: 'Insights', href: '/insights' },
+  { label: 'Contact', href: '/contact' },
 ] as const;
 
 export const FEATURES = [
   { icon: 'leaf', title: 'Disease Detection', text: '387 diseases & conditions', live: true },
   { icon: 'bug', title: 'Pest Identification', text: 'Spot pest damage early', live: true },
-  { icon: 'cloud', title: 'Weather Insights', text: 'Local risk alerts', live: false },
-  { icon: 'sparkles', title: 'Voice Advisor', text: 'Ask in your language', live: false },
+  { icon: 'cloud', title: 'Weather Context', text: 'Local conditions, not guesses', live: true },
+  { icon: 'sparkles', title: 'Voice Advisor', text: 'Ask Mitra in Hindi', live: true },
 ] as const;
 
 export const STEPS = [

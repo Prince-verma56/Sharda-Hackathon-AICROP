@@ -56,3 +56,6 @@ docker/data/
 /crop-doctor-project-brain
 # CropAI private uploads (diagnosis photos)
 /storage/
+
+# Local development documentation (not published)
+/docs/

@@ -1,0 +1,474 @@
+{
+  "apple": {
+    "file": "/images/crops/apple.jpg",
+    "title": "File:Rosaceae Malus pumila Malus pumila Var domestica Apples Fuji.jpg",
+    "author": "Aomorikuma",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Rosaceae_Malus_pumila_Malus_pumila_Var_domestica_Apples_Fuji.jpg"
+  },
+  "ash_gourd": {
+    "file": "/images/crops/ash_gourd.jpg",
+    "title": "File:Benincasa Hispida (2 grados de desarrollo del fruto).jpg",
+    "author": "Hugo Rincón",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Benincasa_Hispida_(2_grados_de_desarrollo_del_fruto).jpg"
+  },
+  "banana": {
+    "file": "/images/crops/banana.jpg",
+    "title": "File:Banana fruit at Nguruman Kenya.jpg",
+    "author": "Mmaua1",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Banana_fruit_at_Nguruman_Kenya.jpg"
+  },
+  "bean": {
+    "file": "/images/crops/bean.jpg",
+    "title": "File:Judías verdes (Phaseolus vulgaris).jpg",
+    "author": "Juan Emilio Prades Bel",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Jud%C3%ADas_verdes_(Phaseolus_vulgaris).jpg"
+  },
+  "bell_pepper": {
+    "file": "/images/crops/bell_pepper.jpg",
+    "title": "File:Starr-150326-0872-Capsicum annuum-green Bell fruit in Hydroponics greenhouse-Town Sand Island-Midway Atoll (24971458160).jpg",
+    "author": "Forest & Kim Starr",
+    "license": "CC BY 3.0 us",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/us/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Starr-150326-0872-Capsicum_annuum-green_Bell_fruit_in_Hydroponics_greenhouse-Town_Sand_Island-Midway_Atoll_(24971458160).jpg"
+  },
+  "betel": {
+    "file": "/images/crops/betel.jpg",
+    "title": "File:Betel leaf.JPG",
+    "author": "Aathavan jaffna",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Betel_leaf.JPG"
+  },
+  "bitter_gourd": {
+    "file": "/images/crops/bitter_gourd.jpg",
+    "title": "File:Bittergourd.jpg",
+    "author": "Challiyan at Malayalam Wikipedia",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Bittergourd.jpg"
+  },
+  "black_gram": {
+    "file": "/images/crops/black_gram.jpg",
+    "title": "File:Black gram.jpg",
+    "author": "Sanjay Acharya",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Black_gram.jpg"
+  },
+  "blueberry": {
+    "file": "/images/crops/blueberry.jpg",
+    "title": "File:Vaccinium corymbosum Beeren.jpg",
+    "author": "Darkone",
+    "license": "CC BY-SA 2.5",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+    "source": "https://commons.wikimedia.org/wiki/File:Vaccinium_corymbosum_Beeren.jpg"
+  },
+  "bottle_gourd": {
+    "file": "/images/crops/bottle_gourd.jpg",
+    "title": "File:Lagenaria siceraria baby fruit.jpeg",
+    "author": "Tulsi Bhagat",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Lagenaria_siceraria_baby_fruit.jpeg"
+  },
+  "brinjal_eggplant": {
+    "file": "/images/crops/brinjal_eggplant.jpg",
+    "title": "File:Solanum melongena 24 08 2012 (1).JPG",
+    "author": "Joydeep",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Solanum_melongena_24_08_2012_(1).JPG"
+  },
+  "cabbage": {
+    "file": "/images/crops/cabbage.jpg",
+    "title": "File:Brassica oleracea 2011 G1.jpg",
+    "author": "George Chernilevsky",
+    "license": "Public domain",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Brassica_oleracea_2011_G1.jpg"
+  },
+  "cashew": {
+    "file": "/images/crops/cashew.jpg",
+    "title": "File:Cashew apples.jpg",
+    "author": "Abhishek Jacob",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Cashew_apples.jpg"
+  },
+  "cauliflower": {
+    "file": "/images/crops/cauliflower.jpg",
+    "title": "File:Brassica oleracea var in pabna.jpg",
+    "author": "DelwarHossain",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Brassica_oleracea_var_in_pabna.jpg"
+  },
+  "cherry": {
+    "file": "/images/crops/cherry.jpg",
+    "title": "File:Prunus avium twigs.JPG",
+    "author": "Andrikkos",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Prunus_avium_twigs.JPG"
+  },
+  "chilli": {
+    "file": "/images/crops/chilli.jpg",
+    "title": "File:Shan Hills, Myanmar, Red chili pepper plant.jpg",
+    "author": "Vyacheslav Argenberg",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Shan_Hills,_Myanmar,_Red_chili_pepper_plant.jpg"
+  },
+  "citrus_orange": {
+    "file": "/images/crops/citrus_orange.jpg",
+    "title": "File:Nagpur orange article.JPG",
+    "author": "Cherishsantosh",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Nagpur_orange_article.JPG"
+  },
+  "coconut": {
+    "file": "/images/crops/coconut.jpg",
+    "title": "File:Coconut bunch in the tree.JPG",
+    "author": "Yasagan",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Coconut_bunch_in_the_tree.JPG"
+  },
+  "coffee": {
+    "file": "/images/crops/coffee.jpg",
+    "title": "File:Coffea arabica 3.jpg",
+    "author": "Kızıldeniz",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Coffea_arabica_3.jpg"
+  },
+  "corn_maize": {
+    "file": "/images/crops/corn_maize.jpg",
+    "title": "File:2023-10-13 12 32 59 A dying corn stalk with an ear of corn in autumn along Millstone Road at Mercer County Route 535 (Old Trenton Road) in East Windsor Township, Mercer County, New Jersey.jpg",
+    "author": "Famartin",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2023-10-13_12_32_59_A_dying_corn_stalk_with_an_ear_of_corn_in_autumn_along_Millstone_Road_at_Mercer_County_Route_535_(Old_Trenton_Road)_in_East_Windsor_Township,_Mercer_County,_New_Jersey.jpg"
+  },
+  "cotton": {
+    "file": "/images/crops/cotton.jpg",
+    "title": "File:Cotton - പരുത്തി 03.JPG",
+    "author": "കാക്കര",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Cotton_-_%E0%B4%AA%E0%B4%B0%E0%B5%81%E0%B4%A4%E0%B5%8D%E0%B4%A4%E0%B4%BF_03.JPG"
+  },
+  "cowpea": {
+    "file": "/images/crops/cowpea.jpg",
+    "title": "File:BlackEyedPeas.JPG",
+    "author": "Toby Hudson",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:BlackEyedPeas.JPG"
+  },
+  "cucumber": {
+    "file": "/images/crops/cucumber.jpg",
+    "title": "File:ARS cucumber.jpg",
+    "author": "Stephen Ausmus, USDA ARS",
+    "license": "Public domain",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:ARS_cucumber.jpg"
+  },
+  "custard_apple": {
+    "file": "/images/crops/custard_apple.jpg",
+    "title": "File:Annona squamosa (custard apple) fruit 03.JPG",
+    "author": "Adityamadhav83",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Annona_squamosa_(custard_apple)_fruit_03.JPG"
+  },
+  "finger_millet_ragi": {
+    "file": "/images/crops/finger_millet_ragi.jpg",
+    "title": "File:Eleusine coracana Manneczka łękowata 2020-10-03 01.jpg",
+    "author": "Agnieszka Kwiecień, Nova",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Eleusine_coracana_Manneczka_%C5%82%C4%99kowata_2020-10-03_01.jpg"
+  },
+  "garlic": {
+    "file": "/images/crops/garlic.jpg",
+    "title": "File:Garlic Bulbs (Unsplash).jpg",
+    "author": "Matthew Pilachowski",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Garlic_Bulbs_(Unsplash).jpg"
+  },
+  "ginger": {
+    "file": "/images/crops/ginger.jpg",
+    "title": "File:Ginger rhizomes.jpg",
+    "author": "Judethedeus",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Ginger_rhizomes.jpg"
+  },
+  "grape": {
+    "file": "/images/crops/grape.jpg",
+    "title": "File:A bunch of grapes on a vine.jpg",
+    "author": "Ian Schneider on Unsplash",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:A_bunch_of_grapes_on_a_vine.jpg"
+  },
+  "groundnut": {
+    "file": "/images/crops/groundnut.jpg",
+    "title": "File:Groundnut Harvest.jpg",
+    "author": "Abhay iari",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Groundnut_Harvest.jpg"
+  },
+  "guava": {
+    "file": "/images/crops/guava.jpg",
+    "title": "File:Fresh Guava.jpg",
+    "author": "Rajeeb (Marajozkee)",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Fresh_Guava.jpg"
+  },
+  "jamun": {
+    "file": "/images/crops/jamun.jpg",
+    "title": "File:Syzygium cumini - fruits.jpg",
+    "author": "Ton Rulkens",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Syzygium_cumini_-_fruits.jpg"
+  },
+  "jute": {
+    "file": "/images/crops/jute.jpg",
+    "title": "File:Jute Field Bangladesh (7749587518).jpg",
+    "author": "Malcolm Manners from Lakeland FL, USA",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Jute_Field_Bangladesh_(7749587518).jpg"
+  },
+  "lemon": {
+    "file": "/images/crops/lemon.jpg",
+    "title": "File:Five Lemons on lemon tree, Burj Bhalaike.jpg",
+    "author": "Kuldeepburjbhalaike",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Five_Lemons_on_lemon_tree,_Burj_Bhalaike.jpg"
+  },
+  "lentil": {
+    "file": "/images/crops/lentil.jpg",
+    "title": "File:Split Red Lentil.jpg",
+    "author": "Sanjay Acharya",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Split_Red_Lentil.jpg"
+  },
+  "malabar_spinach": {
+    "file": "/images/crops/malabar_spinach.jpg",
+    "title": "File:Basella alba leaves 26052014.jpg",
+    "author": "Joydeep",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Basella_alba_leaves_26052014.jpg"
+  },
+  "mango": {
+    "file": "/images/crops/mango.jpg",
+    "title": "File:Mango fruits on a tree 01.jpg",
+    "author": "daSupremo",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Mango_fruits_on_a_tree_01.jpg"
+  },
+  "moringa": {
+    "file": "/images/crops/moringa.jpg",
+    "title": "File:Drumsticks or Moringa.jpg",
+    "author": "Mangosapiens",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Drumsticks_or_Moringa.jpg"
+  },
+  "okra": {
+    "file": "/images/crops/okra.jpg",
+    "title": "File:Hong Kong Okra Aug 25 2012.JPG",
+    "author": "Earth100",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Hong_Kong_Okra_Aug_25_2012.JPG"
+  },
+  "onion": {
+    "file": "/images/crops/onion.jpg",
+    "title": "File:Indian Onion.jpg",
+    "author": "Jubair Bin Iqbal",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Indian_Onion.jpg"
+  },
+  "papaya": {
+    "file": "/images/crops/papaya.jpg",
+    "title": "File:Carica papaya 14 7 2012.jpg",
+    "author": "Joydeep",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Carica_papaya_14_7_2012.jpg"
+  },
+  "peach": {
+    "file": "/images/crops/peach.jpg",
+    "title": "File:Ripe peach.jpg",
+    "author": "Prianxi",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Ripe_peach.jpg"
+  },
+  "pomegranate": {
+    "file": "/images/crops/pomegranate.jpg",
+    "title": "File:Схолари, гранат.jpg",
+    "author": "Nikolai Bulykin",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:%D0%A1%D1%85%D0%BE%D0%BB%D0%B0%D1%80%D0%B8,_%D0%B3%D1%80%D0%B0%D0%BD%D0%B0%D1%82.jpg"
+  },
+  "potato": {
+    "file": "/images/crops/potato.jpg",
+    "title": "File:Patates.jpg",
+    "author": "Scott Bauer, USDA ARS",
+    "license": "Public domain",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Patates.jpg"
+  },
+  "pumpkin": {
+    "file": "/images/crops/pumpkin.jpg",
+    "title": "File:FrenchMarketPumpkinsB.jpg",
+    "author": "Infrogmation of New Orleans",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:FrenchMarketPumpkinsB.jpg"
+  },
+  "radish": {
+    "file": "/images/crops/radish.jpg",
+    "title": "File:Daikon radish - Minowase.jpg",
+    "author": "Eric Polk",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Daikon_radish_-_Minowase.jpg"
+  },
+  "raspberry": {
+    "file": "/images/crops/raspberry.jpg",
+    "title": "File:Framboise Margy 3.jpg",
+    "author": "Vassil",
+    "license": "Public domain",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Framboise_Margy_3.jpg"
+  },
+  "rice": {
+    "file": "/images/crops/rice.jpg",
+    "title": "File:Mature Rice (India) by Augustus Binu.jpg",
+    "author": "Augustus Binu",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Mature_Rice_(India)_by_Augustus_Binu.jpg"
+  },
+  "soybean": {
+    "file": "/images/crops/soybean.jpg",
+    "title": "File:Soybean Pod (48754451708).jpg",
+    "author": "United Soybean Board",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Soybean_Pod_(48754451708).jpg"
+  },
+  "spinach": {
+    "file": "/images/crops/spinach.jpg",
+    "title": "File:Palak - spinach plant from lalbagh 2350.JPG",
+    "author": "Rameshng",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Palak_-_spinach_plant_from_lalbagh_2350.JPG"
+  },
+  "squash": {
+    "file": "/images/crops/squash.jpg",
+    "title": "File:Cucurbita pepo Summer Squash Yellow and Green Zucchini zucchine.jpg",
+    "author": "nociveglia from Appennino Emiliano, Italy",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Cucurbita_pepo_Summer_Squash_Yellow_and_Green_Zucchini_zucchine.jpg"
+  },
+  "strawberry": {
+    "file": "/images/crops/strawberry.jpg",
+    "title": "File:Strawberry Plant with Fruit (close-up).jpg",
+    "author": "Alabama Extension",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Strawberry_Plant_with_Fruit_(close-up).jpg"
+  },
+  "sugarcane": {
+    "file": "/images/crops/sugarcane.jpg",
+    "title": "File:Sugarcane jbi gallery.jpg",
+    "author": "Jubair Bin Iqbal",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Sugarcane_jbi_gallery.jpg"
+  },
+  "sunflower": {
+    "file": "/images/crops/sunflower.jpg",
+    "title": "File:Dülmen, Weddern, Sonnenblumen -- 2026 -- 2005.jpg",
+    "author": "Dietmar Rabich",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Weddern,_Sonnenblumen_--_2026_--_2005.jpg"
+  },
+  "tea": {
+    "file": "/images/crops/tea.jpg",
+    "title": "File:Csinensis.jpg",
+    "author": "AxelBoldt at en.wikipedia",
+    "license": "Public domain",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Csinensis.jpg"
+  },
+  "tobacco": {
+    "file": "/images/crops/tobacco.jpg",
+    "title": "File:Plant nicotiana tabacum.jpg",
+    "author": "Jebulon",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Plant_nicotiana_tabacum.jpg"
+  },
+  "tomato": {
+    "file": "/images/crops/tomato.jpg",
+    "title": "File:Tomatoes 2026 G1.jpg",
+    "author": "George Chernilevsky",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Tomatoes_2026_G1.jpg"
+  },
+  "turmeric": {
+    "file": "/images/crops/turmeric.jpg",
+    "title": "File:Organic Turmeric Rhizome (Root).jpg",
+    "author": "MattPicks",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Organic_Turmeric_Rhizome_(Root).jpg"
+  },
+  "watermelon": {
+    "file": "/images/crops/watermelon.jpg",
+    "title": "File:Taiwan 2009 Tainan City Organic Farm Watermelon FRD 7962.jpg",
+    "author": "Fred Hsu",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Taiwan_2009_Tainan_City_Organic_Farm_Watermelon_FRD_7962.jpg"
+  },
+  "wheat": {
+    "file": "/images/crops/wheat.jpg",
+    "title": "File:Vehnäpelto 6.jpg",
+    "author": "kallerna",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Vehn%C3%A4pelto_6.jpg"
+  }
+}
