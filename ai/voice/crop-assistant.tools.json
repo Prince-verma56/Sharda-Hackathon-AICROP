@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "status": "PREPARATION_ONLY",
+  "note": "Tool catalogue; not itself a deployable Vapi payload. Identity always comes from backend call binding.",
+  "tools": [
+    {"name": "get_my_profile", "permission": "farmer:self:read", "parameters": {"type": "object", "additionalProperties": false, "properties": {}}},
+    {"name": "get_my_diagnosis", "permission": "diagnosis:owned:read", "parameters": {"type": "object", "additionalProperties": false, "properties": {"diagnosisRef": {"type": "string", "minLength": 1, "maxLength": 128}}}},
+    {"name": "get_my_diagnosis_history", "permission": "diagnosis:owned:read", "parameters": {"type": "object", "additionalProperties": false, "properties": {"limit": {"type": "integer", "minimum": 1, "maximum": 5}}}},
+    {"name": "get_my_farm_weather", "permission": "farm:owned:weather", "parameters": {"type": "object", "additionalProperties": false, "required": ["farmRef"], "properties": {"farmRef": {"type": "string", "minLength": 1, "maxLength": 128}}}},
+    {"name": "get_approved_guidance", "permission": "guidance:approved:read", "parameters": {"type": "object", "additionalProperties": false, "required": ["diagnosisRef"], "properties": {"diagnosisRef": {"type": "string", "minLength": 1, "maxLength": 128}}}}
+  ]
+}

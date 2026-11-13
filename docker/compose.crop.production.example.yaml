@@ -1,0 +1,72 @@
+# PROPOSED standalone production shape. No images/services are deployed by this task.
+# Requires future non-root application images, reviewed env files, TLS ingress,
+# private image storage, database/Redis credentials, backups and capacity testing.
+services:
+  web:
+    image: ${CROP_WEB_IMAGE:?Provide a reviewed immutable web image}
+    env_file: [../.env.production.local]
+    environment:
+      NODE_ENV: production
+      FEATURE_DEMO_MODE: "false"
+      OTP_MODE: real
+      AI_SERVICE_URL: http://ai-inference:8000
+    expose: ["3000"]
+    networks: [edge, private]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      ai-inference: {condition: service_healthy}
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    restart: unless-stopped
+  ai-inference:
+    image: ${CROP_INFERENCE_IMAGE:?Provide a reviewed immutable inference image}
+    environment:
+      AI_SERVICE_TOKEN: ${AI_SERVICE_TOKEN:?Set dedicated inference credential}
+      AGRISMART_MODEL_PATH: /models/model.pt
+      PYTHONDONTWRITEBYTECODE: "1"
+    volumes: ["../ai/models/agrismart-india/checkpoints:/models:ro"]
+    expose: ["8000"]
+    networks: [private]
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/ready',timeout=3)"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+    restart: unless-stopped
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: crop_app
+      POSTGRES_DB: crop_app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set production database password}
+    volumes: ["crop-postgres:/var/lib/postgresql/data"]
+    networks: [private]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U crop_app -d crop_app"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+  redis:
+    image: redis:7-alpine
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Set production Redis password}
+    command: [sh, -c, 'exec redis-server --requirepass "$${REDIS_PASSWORD}"']
+    networks: [private]
+    healthcheck:
+      test: [CMD-SHELL, 'REDISCLI_AUTH="$${REDIS_PASSWORD}" redis-cli ping | grep -q PONG']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+networks:
+  edge: {}
+  private: {internal: true}
+volumes:
+  crop-postgres: {}

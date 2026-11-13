@@ -1,0 +1,58 @@
+{
+  "status": "PASSED",
+  "checkpointSha256": "ffaffb1e3ca0a81831454e8268b11cf2d16b418838042b023ad188f79e61a08a",
+  "python": "3.12.10",
+  "torch": "2.15.0+cpu",
+  "timm": "1.0.31",
+  "device": "cpu",
+  "threads": 4,
+  "cropCount": 59,
+  "classCount": 387,
+  "loadMs": 1271,
+  "samples": [
+    {
+      "sample": "tomato_late_blight_1.jpg",
+      "selectedCrop": "tomato",
+      "topPrediction": "tomato::Late blight",
+      "score": 0.7153270982836302,
+      "processingMs": 341,
+      "mode": "real",
+      "originalParity": true
+    },
+    {
+      "sample": "potato_early_blight_1.jpg",
+      "selectedCrop": "potato",
+      "topPrediction": "potato::Early blight",
+      "score": 0.9901488579374551,
+      "processingMs": 370,
+      "mode": "real",
+      "originalParity": true
+    },
+    {
+      "sample": "corn_common_rust_1.jpg",
+      "selectedCrop": "corn_maize",
+      "topPrediction": "corn_maize::Gray leaf spot",
+      "score": 0.6140789872987045,
+      "processingMs": 357,
+      "mode": "real",
+      "originalParity": true
+    },
+    {
+      "sample": "tomato_healthy_1.jpg",
+      "selectedCrop": "tomato",
+      "topPrediction": "tomato::Healthy",
+      "score": 0.9612659712901085,
+      "processingMs": 354,
+      "mode": "real",
+      "originalParity": true
+    }
+  ],
+  "privateApiChecks": {
+    "ready": 200,
+    "unauthenticated_rejected": 401,
+    "real_prediction": 200,
+    "invalid_image_rejected": 422,
+    "unsupported_crop_rejected": 422
+  },
+  "limitations": "Four upstream smoke fixtures, not independent accuracy/field/OOD validation"
+}

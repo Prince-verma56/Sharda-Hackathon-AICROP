@@ -1,0 +1,23 @@
+[
+ {
+  "case": "11-backend-offline",
+  "http": 503,
+  "client_ms": 228,
+  "error": "INFERENCE_OFFLINE"
+ },
+ {
+  "status": {
+   "reachable": false,
+   "status": "offline",
+   "modelLoaded": false,
+   "modelVersion": null,
+   "modelSha256": null,
+   "device": null,
+   "mode": "unavailable",
+   "errorCode": "INFERENCE_OFFLINE",
+   "loadMs": null,
+   "uptimeSeconds": null,
+   "requestsServed": null
+  }
+ }
+]

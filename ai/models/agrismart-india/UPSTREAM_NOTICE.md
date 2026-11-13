@@ -1,0 +1,9 @@
+# Adopted AgriSmart installation
+
+The user explicitly requested real local integration, including original model/training, samples and evaluation material. `upstream/` now contains 62 original files from `wpzvqrs8/SIH_2026` at `9db1605a7c9fdc989f51320ae4970f6a1d8fd255`: the entire `model/`, `report/`, `samples/`, root README and training guide. `UPSTREAM_INSTALLATION.json` records each source/destination, byte size and SHA-256. No upstream frontend, backend, server, Android or Gradle code was imported.
+
+This is actual model integration: the genuine India v1 checkpoint is loaded by the strict adapter and its predictions are checked against the installed original India predictor. Original training/data-preparation/evaluation scripts and notebooks are present, not executed automatically. Training is unnecessary to run the already-trained India v1 model and would require separately licensed datasets, substantial resources and path/account configuration.
+
+The canonical verified binary is `checkpoints/model.pt`. A hard link at `upstream/model/india/model.pt` gives the original India predictor the same exact bytes without duplicating the checkpoint. This does not modify the separate full upstream clone. The adapter removes unsafe pickle fallback, arbitrary URL input and silent crop fallback at the service boundary.
+
+Attribution: AgriSmart authors/contributors and the respective dataset authors; original notices/README/source headers remain intact. PlantDoc samples retain their CC BY 4.0 attribution and DOI in `upstream/samples/README.md`. Model authors state non-commercial research/education; source dataset restrictions vary. No repository-wide software licence was declared. Original code/notebooks/assets are installed locally and ignored by Git pending redistribution-rights review; this is not a claim of permission for commercial or public redistribution. The installation manifest and original integration code are reviewable project files.

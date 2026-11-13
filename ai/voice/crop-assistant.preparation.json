@@ -1,0 +1,16 @@
+{
+  "status": "PREPARATION_ONLY_DO_NOT_ACTIVATE",
+  "workingTitle": "AI-Based Crop Disease & Pest Early Detection System",
+  "provider": "vapi",
+  "enabled": false,
+  "note": "Behavioural specification, not a Vapi API request payload.",
+  "identity": "server-created-expiring-call-binding",
+  "locale": "farmer-selected-reviewed-locale",
+  "recordingEnabled": false,
+  "transcriptRetentionEnabled": false,
+  "adminToolsAllowed": false,
+  "maxToolsPerTurn": 6,
+  "maxGraphStepsPerTurn": 10,
+  "contextFields": ["opaqueContextReference", "locale"],
+  "activationGates": ["provider-credential-verified", "server-call-owner-binding", "replay-tests", "cross-farmer-tests", "approved-guidance", "language-review", "consent-retention-review"]
+}

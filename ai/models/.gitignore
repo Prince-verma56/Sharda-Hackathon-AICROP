@@ -1,0 +1,14 @@
+# Checkpoints, datasets, personal photos and Python environments never belong in Git.
+**/checkpoints/
+**/.venv/
+**/__pycache__/
+**/*.pyc
+**/*.pt
+**/*.pth
+**/*.onnx
+**/*.safetensors
+**/*.part
+**/*.download.json
+# Original upstream code/notebooks/assets are installed locally for this integration.
+# Keep them out of redistribution until their source/dataset rights are resolved.
+**/upstream/

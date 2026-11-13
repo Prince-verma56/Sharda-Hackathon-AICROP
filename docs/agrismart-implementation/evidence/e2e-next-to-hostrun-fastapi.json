@@ -1,0 +1,339 @@
+[
+ {
+  "case": "01 healthy tomato",
+  "http": 200,
+  "client_ms": 901,
+  "crop_hint": "tomato",
+  "top": "tomato::Healthy",
+  "score": 0.9613,
+  "global_top": "tomato::Healthy 0.866",
+  "top3": [
+   "tomato::Healthy 0.961",
+   "tomato::Mosaic virus 0.021",
+   "tomato::Yellow leaf curl virus 0.007"
+  ],
+  "advisories": [],
+  "quality": [],
+  "inference_ms": 334,
+  "service_ms": 363,
+  "next_roundtrip_ms": 379,
+  "mode": "real",
+  "device": "cpu"
+ },
+ {
+  "case": "02 diseased tomato",
+  "http": 200,
+  "client_ms": 503,
+  "crop_hint": "tomato",
+  "top": "tomato::Late blight",
+  "score": 0.7153,
+  "global_top": "tomato::Late blight 0.460",
+  "top3": [
+   "tomato::Late blight 0.715",
+   "tomato::Early blight 0.218",
+   "tomato::Leaf mold 0.037"
+  ],
+  "advisories": [],
+  "quality": [],
+  "inference_ms": 275,
+  "service_ms": 284,
+  "next_roundtrip_ms": 289,
+  "mode": "real",
+  "device": "cpu"
+ },
+ {
+  "case": "03 potato",
+  "http": 200,
+  "client_ms": 596,
+  "crop_hint": "potato",
+  "top": "potato::Early blight",
+  "score": 0.9901,
+  "global_top": "potato::Early blight 0.756",
+  "top3": [
+   "potato::Early blight 0.990",
+   "potato::Late blight 0.008",
+   "potato::Healthy 0.001"
+  ],
+  "advisories": [],
+  "quality": [],
+  "inference_ms": 358,
+  "service_ms": 384,
+  "next_roundtrip_ms": 390,
+  "mode": "real",
+  "device": "cpu"
+ },
+ {
+  "case": "04 corn (another crop)",
+  "http": 200,
+  "client_ms": 529,
+  "crop_hint": "corn_maize",
+  "top": "corn_maize::Gray leaf spot",
+  "score": 0.6141,
+  "global_top": "banana::Insect pest damage 0.203",
+  "top3": [
+   "corn_maize::Gray leaf spot 0.614",
+   "corn_maize::Common rust 0.267",
+   "corn_maize::Northern leaf blight 0.050"
+  ],
+  "advisories": [
+   "CROP_MISMATCH"
+  ],
+  "quality": [],
+  "inference_ms": 318,
+  "service_ms": 320,
+  "next_roundtrip_ms": 336,
+  "mode": "real",
+  "device": "cpu"
+ },
+ {
+  "case": "05 wrong crop (tomato photo, potato selected)",
+  "http": 200,
+  "client_ms": 496,
+  "crop_hint": "potato",
+  "top": "potato::Late blight",
+  "score": 0.7977,
+  "global_top": "tomato::Late blight 0.460",
+  "top3": [
+   "potato::Late blight 0.798",
+   "potato::Early blight 0.198",
+   "potato::Healthy 0.004"
+  ],
+  "advisories": [
+   "CROP_MISMATCH"
+  ],
+  "quality": [],
+  "inference_ms": 281,
+  "service_ms": 292,
+  "next_roundtrip_ms": 297,
+  "mode": "real",
+  "device": "cpu"
+ },
+ {
+  "case": "06 no crop selected",
+  "http": 200,
+  "client_ms": 556,
+  "crop_hint": null,
+  "top": "tomato::Late blight",
+  "score": 0.46,
+  "global_top": "tomato::Late blight 0.460",
+  "top3": [
+   "tomato::Late blight 0.460",
+   "potato::Late blight 0.160",
+   "tomato::Early blight 0.140"
+  ],
+  "advisories": [],
+  "quality": [],
+  "inference_ms": 310,
+  "service_ms": 320,
+  "next_roundtrip_ms": 328,
+  "mode": "real",
+  "device": "cpu"
+ },
+ {
+  "case": "07 blurry photo",
+  "http": 200,
+  "client_ms": 481,
+  "crop_hint": "tomato",
+  "top": "tomato::Late blight",
+  "score": 0.7592,
+  "global_top": "tomato::Late blight 0.401",
+  "top3": [
+   "tomato::Late blight 0.759",
+   "tomato::Early blight 0.202",
+   "tomato::Spotted wilt virus 0.006"
+  ],
+  "advisories": [
+   "IMAGE_QUALITY"
+  ],
+  "quality": [
+   "POSSIBLY_BLURRY"
+  ],
+  "inference_ms": 274,
+  "service_ms": 283,
+  "next_roundtrip_ms": 293,
+  "mode": "real",
+  "device": "cpu"
+ },
+ {
+  "case": "08 invalid file (text renamed .jpg)",
+  "http": 422,
+  "client_ms": 284,
+  "error": "IMAGE_INVALID"
+ },
+ {
+  "case": "08b unsupported type (GIF)",
+  "http": 415,
+  "client_ms": 191,
+  "error": "IMAGE_FORMAT_UNSUPPORTED"
+ },
+ {
+  "case": "09 oversized upload (9 MB)",
+  "http": 413,
+  "client_ms": 213,
+  "error": "IMAGE_SIZE_INVALID"
+ },
+ {
+  "case": "10 non-plant (training-curve chart PNG)",
+  "http": 200,
+  "client_ms": 519,
+  "crop_hint": null,
+  "top": "citrus_orange::Citrus canker",
+  "score": 0.0996,
+  "global_top": "citrus_orange::Citrus canker 0.100",
+  "top3": [
+   "citrus_orange::Citrus canker 0.100",
+   "wheat::Blast 0.071",
+   "banana::Cordana leaf spot 0.037"
+  ],
+  "advisories": [
+   "LOW_GLOBAL_EVIDENCE",
+   "IMAGE_QUALITY"
+  ],
+  "quality": [
+   "OVEREXPOSED"
+  ],
+  "inference_ms": 290,
+  "service_ms": 307,
+  "next_roundtrip_ms": 316,
+  "mode": "real",
+  "device": "cpu"
+ },
+ {
+  "case": "10b non-plant + crop hint",
+  "http": 200,
+  "client_ms": 524,
+  "crop_hint": "tomato",
+  "top": "tomato::Spider mites (pest)",
+  "score": 0.1552,
+  "global_top": "citrus_orange::Citrus canker 0.100",
+  "top3": [
+   "tomato::Spider mites (pest) 0.155",
+   "tomato::Sunscald 0.123",
+   "tomato::Early blight 0.120"
+  ],
+  "advisories": [
+   "LOW_GLOBAL_EVIDENCE",
+   "CROP_MISMATCH",
+   "IMAGE_QUALITY"
+  ],
+  "quality": [
+   "OVEREXPOSED"
+  ],
+  "inference_ms": 301,
+  "service_ms": 316,
+  "next_roundtrip_ms": 321,
+  "mode": "real",
+  "device": "cpu"
+ },
+ {
+  "case": "unsupported crop id",
+  "http": 422,
+  "client_ms": 204,
+  "error": "CROP_UNSUPPORTED"
+ },
+ {
+  "case": "13 repeated #1",
+  "http": 200,
+  "client_ms": 552,
+  "crop_hint": "potato",
+  "top": "potato::Early blight",
+  "score": 0.9901,
+  "global_top": "potato::Early blight 0.756",
+  "top3": [
+   "potato::Early blight 0.990",
+   "potato::Late blight 0.008",
+   "potato::Healthy 0.001"
+  ],
+  "advisories": [],
+  "quality": [],
+  "inference_ms": 323,
+  "service_ms": 347,
+  "next_roundtrip_ms": 356,
+  "mode": "real",
+  "device": "cpu"
+ },
+ {
+  "case": "13 repeated #2",
+  "http": 200,
+  "client_ms": 569,
+  "crop_hint": "potato",
+  "top": "potato::Early blight",
+  "score": 0.9901,
+  "global_top": "potato::Early blight 0.756",
+  "top3": [
+   "potato::Early blight 0.990",
+   "potato::Late blight 0.008",
+   "potato::Healthy 0.001"
+  ],
+  "advisories": [],
+  "quality": [],
+  "inference_ms": 300,
+  "service_ms": 323,
+  "next_roundtrip_ms": 334,
+  "mode": "real",
+  "device": "cpu"
+ },
+ {
+  "case": "13 repeated #3",
+  "http": 200,
+  "client_ms": 555,
+  "crop_hint": "potato",
+  "top": "potato::Early blight",
+  "score": 0.9901,
+  "global_top": "potato::Early blight 0.756",
+  "top3": [
+   "potato::Early blight 0.990",
+   "potato::Late blight 0.008",
+   "potato::Healthy 0.001"
+  ],
+  "advisories": [],
+  "quality": [],
+  "inference_ms": 322,
+  "service_ms": 347,
+  "next_roundtrip_ms": 356,
+  "mode": "real",
+  "device": "cpu"
+ },
+ {
+  "case": "13 repeated #4",
+  "http": 200,
+  "client_ms": 566,
+  "crop_hint": "potato",
+  "top": "potato::Early blight",
+  "score": 0.9901,
+  "global_top": "potato::Early blight 0.756",
+  "top3": [
+   "potato::Early blight 0.990",
+   "potato::Late blight 0.008",
+   "potato::Healthy 0.001"
+  ],
+  "advisories": [],
+  "quality": [],
+  "inference_ms": 324,
+  "service_ms": 349,
+  "next_roundtrip_ms": 358,
+  "mode": "real",
+  "device": "cpu"
+ },
+ {
+  "case": "13 repeated #5",
+  "http": 200,
+  "client_ms": 556,
+  "crop_hint": "potato",
+  "top": "potato::Early blight",
+  "score": 0.9901,
+  "global_top": "potato::Early blight 0.756",
+  "top3": [
+   "potato::Early blight 0.990",
+   "potato::Late blight 0.008",
+   "potato::Healthy 0.001"
+  ],
+  "advisories": [],
+  "quality": [],
+  "inference_ms": 333,
+  "service_ms": 356,
+  "next_roundtrip_ms": 367,
+  "mode": "real",
+  "device": "cpu"
+ }
+]

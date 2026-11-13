@@ -1,0 +1,6 @@
+**/.venv/
+**/__pycache__/
+**/*.pyc
+# Local real-model test result dumps
+**/tests/.last_run_results.json
+**/.env

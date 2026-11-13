@@ -1,0 +1,2633 @@
+{
+ "source": {
+  "repository": "https://github.com/wpzvqrs8/SIH_2026",
+  "revision": "9db1605a7c9fdc989f51320ae4970f6a1d8fd255",
+  "files": {
+   "model/india/report_per_crop.csv": "47a599945729c3225bac63564c0e4f4c91e1e9e88dd54e14361358a49a3d8bae",
+   "model/india/report_per_class.csv": "880010a1398cbabc9f5d580adc55400c93559bf7d3cea6765bb7af88903fb1d1"
+  },
+  "test_split": "upstream held-out test, 28,328 photos (lab + field + research datasets)",
+  "note": "Upstream authors' numbers, copied verbatim. Not our own validation."
+ },
+ "per_crop": {
+  "ginger": {
+   "test_images": 51,
+   "macro_f1": 0.6087,
+   "accuracy": 0.5686
+  },
+  "ash_gourd": {
+   "test_images": 22,
+   "macro_f1": 0.6861,
+   "accuracy": 0.6818
+  },
+  "okra": {
+   "test_images": 256,
+   "macro_f1": 0.7524,
+   "accuracy": 0.9609
+  },
+  "spinach": {
+   "test_images": 286,
+   "macro_f1": 0.7587,
+   "accuracy": 0.7727
+  },
+  "cauliflower": {
+   "test_images": 499,
+   "macro_f1": 0.7806,
+   "accuracy": 0.8497
+  },
+  "tobacco": {
+   "test_images": 32,
+   "macro_f1": 0.7822,
+   "accuracy": 0.75
+  },
+  "garlic": {
+   "test_images": 73,
+   "macro_f1": 0.7899,
+   "accuracy": 0.7397
+  },
+  "brinjal_eggplant": {
+   "test_images": 894,
+   "macro_f1": 0.8102,
+   "accuracy": 0.7886
+  },
+  "chilli": {
+   "test_images": 78,
+   "macro_f1": 0.8284,
+   "accuracy": 0.8333
+  },
+  "guava": {
+   "test_images": 373,
+   "macro_f1": 0.8389,
+   "accuracy": 0.8365
+  },
+  "sugarcane": {
+   "test_images": 448,
+   "macro_f1": 0.8516,
+   "accuracy": 0.971
+  },
+  "rice": {
+   "test_images": 1207,
+   "macro_f1": 0.8523,
+   "accuracy": 0.8724
+  },
+  "soybean": {
+   "test_images": 977,
+   "macro_f1": 0.8591,
+   "accuracy": 0.868
+  },
+  "cabbage": {
+   "test_images": 110,
+   "macro_f1": 0.8593,
+   "accuracy": 0.8909
+  },
+  "wheat": {
+   "test_images": 1513,
+   "macro_f1": 0.8603,
+   "accuracy": 0.8876
+  },
+  "lentil": {
+   "test_images": 775,
+   "macro_f1": 0.8659,
+   "accuracy": 0.8619
+  },
+  "malabar_spinach": {
+   "test_images": 85,
+   "macro_f1": 0.8676,
+   "accuracy": 0.8706
+  },
+  "bean": {
+   "test_images": 476,
+   "macro_f1": 0.8841,
+   "accuracy": 0.8697
+  },
+  "pumpkin": {
+   "test_images": 244,
+   "macro_f1": 0.891,
+   "accuracy": 0.8893
+  },
+  "bitter_gourd": {
+   "test_images": 15,
+   "macro_f1": 0.9143,
+   "accuracy": 0.9333
+  },
+  "squash": {
+   "test_images": 359,
+   "macro_f1": 0.9205,
+   "accuracy": 0.8969
+  },
+  "cherry": {
+   "test_images": 288,
+   "macro_f1": 0.9208,
+   "accuracy": 0.9271
+  },
+  "bottle_gourd": {
+   "test_images": 183,
+   "macro_f1": 0.9268,
+   "accuracy": 0.929
+  },
+  "tomato": {
+   "test_images": 3123,
+   "macro_f1": 0.9378,
+   "accuracy": 0.926
+  },
+  "moringa": {
+   "test_images": 235,
+   "macro_f1": 0.939,
+   "accuracy": 0.9617
+  },
+  "banana": {
+   "test_images": 1165,
+   "macro_f1": 0.9394,
+   "accuracy": 0.9639
+  },
+  "groundnut": {
+   "test_images": 584,
+   "macro_f1": 0.9424,
+   "accuracy": 0.911
+  },
+  "potato": {
+   "test_images": 572,
+   "macro_f1": 0.9435,
+   "accuracy": 0.9336
+  },
+  "cucumber": {
+   "test_images": 751,
+   "macro_f1": 0.9442,
+   "accuracy": 0.9441
+  },
+  "coffee": {
+   "test_images": 230,
+   "macro_f1": 0.9447,
+   "accuracy": 0.9696
+  },
+  "corn_maize": {
+   "test_images": 1381,
+   "macro_f1": 0.945,
+   "accuracy": 0.9544
+  },
+  "grape": {
+   "test_images": 696,
+   "macro_f1": 0.9499,
+   "accuracy": 0.967
+  },
+  "apple": {
+   "test_images": 825,
+   "macro_f1": 0.9519,
+   "accuracy": 0.9224
+  },
+  "strawberry": {
+   "test_images": 221,
+   "macro_f1": 0.9616,
+   "accuracy": 0.9819
+  },
+  "finger_millet_ragi": {
+   "test_images": 63,
+   "macro_f1": 0.9617,
+   "accuracy": 0.9365
+  },
+  "tea": {
+   "test_images": 1087,
+   "macro_f1": 0.9621,
+   "accuracy": 0.9558
+  },
+  "onion": {
+   "test_images": 907,
+   "macro_f1": 0.9633,
+   "accuracy": 0.968
+  },
+  "betel": {
+   "test_images": 435,
+   "macro_f1": 0.9659,
+   "accuracy": 0.9655
+  },
+  "custard_apple": {
+   "test_images": 283,
+   "macro_f1": 0.9675,
+   "accuracy": 0.9717
+  },
+  "cashew": {
+   "test_images": 722,
+   "macro_f1": 0.9744,
+   "accuracy": 0.9737
+  },
+  "citrus_orange": {
+   "test_images": 684,
+   "macro_f1": 0.9748,
+   "accuracy": 0.9532
+  },
+  "pomegranate": {
+   "test_images": 969,
+   "macro_f1": 0.9776,
+   "accuracy": 0.9804
+  },
+  "bell_pepper": {
+   "test_images": 280,
+   "macro_f1": 0.9822,
+   "accuracy": 0.9821
+  },
+  "peach": {
+   "test_images": 415,
+   "macro_f1": 0.9825,
+   "accuracy": 0.9759
+  },
+  "cotton": {
+   "test_images": 332,
+   "macro_f1": 0.9886,
+   "accuracy": 0.991
+  },
+  "lemon": {
+   "test_images": 265,
+   "macro_f1": 0.9898,
+   "accuracy": 0.9887
+  },
+  "sunflower": {
+   "test_images": 344,
+   "macro_f1": 0.9917,
+   "accuracy": 0.9913
+  },
+  "black_gram": {
+   "test_images": 523,
+   "macro_f1": 0.9943,
+   "accuracy": 0.9943
+  },
+  "jute": {
+   "test_images": 199,
+   "macro_f1": 0.9953,
+   "accuracy": 0.995
+  },
+  "cowpea": {
+   "test_images": 50,
+   "macro_f1": 1.0,
+   "accuracy": 1.0
+  },
+  "coconut": {
+   "test_images": 68,
+   "macro_f1": 1.0,
+   "accuracy": 1.0
+  },
+  "blueberry": {
+   "test_images": 106,
+   "macro_f1": 1.0,
+   "accuracy": 1.0
+  },
+  "jamun": {
+   "test_images": 193,
+   "macro_f1": 1.0,
+   "accuracy": 1.0
+  },
+  "raspberry": {
+   "test_images": 18,
+   "macro_f1": 1.0,
+   "accuracy": 1.0
+  },
+  "mango": {
+   "test_images": 356,
+   "macro_f1": 1.0,
+   "accuracy": 1.0
+  },
+  "papaya": {
+   "test_images": 635,
+   "macro_f1": 1.0,
+   "accuracy": 1.0
+  },
+  "radish": {
+   "test_images": 38,
+   "macro_f1": 1.0,
+   "accuracy": 1.0
+  },
+  "turmeric": {
+   "test_images": 224,
+   "macro_f1": 1.0,
+   "accuracy": 1.0
+  },
+  "watermelon": {
+   "test_images": 105,
+   "macro_f1": 1.0,
+   "accuracy": 1.0
+  }
+ },
+ "per_class": {
+  "apple::Alternaria leaf blotch": {
+   "precision": 0.9885,
+   "recall": 1.0,
+   "f1": 0.9942,
+   "support": 86
+  },
+  "apple::Apple scab": {
+   "precision": 0.9328,
+   "recall": 0.925,
+   "f1": 0.9289,
+   "support": 120
+  },
+  "apple::Black rot": {
+   "precision": 0.8765,
+   "recall": 0.8765,
+   "f1": 0.8765,
+   "support": 81
+  },
+  "apple::Cedar apple rust": {
+   "precision": 0.8875,
+   "recall": 0.9342,
+   "f1": 0.9103,
+   "support": 76
+  },
+  "apple::Healthy": {
+   "precision": 0.9716,
+   "recall": 0.9013,
+   "f1": 0.9352,
+   "support": 304
+  },
+  "apple::Mosaic virus": {
+   "precision": 0.9487,
+   "recall": 0.9367,
+   "f1": 0.9427,
+   "support": 158
+  },
+  "ash_gourd::Aphid (pest)": {
+   "precision": 0.6667,
+   "recall": 1.0,
+   "f1": 0.8,
+   "support": 2
+  },
+  "ash_gourd::Downy mildew": {
+   "precision": 0.7778,
+   "recall": 0.6364,
+   "f1": 0.7,
+   "support": 11
+  },
+  "ash_gourd::Healthy": {
+   "precision": 0.6667,
+   "recall": 1.0,
+   "f1": 0.8,
+   "support": 4
+  },
+  "ash_gourd::Leaf curl virus": {
+   "precision": 0.5,
+   "recall": 0.4,
+   "f1": 0.4444,
+   "support": 5
+  },
+  "banana::Anthracnose": {
+   "precision": 0.8333,
+   "recall": 0.9091,
+   "f1": 0.8696,
+   "support": 11
+  },
+  "banana::Aphid (pest)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 6
+  },
+  "banana::Bacterial soft rot": {
+   "precision": 1.0,
+   "recall": 0.9259,
+   "f1": 0.9615,
+   "support": 27
+  },
+  "banana::Bract mosaic virus": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 8
+  },
+  "banana::Bunchy top virus": {
+   "precision": 0.75,
+   "recall": 1.0,
+   "f1": 0.8571,
+   "support": 21
+  },
+  "banana::Cigar end rot": {
+   "precision": 0.875,
+   "recall": 0.7778,
+   "f1": 0.8235,
+   "support": 9
+  },
+  "banana::Cordana leaf spot": {
+   "precision": 0.8182,
+   "recall": 0.8182,
+   "f1": 0.8182,
+   "support": 11
+  },
+  "banana::Fruit scarring beetle (pest)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 1
+  },
+  "banana::Healthy": {
+   "precision": 0.9783,
+   "recall": 0.9615,
+   "f1": 0.9698,
+   "support": 234
+  },
+  "banana::Insect pest damage": {
+   "precision": 1.0,
+   "recall": 0.9231,
+   "f1": 0.96,
+   "support": 13
+  },
+  "banana::Moko (bacterial wilt)": {
+   "precision": 0.9,
+   "recall": 1.0,
+   "f1": 0.9474,
+   "support": 9
+  },
+  "banana::Panama disease (fusarium wilt)": {
+   "precision": 0.9757,
+   "recall": 0.9698,
+   "f1": 0.9727,
+   "support": 331
+  },
+  "banana::Pestalotiopsis leaf spot": {
+   "precision": 0.8462,
+   "recall": 1.0,
+   "f1": 0.9167,
+   "support": 22
+  },
+  "banana::Potassium deficiency": {
+   "precision": 0.9545,
+   "recall": 1.0,
+   "f1": 0.9767,
+   "support": 21
+  },
+  "banana::Pseudostem weevil (pest)": {
+   "precision": 0.963,
+   "recall": 1.0,
+   "f1": 0.9811,
+   "support": 26
+  },
+  "banana::Sigatoka leaf spot": {
+   "precision": 0.9852,
+   "recall": 0.9639,
+   "f1": 0.9744,
+   "support": 415
+  },
+  "bean::Anthracnose": {
+   "precision": 0.9725,
+   "recall": 0.9907,
+   "f1": 0.9815,
+   "support": 107
+  },
+  "bean::Blight": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 13
+  },
+  "bean::Halo blight": {
+   "precision": 0.5455,
+   "recall": 0.7059,
+   "f1": 0.6154,
+   "support": 17
+  },
+  "bean::Healthy": {
+   "precision": 0.9113,
+   "recall": 0.8968,
+   "f1": 0.904,
+   "support": 126
+  },
+  "bean::Mosaic virus": {
+   "precision": 0.7778,
+   "recall": 0.5738,
+   "f1": 0.6604,
+   "support": 61
+  },
+  "bean::Rust": {
+   "precision": 0.9574,
+   "recall": 0.8882,
+   "f1": 0.9215,
+   "support": 152
+  },
+  "bell_pepper::Bacterial spot": {
+   "precision": 0.9837,
+   "recall": 0.9837,
+   "f1": 0.9837,
+   "support": 123
+  },
+  "bell_pepper::Blossom end rot": {
+   "precision": 0.875,
+   "recall": 1.0,
+   "f1": 0.9333,
+   "support": 14
+  },
+  "bell_pepper::Healthy": {
+   "precision": 0.9722,
+   "recall": 0.979,
+   "f1": 0.9756,
+   "support": 143
+  },
+  "betel::Bacterial leaf disease": {
+   "precision": 0.9583,
+   "recall": 1.0,
+   "f1": 0.9787,
+   "support": 69
+  },
+  "betel::Dried leaf": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 59
+  },
+  "betel::Fungal brown spot": {
+   "precision": 0.9726,
+   "recall": 0.9861,
+   "f1": 0.9793,
+   "support": 72
+  },
+  "betel::Healthy": {
+   "precision": 0.9766,
+   "recall": 0.9328,
+   "f1": 0.9542,
+   "support": 134
+  },
+  "betel::Leaf rot": {
+   "precision": 0.9167,
+   "recall": 0.9706,
+   "f1": 0.9429,
+   "support": 34
+  },
+  "betel::Leaf spot": {
+   "precision": 0.9403,
+   "recall": 0.9403,
+   "f1": 0.9403,
+   "support": 67
+  },
+  "bitter_gourd::Downy mildew": {
+   "precision": 0.6667,
+   "recall": 1.0,
+   "f1": 0.8,
+   "support": 2
+  },
+  "bitter_gourd::Fusarium wilt": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 2
+  },
+  "bitter_gourd::Healthy": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 7
+  },
+  "bitter_gourd::Mosaic virus": {
+   "precision": 1.0,
+   "recall": 0.75,
+   "f1": 0.8571,
+   "support": 4
+  },
+  "black_gram::Anthracnose": {
+   "precision": 0.9444,
+   "recall": 1.0,
+   "f1": 0.9714,
+   "support": 34
+  },
+  "black_gram::Cercospora leaf spot": {
+   "precision": 0.9848,
+   "recall": 1.0,
+   "f1": 0.9924,
+   "support": 65
+  },
+  "black_gram::Healthy": {
+   "precision": 0.9839,
+   "recall": 1.0,
+   "f1": 0.9919,
+   "support": 61
+  },
+  "black_gram::Insect pest damage": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 5
+  },
+  "black_gram::Leaf crinkle virus": {
+   "precision": 1.0,
+   "recall": 0.9854,
+   "f1": 0.9926,
+   "support": 137
+  },
+  "black_gram::Powdery mildew": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 27
+  },
+  "black_gram::Yellow mosaic virus": {
+   "precision": 0.9948,
+   "recall": 0.9948,
+   "f1": 0.9948,
+   "support": 194
+  },
+  "blueberry::Healthy": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 106
+  },
+  "bottle_gourd::Alternaria leaf blight": {
+   "precision": 0.8718,
+   "recall": 0.9444,
+   "f1": 0.9067,
+   "support": 36
+  },
+  "bottle_gourd::Anthracnose": {
+   "precision": 0.9231,
+   "recall": 0.8571,
+   "f1": 0.8889,
+   "support": 28
+  },
+  "bottle_gourd::Downy mildew": {
+   "precision": 0.9677,
+   "recall": 0.9091,
+   "f1": 0.9375,
+   "support": 33
+  },
+  "bottle_gourd::Healthy": {
+   "precision": 1.0,
+   "recall": 0.9756,
+   "f1": 0.9877,
+   "support": 41
+  },
+  "bottle_gourd::Mosaic virus": {
+   "precision": 0.8936,
+   "recall": 0.9333,
+   "f1": 0.913,
+   "support": 45
+  },
+  "brinjal_eggplant::Begomovirus leaf curl": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 3
+  },
+  "brinjal_eggplant::Cercospora leaf spot": {
+   "precision": 0.6234,
+   "recall": 0.6,
+   "f1": 0.6115,
+   "support": 80
+  },
+  "brinjal_eggplant::Fruit cracking": {
+   "precision": 0.9615,
+   "recall": 0.9259,
+   "f1": 0.9434,
+   "support": 27
+  },
+  "brinjal_eggplant::Fruit rot": {
+   "precision": 0.9677,
+   "recall": 0.9677,
+   "f1": 0.9677,
+   "support": 31
+  },
+  "brinjal_eggplant::Healthy": {
+   "precision": 0.917,
+   "recall": 0.7105,
+   "f1": 0.8007,
+   "support": 342
+  },
+  "brinjal_eggplant::Insect pest damage": {
+   "precision": 0.6667,
+   "recall": 0.8889,
+   "f1": 0.7619,
+   "support": 81
+  },
+  "brinjal_eggplant::Mosaic virus": {
+   "precision": 0.6949,
+   "recall": 0.8454,
+   "f1": 0.7628,
+   "support": 194
+  },
+  "brinjal_eggplant::Phomopsis blight": {
+   "precision": 0.9524,
+   "recall": 0.7692,
+   "f1": 0.8511,
+   "support": 26
+  },
+  "brinjal_eggplant::Shoot and fruit borer (pest)": {
+   "precision": 0.8961,
+   "recall": 0.9857,
+   "f1": 0.9388,
+   "support": 70
+  },
+  "brinjal_eggplant::White mold": {
+   "precision": 0.3333,
+   "recall": 0.3,
+   "f1": 0.3158,
+   "support": 10
+  },
+  "brinjal_eggplant::Wilt": {
+   "precision": 0.9655,
+   "recall": 0.9333,
+   "f1": 0.9492,
+   "support": 30
+  },
+  "cabbage::Alternaria leaf spot": {
+   "precision": 0.5217,
+   "recall": 0.6667,
+   "f1": 0.5854,
+   "support": 18
+  },
+  "cabbage::Black rot": {
+   "precision": 0.75,
+   "recall": 0.9375,
+   "f1": 0.8333,
+   "support": 16
+  },
+  "cabbage::Downy mildew": {
+   "precision": 0.875,
+   "recall": 0.6364,
+   "f1": 0.7368,
+   "support": 11
+  },
+  "cabbage::Healthy": {
+   "precision": 0.9552,
+   "recall": 0.9846,
+   "f1": 0.9697,
+   "support": 65
+  },
+  "cashew::Anthracnose": {
+   "precision": 0.9682,
+   "recall": 0.9325,
+   "f1": 0.95,
+   "support": 163
+  },
+  "cashew::Gummosis": {
+   "precision": 0.9821,
+   "recall": 0.9821,
+   "f1": 0.9821,
+   "support": 56
+  },
+  "cashew::Healthy": {
+   "precision": 0.9223,
+   "recall": 1.0,
+   "f1": 0.9596,
+   "support": 95
+  },
+  "cashew::Leaf miner (pest)": {
+   "precision": 0.9634,
+   "recall": 0.9735,
+   "f1": 0.9684,
+   "support": 189
+  },
+  "cashew::Red rust (algal)": {
+   "precision": 0.9954,
+   "recall": 0.9909,
+   "f1": 0.9931,
+   "support": 219
+  },
+  "cauliflower::Alternaria leaf spot": {
+   "precision": 0.5,
+   "recall": 0.2308,
+   "f1": 0.3158,
+   "support": 13
+  },
+  "cauliflower::Bacterial soft rot": {
+   "precision": 0.68,
+   "recall": 1.0,
+   "f1": 0.8095,
+   "support": 17
+  },
+  "cauliflower::Black rot": {
+   "precision": 0.9313,
+   "recall": 0.8371,
+   "f1": 0.8817,
+   "support": 178
+  },
+  "cauliflower::Downy mildew": {
+   "precision": 0.75,
+   "recall": 0.9,
+   "f1": 0.8182,
+   "support": 10
+  },
+  "cauliflower::Healthy": {
+   "precision": 0.907,
+   "recall": 0.8571,
+   "f1": 0.8814,
+   "support": 182
+  },
+  "cauliflower::Insect pest damage": {
+   "precision": 0.7692,
+   "recall": 0.9091,
+   "f1": 0.8333,
+   "support": 99
+  },
+  "cherry::Healthy": {
+   "precision": 0.928,
+   "recall": 0.9667,
+   "f1": 0.9469,
+   "support": 120
+  },
+  "cherry::Leaf spot": {
+   "precision": 0.5814,
+   "recall": 0.7143,
+   "f1": 0.641,
+   "support": 35
+  },
+  "cherry::Powdery mildew": {
+   "precision": 0.9474,
+   "recall": 0.9474,
+   "f1": 0.9474,
+   "support": 133
+  },
+  "chilli::Cercospora leaf spot": {
+   "precision": 0.8824,
+   "recall": 0.75,
+   "f1": 0.8108,
+   "support": 20
+  },
+  "chilli::Healthy": {
+   "precision": 0.8,
+   "recall": 0.8,
+   "f1": 0.8,
+   "support": 10
+  },
+  "chilli::Mites and thrips (pest)": {
+   "precision": 0.7273,
+   "recall": 1.0,
+   "f1": 0.8421,
+   "support": 16
+  },
+  "chilli::Nutrient deficiency": {
+   "precision": 0.7143,
+   "recall": 0.625,
+   "f1": 0.6667,
+   "support": 16
+  },
+  "chilli::Powdery mildew": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 16
+  },
+  "citrus_orange::Black spot": {
+   "precision": 0.8065,
+   "recall": 0.8929,
+   "f1": 0.8475,
+   "support": 28
+  },
+  "citrus_orange::Citrus canker": {
+   "precision": 0.8333,
+   "recall": 0.9,
+   "f1": 0.8654,
+   "support": 100
+  },
+  "citrus_orange::Citrus greening (HLB)": {
+   "precision": 0.9857,
+   "recall": 0.9356,
+   "f1": 0.96,
+   "support": 295
+  },
+  "citrus_orange::Dieback": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 35
+  },
+  "citrus_orange::Greasy spot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 14
+  },
+  "citrus_orange::Healthy": {
+   "precision": 0.9375,
+   "recall": 1.0,
+   "f1": 0.9677,
+   "support": 15
+  },
+  "citrus_orange::Leaf miner (pest)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 15
+  },
+  "citrus_orange::Mealybug (pest)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 3
+  },
+  "citrus_orange::Mite damage": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 15
+  },
+  "citrus_orange::Nutrient deficiency": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 54
+  },
+  "citrus_orange::Powdery mildew": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 46
+  },
+  "citrus_orange::Scale insect (pest)": {
+   "precision": 0.95,
+   "recall": 1.0,
+   "f1": 0.9744,
+   "support": 19
+  },
+  "citrus_orange::Shot hole": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 43
+  },
+  "citrus_orange::Spiny whitefly (pest)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 2
+  },
+  "coconut::Bud root dropping": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 5
+  },
+  "coconut::Bud rot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 3
+  },
+  "coconut::Grey leaf spot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 33
+  },
+  "coconut::Leaf rot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 15
+  },
+  "coconut::Stem bleeding": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 12
+  },
+  "coffee::Cercospora leaf spot": {
+   "precision": 1.0,
+   "recall": 0.875,
+   "f1": 0.9333,
+   "support": 24
+  },
+  "coffee::Healthy": {
+   "precision": 1.0,
+   "recall": 0.6667,
+   "f1": 0.8,
+   "support": 9
+  },
+  "coffee::Leaf miner (pest)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 38
+  },
+  "coffee::Leaf rust": {
+   "precision": 0.9901,
+   "recall": 0.9901,
+   "f1": 0.9901,
+   "support": 101
+  },
+  "coffee::Phoma leaf spot": {
+   "precision": 0.9831,
+   "recall": 1.0,
+   "f1": 0.9915,
+   "support": 58
+  },
+  "corn_maize::Common rust": {
+   "precision": 0.9674,
+   "recall": 0.9585,
+   "f1": 0.963,
+   "support": 217
+  },
+  "corn_maize::Common smut": {
+   "precision": 0.9545,
+   "recall": 0.9545,
+   "f1": 0.9545,
+   "support": 44
+  },
+  "corn_maize::Curvularia leaf spot": {
+   "precision": 0.7073,
+   "recall": 0.9667,
+   "f1": 0.8169,
+   "support": 30
+  },
+  "corn_maize::Fall armyworm (pest)": {
+   "precision": 0.9899,
+   "recall": 0.9751,
+   "f1": 0.9825,
+   "support": 201
+  },
+  "corn_maize::Grasshopper (pest)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 95
+  },
+  "corn_maize::Gray leaf spot": {
+   "precision": 0.8304,
+   "recall": 0.9029,
+   "f1": 0.8651,
+   "support": 103
+  },
+  "corn_maize::Healthy": {
+   "precision": 0.9771,
+   "recall": 0.9734,
+   "f1": 0.9752,
+   "support": 263
+  },
+  "corn_maize::Leaf beetle (pest)": {
+   "precision": 0.9924,
+   "recall": 0.9924,
+   "f1": 0.9924,
+   "support": 131
+  },
+  "corn_maize::Northern leaf blight": {
+   "precision": 0.9676,
+   "recall": 0.9057,
+   "f1": 0.9357,
+   "support": 297
+  },
+  "cotton::Alternaria leaf spot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 23
+  },
+  "cotton::Bacterial blight": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 53
+  },
+  "cotton::Fusarium wilt": {
+   "precision": 1.0,
+   "recall": 0.9444,
+   "f1": 0.9714,
+   "support": 18
+  },
+  "cotton::Healthy": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 10
+  },
+  "cotton::Herbicide damage": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 40
+  },
+  "cotton::Leaf curl virus": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 57
+  },
+  "cotton::Leaf reddening": {
+   "precision": 1.0,
+   "recall": 0.9737,
+   "f1": 0.9867,
+   "support": 76
+  },
+  "cotton::Leaf variegation": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 16
+  },
+  "cotton::Leafhopper / jassid (pest)": {
+   "precision": 0.9231,
+   "recall": 1.0,
+   "f1": 0.96,
+   "support": 24
+  },
+  "cotton::Verticillium wilt": {
+   "precision": 0.9375,
+   "recall": 1.0,
+   "f1": 0.9677,
+   "support": 15
+  },
+  "cowpea::Bacterial wilt": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 12
+  },
+  "cowpea::Healthy": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 11
+  },
+  "cowpea::Mosaic virus": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 13
+  },
+  "cowpea::Septoria leaf spot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 14
+  },
+  "cucumber::Angular leaf spot": {
+   "precision": 0.7317,
+   "recall": 0.8333,
+   "f1": 0.7792,
+   "support": 36
+  },
+  "cucumber::Anthracnose": {
+   "precision": 0.9664,
+   "recall": 0.9664,
+   "f1": 0.9664,
+   "support": 119
+  },
+  "cucumber::Bacterial wilt": {
+   "precision": 0.9813,
+   "recall": 0.9459,
+   "f1": 0.9633,
+   "support": 111
+  },
+  "cucumber::Belly rot (fruit)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 33
+  },
+  "cucumber::Downy mildew": {
+   "precision": 0.9239,
+   "recall": 0.977,
+   "f1": 0.9497,
+   "support": 87
+  },
+  "cucumber::Gummy stem blight": {
+   "precision": 0.9688,
+   "recall": 0.9841,
+   "f1": 0.9764,
+   "support": 63
+  },
+  "cucumber::Healthy": {
+   "precision": 0.9396,
+   "recall": 0.9096,
+   "f1": 0.9243,
+   "support": 188
+  },
+  "cucumber::Powdery mildew": {
+   "precision": 0.54,
+   "recall": 0.8182,
+   "f1": 0.6506,
+   "support": 33
+  },
+  "cucumber::Pythium fruit rot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 81
+  },
+  "custard_apple::Anthracnose": {
+   "precision": 0.9677,
+   "recall": 0.9375,
+   "f1": 0.9524,
+   "support": 32
+  },
+  "custard_apple::Black canker": {
+   "precision": 0.9891,
+   "recall": 0.9579,
+   "f1": 0.9733,
+   "support": 95
+  },
+  "custard_apple::Diplodia fruit rot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 60
+  },
+  "custard_apple::Fruit spot": {
+   "precision": 0.8824,
+   "recall": 0.9677,
+   "f1": 0.9231,
+   "support": 31
+  },
+  "custard_apple::Leaf spot": {
+   "precision": 0.9688,
+   "recall": 1.0,
+   "f1": 0.9841,
+   "support": 31
+  },
+  "custard_apple::Mealybug (pest)": {
+   "precision": 0.9429,
+   "recall": 0.9706,
+   "f1": 0.9565,
+   "support": 34
+  },
+  "finger_millet_ragi::Downy mildew": {
+   "precision": 0.8824,
+   "recall": 1.0,
+   "f1": 0.9375,
+   "support": 15
+  },
+  "finger_millet_ragi::Healthy": {
+   "precision": 1.0,
+   "recall": 0.9231,
+   "f1": 0.96,
+   "support": 13
+  },
+  "finger_millet_ragi::Mottle streak virus": {
+   "precision": 0.7143,
+   "recall": 0.9091,
+   "f1": 0.8,
+   "support": 11
+  },
+  "finger_millet_ragi::Smut": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 9
+  },
+  "finger_millet_ragi::Wilt": {
+   "precision": 0.8667,
+   "recall": 0.8667,
+   "f1": 0.8667,
+   "support": 15
+  },
+  "garlic::Healthy": {
+   "precision": 0.8485,
+   "recall": 0.875,
+   "f1": 0.8615,
+   "support": 32
+  },
+  "garlic::Leaf blight": {
+   "precision": 0.5333,
+   "recall": 0.381,
+   "f1": 0.4444,
+   "support": 21
+  },
+  "garlic::Rust": {
+   "precision": 0.7826,
+   "recall": 0.9,
+   "f1": 0.8372,
+   "support": 20
+  },
+  "ginger::Healthy": {
+   "precision": 0.6667,
+   "recall": 0.7692,
+   "f1": 0.7143,
+   "support": 26
+  },
+  "ginger::Leaf spot": {
+   "precision": 0.6667,
+   "recall": 0.3333,
+   "f1": 0.4444,
+   "support": 12
+  },
+  "ginger::Sheath blight": {
+   "precision": 0.3333,
+   "recall": 0.3846,
+   "f1": 0.3571,
+   "support": 13
+  },
+  "grape::Bacterial leaf spot": {
+   "precision": 0.8125,
+   "recall": 1.0,
+   "f1": 0.8966,
+   "support": 13
+  },
+  "grape::Black rot": {
+   "precision": 0.9403,
+   "recall": 0.9265,
+   "f1": 0.9333,
+   "support": 68
+  },
+  "grape::Downy mildew": {
+   "precision": 0.9789,
+   "recall": 0.9588,
+   "f1": 0.9688,
+   "support": 194
+  },
+  "grape::Esca (black measles)": {
+   "precision": 0.9917,
+   "recall": 1.0,
+   "f1": 0.9958,
+   "support": 119
+  },
+  "grape::Healthy": {
+   "precision": 0.9412,
+   "recall": 0.9412,
+   "f1": 0.9412,
+   "support": 102
+  },
+  "grape::Isariopsis leaf spot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 120
+  },
+  "grape::Leafroll virus": {
+   "precision": 0.6538,
+   "recall": 0.8095,
+   "f1": 0.7234,
+   "support": 21
+  },
+  "grape::Powdery mildew": {
+   "precision": 0.9833,
+   "recall": 1.0,
+   "f1": 0.9916,
+   "support": 59
+  },
+  "groundnut::Alternaria leaf spot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 21
+  },
+  "groundnut::Healthy": {
+   "precision": 0.8627,
+   "recall": 0.9312,
+   "f1": 0.8957,
+   "support": 189
+  },
+  "groundnut::Nutrient deficiency": {
+   "precision": 0.8197,
+   "recall": 1.0,
+   "f1": 0.9009,
+   "support": 50
+  },
+  "groundnut::Rosette virus": {
+   "precision": 1.0,
+   "recall": 0.9167,
+   "f1": 0.9565,
+   "support": 12
+  },
+  "groundnut::Rust": {
+   "precision": 0.9773,
+   "recall": 1.0,
+   "f1": 0.9885,
+   "support": 43
+  },
+  "groundnut::Tikka leaf spot": {
+   "precision": 0.9429,
+   "recall": 0.8587,
+   "f1": 0.8988,
+   "support": 269
+  },
+  "guava::Anthracnose": {
+   "precision": 0.8136,
+   "recall": 0.8136,
+   "f1": 0.8136,
+   "support": 59
+  },
+  "guava::Canker": {
+   "precision": 0.6923,
+   "recall": 0.7714,
+   "f1": 0.7297,
+   "support": 35
+  },
+  "guava::Dot (algal spot)": {
+   "precision": 0.7222,
+   "recall": 0.5778,
+   "f1": 0.642,
+   "support": 45
+  },
+  "guava::Fruit mummification": {
+   "precision": 0.7692,
+   "recall": 0.8333,
+   "f1": 0.8,
+   "support": 12
+  },
+  "guava::Healthy": {
+   "precision": 0.9474,
+   "recall": 0.8889,
+   "f1": 0.9172,
+   "support": 81
+  },
+  "guava::Phytophthora fruit rot": {
+   "precision": 0.9474,
+   "recall": 1.0,
+   "f1": 0.973,
+   "support": 18
+  },
+  "guava::Red rust": {
+   "precision": 0.82,
+   "recall": 0.8723,
+   "f1": 0.8454,
+   "support": 47
+  },
+  "guava::Scab": {
+   "precision": 0.8529,
+   "recall": 0.9355,
+   "f1": 0.8923,
+   "support": 31
+  },
+  "guava::Styler end rot": {
+   "precision": 0.8367,
+   "recall": 0.9111,
+   "f1": 0.8723,
+   "support": 45
+  },
+  "jamun::Bacterial spot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 30
+  },
+  "jamun::Brown blight": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 43
+  },
+  "jamun::Dry leaf": {
+   "precision": 0.9649,
+   "recall": 1.0,
+   "f1": 0.9821,
+   "support": 55
+  },
+  "jamun::Healthy": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 31
+  },
+  "jamun::Powdery mildew": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 31
+  },
+  "jamun::Sooty mould": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 3
+  },
+  "jute::Dieback": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 45
+  },
+  "jute::Healthy": {
+   "precision": 0.9737,
+   "recall": 1.0,
+   "f1": 0.9867,
+   "support": 37
+  },
+  "jute::Mosaic virus": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 31
+  },
+  "jute::Pest-holed leaf": {
+   "precision": 1.0,
+   "recall": 0.9778,
+   "f1": 0.9888,
+   "support": 45
+  },
+  "jute::Stem rot": {
+   "precision": 0.9762,
+   "recall": 1.0,
+   "f1": 0.988,
+   "support": 41
+  },
+  "lemon::Anthracnose": {
+   "precision": 0.9167,
+   "recall": 1.0,
+   "f1": 0.9565,
+   "support": 11
+  },
+  "lemon::Bacterial blight": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 14
+  },
+  "lemon::Citrus canker": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 20
+  },
+  "lemon::Dry leaf": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 22
+  },
+  "lemon::Healthy": {
+   "precision": 0.9839,
+   "recall": 1.0,
+   "f1": 0.9919,
+   "support": 61
+  },
+  "lemon::Leaf curl virus": {
+   "precision": 0.96,
+   "recall": 0.9796,
+   "f1": 0.9697,
+   "support": 49
+  },
+  "lemon::Nutrient deficiency": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 23
+  },
+  "lemon::Sooty mould": {
+   "precision": 1.0,
+   "recall": 0.9643,
+   "f1": 0.9818,
+   "support": 56
+  },
+  "lemon::Spider mites (pest)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 9
+  },
+  "lentil::Ascochyta blight": {
+   "precision": 0.8634,
+   "recall": 0.8634,
+   "f1": 0.8634,
+   "support": 183
+  },
+  "lentil::Healthy": {
+   "precision": 0.8136,
+   "recall": 0.8033,
+   "f1": 0.8084,
+   "support": 239
+  },
+  "lentil::Powdery mildew": {
+   "precision": 0.8655,
+   "recall": 0.8555,
+   "f1": 0.8605,
+   "support": 173
+  },
+  "lentil::Rust": {
+   "precision": 0.9189,
+   "recall": 0.9444,
+   "f1": 0.9315,
+   "support": 180
+  },
+  "malabar_spinach::Anthracnose leaf spot": {
+   "precision": 0.8438,
+   "recall": 0.8438,
+   "f1": 0.8438,
+   "support": 32
+  },
+  "malabar_spinach::Healthy": {
+   "precision": 0.85,
+   "recall": 0.8095,
+   "f1": 0.8293,
+   "support": 21
+  },
+  "malabar_spinach::Mite damage": {
+   "precision": 0.8824,
+   "recall": 0.9375,
+   "f1": 0.9091,
+   "support": 32
+  },
+  "mango::Anthracnose": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 57
+  },
+  "mango::Bacterial canker": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 62
+  },
+  "mango::Cutting weevil (pest)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 29
+  },
+  "mango::Die back": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 73
+  },
+  "mango::Gall midge (pest)": {
+   "precision": 0.9796,
+   "recall": 1.0,
+   "f1": 0.9897,
+   "support": 48
+  },
+  "mango::Healthy": {
+   "precision": 0.9333,
+   "recall": 1.0,
+   "f1": 0.9655,
+   "support": 14
+  },
+  "mango::Powdery mildew": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 30
+  },
+  "mango::Sooty mould": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 43
+  },
+  "moringa::Bacterial leaf spot": {
+   "precision": 0.8261,
+   "recall": 0.8261,
+   "f1": 0.8261,
+   "support": 23
+  },
+  "moringa::Cercospora leaf spot": {
+   "precision": 0.9623,
+   "recall": 0.9808,
+   "f1": 0.9714,
+   "support": 52
+  },
+  "moringa::Healthy": {
+   "precision": 1.0,
+   "recall": 0.9863,
+   "f1": 0.9931,
+   "support": 73
+  },
+  "moringa::Yellowing leaf": {
+   "precision": 0.9655,
+   "recall": 0.9655,
+   "f1": 0.9655,
+   "support": 87
+  },
+  "okra::Alternaria leaf spot": {
+   "precision": 0.6154,
+   "recall": 1.0,
+   "f1": 0.7619,
+   "support": 8
+  },
+  "okra::Cercospora leaf spot": {
+   "precision": 0.6667,
+   "recall": 0.5,
+   "f1": 0.5714,
+   "support": 4
+  },
+  "okra::Downy mildew": {
+   "precision": 0.8,
+   "recall": 0.6667,
+   "f1": 0.7273,
+   "support": 6
+  },
+  "okra::Healthy": {
+   "precision": 0.9859,
+   "recall": 0.9722,
+   "f1": 0.979,
+   "support": 72
+  },
+  "okra::Leaf curl virus": {
+   "precision": 1.0,
+   "recall": 0.3333,
+   "f1": 0.5,
+   "support": 3
+  },
+  "okra::Phyllosticta leaf spot": {
+   "precision": 0.8,
+   "recall": 0.6667,
+   "f1": 0.7273,
+   "support": 6
+  },
+  "okra::Yellow vein mosaic virus": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 157
+  },
+  "onion::Botrytis leaf blight": {
+   "precision": 0.9024,
+   "recall": 1.0,
+   "f1": 0.9487,
+   "support": 37
+  },
+  "onion::Caterpillar (pest)": {
+   "precision": 0.9741,
+   "recall": 0.9826,
+   "f1": 0.9784,
+   "support": 115
+  },
+  "onion::Downy mildew": {
+   "precision": 0.8571,
+   "recall": 1.0,
+   "f1": 0.9231,
+   "support": 6
+  },
+  "onion::Fusarium basal rot": {
+   "precision": 0.9469,
+   "recall": 0.9907,
+   "f1": 0.9683,
+   "support": 108
+  },
+  "onion::Healthy": {
+   "precision": 0.9725,
+   "recall": 0.9688,
+   "f1": 0.9706,
+   "support": 256
+  },
+  "onion::Iris yellow spot virus": {
+   "precision": 0.8261,
+   "recall": 0.9268,
+   "f1": 0.8736,
+   "support": 41
+  },
+  "onion::Purple blotch": {
+   "precision": 0.9528,
+   "recall": 0.938,
+   "f1": 0.9453,
+   "support": 129
+  },
+  "onion::Rust": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 29
+  },
+  "onion::Stemphylium / Colletotrichum blight": {
+   "precision": 0.9744,
+   "recall": 0.956,
+   "f1": 0.9651,
+   "support": 159
+  },
+  "onion::Xanthomonas leaf blight": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 27
+  },
+  "papaya::Anthracnose": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 76
+  },
+  "papaya::Bacterial spot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 55
+  },
+  "papaya::Healthy": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 49
+  },
+  "papaya::Leaf curl virus": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 156
+  },
+  "papaya::Mealybug (pest)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 53
+  },
+  "papaya::Mite damage": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 96
+  },
+  "papaya::Mosaic virus": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 60
+  },
+  "papaya::Ring spot virus": {
+   "precision": 0.9783,
+   "recall": 1.0,
+   "f1": 0.989,
+   "support": 90
+  },
+  "peach::Bacterial spot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 276
+  },
+  "peach::Brown rot": {
+   "precision": 0.8148,
+   "recall": 1.0,
+   "f1": 0.898,
+   "support": 22
+  },
+  "peach::Healthy": {
+   "precision": 0.863,
+   "recall": 0.863,
+   "f1": 0.863,
+   "support": 73
+  },
+  "peach::Leaf curl": {
+   "precision": 0.8537,
+   "recall": 1.0,
+   "f1": 0.9211,
+   "support": 35
+  },
+  "peach::Scab": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 9
+  },
+  "pomegranate::Alternaria fruit spot": {
+   "precision": 0.9918,
+   "recall": 0.9918,
+   "f1": 0.9918,
+   "support": 122
+  },
+  "pomegranate::Anthracnose": {
+   "precision": 0.9915,
+   "recall": 0.9435,
+   "f1": 0.9669,
+   "support": 248
+  },
+  "pomegranate::Bacterial blight (oily spot)": {
+   "precision": 0.982,
+   "recall": 0.9909,
+   "f1": 0.9864,
+   "support": 110
+  },
+  "pomegranate::Cercospora fruit spot": {
+   "precision": 0.9889,
+   "recall": 0.978,
+   "f1": 0.9834,
+   "support": 91
+  },
+  "pomegranate::Fruit borer (pest)": {
+   "precision": 0.9176,
+   "recall": 1.0,
+   "f1": 0.9571,
+   "support": 78
+  },
+  "pomegranate::Healthy": {
+   "precision": 0.9926,
+   "recall": 0.9963,
+   "f1": 0.9944,
+   "support": 268
+  },
+  "pomegranate::Sunburn": {
+   "precision": 0.9286,
+   "recall": 1.0,
+   "f1": 0.963,
+   "support": 52
+  },
+  "potato::Early blight": {
+   "precision": 0.8729,
+   "recall": 0.9035,
+   "f1": 0.8879,
+   "support": 114
+  },
+  "potato::Healthy": {
+   "precision": 0.8916,
+   "recall": 0.881,
+   "f1": 0.8862,
+   "support": 84
+  },
+  "potato::Insect pest damage": {
+   "precision": 0.9659,
+   "recall": 0.9444,
+   "f1": 0.9551,
+   "support": 90
+  },
+  "potato::Late blight": {
+   "precision": 0.9202,
+   "recall": 0.9515,
+   "f1": 0.9356,
+   "support": 206
+  },
+  "potato::Virus disease": {
+   "precision": 0.962,
+   "recall": 0.9744,
+   "f1": 0.9682,
+   "support": 78
+  },
+  "pumpkin::Bacterial leaf spot": {
+   "precision": 0.8182,
+   "recall": 0.8571,
+   "f1": 0.8372,
+   "support": 42
+  },
+  "pumpkin::Downy mildew": {
+   "precision": 0.8226,
+   "recall": 0.9273,
+   "f1": 0.8718,
+   "support": 55
+  },
+  "pumpkin::Healthy": {
+   "precision": 0.9024,
+   "recall": 0.9737,
+   "f1": 0.9367,
+   "support": 38
+  },
+  "pumpkin::Mosaic virus": {
+   "precision": 0.963,
+   "recall": 0.9286,
+   "f1": 0.9455,
+   "support": 56
+  },
+  "pumpkin::Powdery mildew": {
+   "precision": 0.9535,
+   "recall": 0.7736,
+   "f1": 0.8542,
+   "support": 53
+  },
+  "radish::Black leaf spot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 6
+  },
+  "radish::Downy mildew": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 10
+  },
+  "radish::Flea beetle (pest)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 9
+  },
+  "radish::Healthy": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 8
+  },
+  "radish::Mosaic virus": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 5
+  },
+  "raspberry::Healthy": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 18
+  },
+  "rice::Bacterial leaf blight": {
+   "precision": 0.8769,
+   "recall": 0.95,
+   "f1": 0.912,
+   "support": 120
+  },
+  "rice::Bacterial leaf streak": {
+   "precision": 0.8333,
+   "recall": 1.0,
+   "f1": 0.9091,
+   "support": 5
+  },
+  "rice::Bacterial panicle blight": {
+   "precision": 0.6667,
+   "recall": 1.0,
+   "f1": 0.8,
+   "support": 4
+  },
+  "rice::Blast": {
+   "precision": 0.9176,
+   "recall": 0.8033,
+   "f1": 0.8566,
+   "support": 305
+  },
+  "rice::Brown spot": {
+   "precision": 0.8581,
+   "recall": 0.9695,
+   "f1": 0.9104,
+   "support": 131
+  },
+  "rice::Dead heart (stem borer)": {
+   "precision": 1.0,
+   "recall": 0.9706,
+   "f1": 0.9851,
+   "support": 68
+  },
+  "rice::Downy mildew": {
+   "precision": 0.4,
+   "recall": 0.5714,
+   "f1": 0.4706,
+   "support": 7
+  },
+  "rice::Healthy": {
+   "precision": 0.9068,
+   "recall": 0.8066,
+   "f1": 0.8538,
+   "support": 181
+  },
+  "rice::Hispa (pest)": {
+   "precision": 0.8333,
+   "recall": 0.9091,
+   "f1": 0.8696,
+   "support": 22
+  },
+  "rice::Leaf folder (pest)": {
+   "precision": 0.8,
+   "recall": 0.8889,
+   "f1": 0.8421,
+   "support": 36
+  },
+  "rice::Leaf scald": {
+   "precision": 0.8784,
+   "recall": 0.9155,
+   "f1": 0.8966,
+   "support": 142
+  },
+  "rice::Sheath blight": {
+   "precision": 0.8487,
+   "recall": 0.8707,
+   "f1": 0.8596,
+   "support": 116
+  },
+  "rice::Tungro": {
+   "precision": 0.8939,
+   "recall": 0.8429,
+   "f1": 0.8676,
+   "support": 70
+  },
+  "soybean::Bacterial blight": {
+   "precision": 0.619,
+   "recall": 0.7647,
+   "f1": 0.6842,
+   "support": 17
+  },
+  "soybean::Downy mildew": {
+   "precision": 0.75,
+   "recall": 1.0,
+   "f1": 0.8571,
+   "support": 18
+  },
+  "soybean::Dry leaf": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 6
+  },
+  "soybean::Frogeye leaf spot": {
+   "precision": 0.7736,
+   "recall": 0.7593,
+   "f1": 0.7664,
+   "support": 54
+  },
+  "soybean::Healthy": {
+   "precision": 0.9597,
+   "recall": 0.9286,
+   "f1": 0.9439,
+   "support": 308
+  },
+  "soybean::Mosaic virus": {
+   "precision": 0.7664,
+   "recall": 0.875,
+   "f1": 0.8171,
+   "support": 120
+  },
+  "soybean::Rust": {
+   "precision": 0.7438,
+   "recall": 0.844,
+   "f1": 0.7907,
+   "support": 141
+  },
+  "soybean::Semilooper caterpillar (pest)": {
+   "precision": 0.9524,
+   "recall": 0.8661,
+   "f1": 0.9072,
+   "support": 254
+  },
+  "soybean::Septoria brown spot": {
+   "precision": 0.6552,
+   "recall": 0.6667,
+   "f1": 0.6609,
+   "support": 57
+  },
+  "soybean::Vein necrosis": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 2
+  },
+  "spinach::Anthracnose": {
+   "precision": 0.7143,
+   "recall": 0.7143,
+   "f1": 0.7143,
+   "support": 14
+  },
+  "spinach::Bacterial spot": {
+   "precision": 0.75,
+   "recall": 0.7895,
+   "f1": 0.7692,
+   "support": 76
+  },
+  "spinach::Downy mildew": {
+   "precision": 0.6585,
+   "recall": 0.7941,
+   "f1": 0.72,
+   "support": 34
+  },
+  "spinach::Healthy": {
+   "precision": 0.8202,
+   "recall": 0.8295,
+   "f1": 0.8249,
+   "support": 88
+  },
+  "spinach::Insect pest damage": {
+   "precision": 0.8361,
+   "recall": 0.6892,
+   "f1": 0.7556,
+   "support": 74
+  },
+  "squash::Healthy": {
+   "precision": 0.7568,
+   "recall": 0.9032,
+   "f1": 0.8235,
+   "support": 62
+  },
+  "squash::Powdery mildew": {
+   "precision": 0.9888,
+   "recall": 0.8956,
+   "f1": 0.9399,
+   "support": 297
+  },
+  "strawberry::Anthracnose": {
+   "precision": 1.0,
+   "recall": 0.8,
+   "f1": 0.8889,
+   "support": 15
+  },
+  "strawberry::Healthy": {
+   "precision": 0.9753,
+   "recall": 1.0,
+   "f1": 0.9875,
+   "support": 79
+  },
+  "strawberry::Leaf scorch": {
+   "precision": 0.9921,
+   "recall": 0.9921,
+   "f1": 0.9921,
+   "support": 127
+  },
+  "sugarcane::Banded chlorosis": {
+   "precision": 0.8333,
+   "recall": 0.8333,
+   "f1": 0.8333,
+   "support": 6
+  },
+  "sugarcane::Brown spot": {
+   "precision": 0.8947,
+   "recall": 1.0,
+   "f1": 0.9444,
+   "support": 17
+  },
+  "sugarcane::Dried leaf": {
+   "precision": 1.0,
+   "recall": 0.6667,
+   "f1": 0.8,
+   "support": 6
+  },
+  "sugarcane::Grassy shoot": {
+   "precision": 0.5,
+   "recall": 1.0,
+   "f1": 0.6667,
+   "support": 3
+  },
+  "sugarcane::Healthy": {
+   "precision": 1.0,
+   "recall": 0.9714,
+   "f1": 0.9855,
+   "support": 70
+  },
+  "sugarcane::Mosaic virus": {
+   "precision": 0.9388,
+   "recall": 1.0,
+   "f1": 0.9684,
+   "support": 46
+  },
+  "sugarcane::Pokkah boeng": {
+   "precision": 0.3333,
+   "recall": 0.5,
+   "f1": 0.4,
+   "support": 2
+  },
+  "sugarcane::Red rot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 75
+  },
+  "sugarcane::Rust": {
+   "precision": 0.9706,
+   "recall": 1.0,
+   "f1": 0.9851,
+   "support": 66
+  },
+  "sugarcane::Sett rot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 16
+  },
+  "sugarcane::Smut": {
+   "precision": 1.0,
+   "recall": 0.4,
+   "f1": 0.5714,
+   "support": 5
+  },
+  "sugarcane::Yellow leaf disease": {
+   "precision": 0.9925,
+   "recall": 0.9706,
+   "f1": 0.9814,
+   "support": 136
+  },
+  "sunflower::Downy mildew": {
+   "precision": 0.9765,
+   "recall": 0.9881,
+   "f1": 0.9822,
+   "support": 84
+  },
+  "sunflower::Gray mold": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 65
+  },
+  "sunflower::Healthy": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 97
+  },
+  "sunflower::Leaf scars": {
+   "precision": 0.9897,
+   "recall": 0.9796,
+   "f1": 0.9846,
+   "support": 98
+  },
+  "tea::Algal leaf spot": {
+   "precision": 0.9324,
+   "recall": 0.9718,
+   "f1": 0.9517,
+   "support": 142
+  },
+  "tea::Blister blight": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 43
+  },
+  "tea::Brown blight": {
+   "precision": 0.9077,
+   "recall": 0.9147,
+   "f1": 0.9112,
+   "support": 129
+  },
+  "tea::Gray blight": {
+   "precision": 0.9511,
+   "recall": 0.9358,
+   "f1": 0.9434,
+   "support": 187
+  },
+  "tea::Green mirid bug (pest)": {
+   "precision": 0.8971,
+   "recall": 0.9531,
+   "f1": 0.9242,
+   "support": 64
+  },
+  "tea::Healthy": {
+   "precision": 0.9826,
+   "recall": 0.9883,
+   "f1": 0.9854,
+   "support": 171
+  },
+  "tea::Red leaf spot": {
+   "precision": 1.0,
+   "recall": 0.9905,
+   "f1": 0.9952,
+   "support": 105
+  },
+  "tea::Red rust (algal)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 8
+  },
+  "tea::Red spider mite (pest)": {
+   "precision": 0.9732,
+   "recall": 0.9397,
+   "f1": 0.9561,
+   "support": 116
+  },
+  "tea::Tea mosquito bug (helopeltis)": {
+   "precision": 0.9744,
+   "recall": 0.9344,
+   "f1": 0.954,
+   "support": 122
+  },
+  "tobacco::Brown spot": {
+   "precision": 0.7143,
+   "recall": 0.5556,
+   "f1": 0.625,
+   "support": 9
+  },
+  "tobacco::Healthy": {
+   "precision": 0.7333,
+   "recall": 1.0,
+   "f1": 0.8462,
+   "support": 11
+  },
+  "tobacco::Mosaic virus": {
+   "precision": 0.6154,
+   "recall": 0.6667,
+   "f1": 0.64,
+   "support": 12
+  },
+  "tomato::Bacterial spot": {
+   "precision": 0.9644,
+   "recall": 0.8613,
+   "f1": 0.9099,
+   "support": 346
+  },
+  "tomato::Blossom end rot": {
+   "precision": 0.85,
+   "recall": 1.0,
+   "f1": 0.9189,
+   "support": 17
+  },
+  "tomato::Early blight": {
+   "precision": 0.8044,
+   "recall": 0.8385,
+   "f1": 0.8211,
+   "support": 260
+  },
+  "tomato::Fruit borer (pest)": {
+   "precision": 0.9512,
+   "recall": 1.0,
+   "f1": 0.975,
+   "support": 39
+  },
+  "tomato::Healthy": {
+   "precision": 0.9424,
+   "recall": 0.9569,
+   "f1": 0.9496,
+   "support": 325
+  },
+  "tomato::Late blight": {
+   "precision": 0.9532,
+   "recall": 0.9132,
+   "f1": 0.9328,
+   "support": 357
+  },
+  "tomato::Leaf miner (pest)": {
+   "precision": 0.8993,
+   "recall": 0.9615,
+   "f1": 0.9294,
+   "support": 130
+  },
+  "tomato::Leaf mold": {
+   "precision": 0.9448,
+   "recall": 0.9771,
+   "f1": 0.9607,
+   "support": 175
+  },
+  "tomato::Magnesium deficiency": {
+   "precision": 0.9796,
+   "recall": 0.9796,
+   "f1": 0.9796,
+   "support": 49
+  },
+  "tomato::Mosaic virus": {
+   "precision": 0.7763,
+   "recall": 0.8194,
+   "f1": 0.7973,
+   "support": 72
+  },
+  "tomato::Nitrogen deficiency": {
+   "precision": 0.8824,
+   "recall": 1.0,
+   "f1": 0.9375,
+   "support": 15
+  },
+  "tomato::Potassium deficiency": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 4
+  },
+  "tomato::Septoria leaf spot": {
+   "precision": 0.9209,
+   "recall": 0.9588,
+   "f1": 0.9395,
+   "support": 413
+  },
+  "tomato::Spider mites (pest)": {
+   "precision": 0.9896,
+   "recall": 0.9727,
+   "f1": 0.9811,
+   "support": 293
+  },
+  "tomato::Spotted wilt virus": {
+   "precision": 0.8312,
+   "recall": 0.8649,
+   "f1": 0.8477,
+   "support": 74
+  },
+  "tomato::Sunscald": {
+   "precision": 0.8889,
+   "recall": 1.0,
+   "f1": 0.9412,
+   "support": 8
+  },
+  "tomato::Target spot": {
+   "precision": 0.9754,
+   "recall": 1.0,
+   "f1": 0.9875,
+   "support": 198
+  },
+  "tomato::Yellow leaf curl virus": {
+   "precision": 0.9627,
+   "recall": 0.8908,
+   "f1": 0.9254,
+   "support": 348
+  },
+  "turmeric::Aphid (pest)": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 30
+  },
+  "turmeric::Dry leaf": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 27
+  },
+  "turmeric::Healthy": {
+   "precision": 0.9362,
+   "recall": 1.0,
+   "f1": 0.967,
+   "support": 44
+  },
+  "turmeric::Healthy rhizome": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 7
+  },
+  "turmeric::Leaf blotch": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 61
+  },
+  "turmeric::Leaf spot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 27
+  },
+  "turmeric::Rhizome rot": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 28
+  },
+  "watermelon::Anthracnose": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 20
+  },
+  "watermelon::Downy mildew": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 22
+  },
+  "watermelon::Healthy": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 18
+  },
+  "watermelon::Mosaic virus": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 45
+  },
+  "wheat::Aphid (pest)": {
+   "precision": 0.9266,
+   "recall": 0.9182,
+   "f1": 0.9224,
+   "support": 110
+  },
+  "wheat::Bacterial leaf streak": {
+   "precision": 0.6667,
+   "recall": 0.7143,
+   "f1": 0.6897,
+   "support": 14
+  },
+  "wheat::Black (stem) rust": {
+   "precision": 0.8913,
+   "recall": 0.7885,
+   "f1": 0.8367,
+   "support": 52
+  },
+  "wheat::Blast": {
+   "precision": 0.8154,
+   "recall": 0.9464,
+   "f1": 0.876,
+   "support": 56
+  },
+  "wheat::Brown (leaf) rust": {
+   "precision": 0.9563,
+   "recall": 0.9511,
+   "f1": 0.9537,
+   "support": 184
+  },
+  "wheat::Common root rot": {
+   "precision": 0.7765,
+   "recall": 0.88,
+   "f1": 0.825,
+   "support": 75
+  },
+  "wheat::Fusarium head blight": {
+   "precision": 0.9646,
+   "recall": 0.982,
+   "f1": 0.9732,
+   "support": 111
+  },
+  "wheat::Healthy": {
+   "precision": 0.973,
+   "recall": 0.973,
+   "f1": 0.973,
+   "support": 148
+  },
+  "wheat::Leaf blight": {
+   "precision": 0.5244,
+   "recall": 0.6825,
+   "f1": 0.5931,
+   "support": 63
+  },
+  "wheat::Mite (pest)": {
+   "precision": 0.8804,
+   "recall": 0.7941,
+   "f1": 0.8351,
+   "support": 102
+  },
+  "wheat::Powdery mildew": {
+   "precision": 0.951,
+   "recall": 0.9577,
+   "f1": 0.9544,
+   "support": 142
+  },
+  "wheat::Septoria blotch": {
+   "precision": 0.8182,
+   "recall": 0.863,
+   "f1": 0.84,
+   "support": 73
+  },
+  "wheat::Smut": {
+   "precision": 0.9149,
+   "recall": 0.8431,
+   "f1": 0.8776,
+   "support": 51
+  },
+  "wheat::Stem fly (pest)": {
+   "precision": 1.0,
+   "recall": 0.9474,
+   "f1": 0.973,
+   "support": 19
+  },
+  "wheat::Tan spot": {
+   "precision": 0.4407,
+   "recall": 0.3562,
+   "f1": 0.3939,
+   "support": 73
+  },
+  "wheat::Yellow (stripe) rust": {
+   "precision": 0.975,
+   "recall": 0.975,
+   "f1": 0.975,
+   "support": 240
+  }
+ }
+}

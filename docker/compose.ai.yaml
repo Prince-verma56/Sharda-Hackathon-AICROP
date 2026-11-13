@@ -1,0 +1,48 @@
+# Docker Compose - AI Services (optional)
+#
+# Usage (AgriSmart inference only; token comes from the git-ignored .env.local):
+#   docker compose --env-file .env.local -f docker/compose.ai.yaml up -d --build --wait ai-inference
+#   docker compose --env-file .env.local -f docker/compose.ai.yaml logs -f ai-inference
+#   docker compose --env-file .env.local -f docker/compose.ai.yaml down
+#
+# Together with the rest of the dev infrastructure:
+#   docker compose --env-file .env.local -f docker/compose.dev.yaml -f docker/compose.ai.yaml up -d --wait
+#
+# Rebuild (--build) whenever the Dockerfile, requirements or copied runtime files change.
+#
+# Add AI-specific services here when genuinely needed.
+# Examples: local embedding service, vector DB, etc.
+#
+# DO NOT add services that are only cloud APIs (OpenAI, Anthropic).
+# Those are configured via environment variables, not containers.
+
+services:
+  ai-inference:
+    build:
+      context: ..
+      dockerfile: ai/services/inference/Dockerfile
+    image: agrismart-inference:local
+    container_name: agrismart-inference
+    restart: unless-stopped
+    environment:
+      AI_SERVICE_TOKEN: ${AI_SERVICE_TOKEN:?Set AI_SERVICE_TOKEN (32+ chars) in .env.local}
+      AI_INFERENCE_DEVICE: ${AI_INFERENCE_DEVICE:-cpu}
+      AI_INFERENCE_THREADS: ${AI_INFERENCE_THREADS:-4}
+      AI_INFERENCE_ENABLE_DOCS: ${AI_INFERENCE_ENABLE_DOCS:-false}
+    volumes:
+      # Verified checkpoint, mounted read-only (single copy on disk; never baked into the image).
+      - ../ai/models/agrismart-india/checkpoints/model.pt:/models/model.pt:ro
+    ports:
+      # Loopback only: lets host-run `next dev` reach the service. Not exposed on the LAN.
+      - "127.0.0.1:${AI_INFERENCE_PORT:-8001}:8001"
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    mem_limit: 3g
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8001/ready', timeout=4).status == 200 else 1)"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 90s

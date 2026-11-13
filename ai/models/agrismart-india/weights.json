@@ -1,0 +1,9 @@
+{
+  "release": "india-model-v1",
+  "url": "https://github.com/wpzvqrs8/SIH_2026/releases/download/india-model-v1/model.pt",
+  "sha256": "ffaffb1e3ca0a81831454e8268b11cf2d16b418838042b023ad188f79e61a08a",
+  "size_bytes": 344160243,
+  "source_repository": "https://github.com/wpzvqrs8/SIH_2026",
+  "source_revision": "9db1605a7c9fdc989f51320ae4970f6a1d8fd255",
+  "use_restriction": "Non-commercial research and education; dataset and redistribution review pending"
+}

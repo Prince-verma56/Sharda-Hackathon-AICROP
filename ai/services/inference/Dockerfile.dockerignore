@@ -1,0 +1,11 @@
+# BuildKit uses this file (next to the Dockerfile) instead of a root .dockerignore.
+# Context is the repo root; send only what the inference image COPYs.
+**
+!ai/services/inference/requirements.txt
+!ai/services/inference/app/**
+!ai/models/agrismart-india/predict.py
+!ai/models/agrismart-india/weights.json
+!ai/models/agrismart-india/scripts/download_weights.py
+!ai/models/agrismart-india/reports/upstream_evaluation.json
+**/__pycache__
+**/*.pyc

@@ -1,0 +1,50 @@
+[
+  {
+    "tag": "offline-app-v1",
+    "published_at": "2026-09-13T06:20:15Z",
+    "url": "https://github.com/wpzvqrs8/SIH_2026/releases/tag/offline-app-v1",
+    "body": "The AgriSmart crop-disease checker as an app that runs **without internet or a server**. The models run on the phone or laptop itself.\n\n## Downloads\n\n| File | For | How to start |\n|---|---|---|\n| `AgriSmart-offline.apk` | Android 7 or newer | Allow \"install unknown apps\" once, install, open **AgriSmart** |\n| `AgriSmart-offline-windows.zip` | Windows 10/11 (Chrome or Edge) | Unzip, double-click **`run.bat`**. The app opens at `http://localhost:8777`. Close the black window to stop it |\n\n## What it does\n\n- **One photo, then it thinks.** Auto capture fires when the picture is steady, or press **Capture**; you can also upload a photo. The photo freezes and gets checked, so you don't have to keep holding the phone up. The voice finishes the whole answer even if you move the phone away.\n- **Answer:** the crop, the disease or \"healthy\", how sure the model is, **why it happens** (the cause) and **what to do** (the treatment steps, with dose and when to repeat).\n- **Voice in 13 languages:** English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia, Malayalam, Punjabi and Assamese. All of it is recorded ahead of time and works offline.\n- **Three models to pick from:**\n\n  | Model | Crops / classes | Size | Same answer as the original model |\n  |---|---|---|---|\n  | India v1 (recommended) | 59 / 387 | 58 MB | 99.6% |\n  | India v2 (336 px) | 59 / 387 | 59 MB | 100% |\n  | Core (hackathon) | 13 / 28 | 26 MB | 98.6% |\n\n- **\"Is this sugarcane? Yes / No\".** When the photo doesn't look like the crop you picked, the app asks you rather than guessing. When two look-alike plants are close, it asks which crop it is.\n- **Online extras, with no keys or sign-up.** When there is internet, the app adds:\n  - A **Wikipedia** article about the disease or plant, in the chosen language when one exists.\n  - **Similar photos** from Wikimedia Commons.\n  - A **Search with Google Lens** button. It hands the photo to Google Lens, which can also name plants the offline model doesn't know, such as neem or tulsi.\n- **Extras:**\n  - A warning for dark or blurry photos.\n  - Careful mode.\n  - History of the last 20 checks.\n  - Share to WhatsApp or SMS.\n  - Right-to-left layout for Urdu.\n\n## Please note\n\n- The answers are guidance, not a diagnosis. On real field photos the India models name the right disease about three times out of four. Check the product label, and confirm with your agriculture officer or Krishi Vigyan Kendra before spraying.\n- The voices are Meta's MMS-TTS voices (CC BY-NC 4.0, non-commercial use), recorded automatically. **No native speaker has listened to them yet.** Please have one check a few answers in each language.\n- Internet is used only for the extras. Only the crop and disease names go to Wikipedia; the photo leaves the phone only when you tap the Google Lens button.\n- The APK is signed with a local development key, for direct installation rather than the Play Store.\n\nSource and build steps: [`offline/README.md`](https://github.com/wpzvqrs8/SIH_2026/blob/main/offline/README.md)\n\n## SHA-256\n\n| File | Size | SHA-256 |\n|---|---|---|\n| `AgriSmart-offline.apk` | 213.6 MB | `ada10588d9e67028181f8043d03d54437cf9657c138768a638b5592ccb62d70b` |\n| `AgriSmart-offline-windows.zip` | 194.3 MB | `3ccfbcfec8dbad45f0231bf38f294b63132b3e0021ef7d0ce6021bacc32e14dd` |\n",
+    "assets": [
+      {
+        "name": "AgriSmart-offline-windows.zip",
+        "size": 203745427,
+        "url": "https://github.com/wpzvqrs8/SIH_2026/releases/download/offline-app-v1/AgriSmart-offline-windows.zip",
+        "digest": "sha256:3ccfbcfec8dbad45f0231bf38f294b63132b3e0021ef7d0ce6021bacc32e14dd"
+      },
+      {
+        "name": "AgriSmart-offline.apk",
+        "size": 223975014,
+        "url": "https://github.com/wpzvqrs8/SIH_2026/releases/download/offline-app-v1/AgriSmart-offline.apk",
+        "digest": "sha256:ada10588d9e67028181f8043d03d54437cf9657c138768a638b5592ccb62d70b"
+      }
+    ]
+  },
+  {
+    "tag": "model-v2",
+    "published_at": "2026-09-11T08:56:53Z",
+    "url": "https://github.com/wpzvqrs8/SIH_2026/releases/tag/model-v2",
+    "body": "Weights for model/predict.py, which downloads them automatically on first use. Trained on Kaggle (agrismart-train v2): 28 classes, field (PlantDoc) macro-F1 0.714, lab (PlantVillage) macro-F1 0.995. SHA-256 361daa8f299733046ec8c241107cfa3e9433737dc3abf7ed353c7cb97abf35cc. Details in report/model_report.md.",
+    "assets": [
+      {
+        "name": "model.pt",
+        "size": 86610141,
+        "url": "https://github.com/wpzvqrs8/SIH_2026/releases/download/model-v2/model.pt",
+        "digest": "sha256:361daa8f299733046ec8c241107cfa3e9433737dc3abf7ed353c7cb97abf35cc"
+      }
+    ]
+  },
+  {
+    "tag": "india-model-v1",
+    "published_at": "2026-09-12T13:22:59Z",
+    "url": "https://github.com/wpzvqrs8/SIH_2026/releases/tag/india-model-v1",
+    "body": "AgriSmart India multi-crop disease model v1: DINOv2 ViT-B/14 at 224 px, 59 crops grown in India, 387 disease/condition classes. Trained on 238,028 photos from 80 sources, with an 85/15 split that keeps near-copy clusters whole.\n\nHeld-out test results:\n- Clean test (27,900 photos with no training photo at DINOv2 cosine >= 0.95): macro-F1 0.906, accuracy 0.929\n- Same, with the crop chosen in the app: macro-F1 0.926, accuracy 0.942\n- Lab photos (PlantVillage): 0.997\n- Research-dataset photos: 0.926\n- Field photos (PlantWild): 0.744 (0.857 with the crop chosen)\n\nSHA-256: ffaffb1e3ca0a81831454e8268b11cf2d16b418838042b023ad188f79e61a08a\n\nPut model.pt in model/india/. See model/india/README.md. For non-commercial research and education use; several sources are CC BY-NC.",
+    "assets": [
+      {
+        "name": "model.pt",
+        "size": 344160243,
+        "url": "https://github.com/wpzvqrs8/SIH_2026/releases/download/india-model-v1/model.pt",
+        "digest": "sha256:ffaffb1e3ca0a81831454e8268b11cf2d16b418838042b023ad188f79e61a08a"
+      }
+    ]
+  }
+]

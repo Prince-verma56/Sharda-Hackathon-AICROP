@@ -1,0 +1,980 @@
+{
+  "revision": "9db1605a7c9fdc989f51320ae4970f6a1d8fd255",
+  "files": [
+    {
+      "path": ".env.example",
+      "git_blob": "910b68e5250c90896688ba4378f9a9eb328d3aa0",
+      "size_bytes": 74
+    },
+    {
+      "path": ".gitignore",
+      "git_blob": "c12e8ed9714445eea73e59303a87757891a7326e",
+      "size_bytes": 773
+    },
+    {
+      "path": "DECISIONS.md",
+      "git_blob": "590a549af531c4e5d08f8d7732879ff80d14f9aa",
+      "size_bytes": 2428
+    },
+    {
+      "path": "Procfile",
+      "git_blob": "0e048402efc57428aef1b5f377f70c39a287ee39",
+      "size_bytes": 50
+    },
+    {
+      "path": "README.md",
+      "git_blob": "31eb17962a9b7ec0828282696ca510b7601a4217",
+      "size_bytes": 11958
+    },
+    {
+      "path": "app/build.gradle.kts",
+      "git_blob": "8a3e08fa8c282c3bcc06857e535db223ece14e32",
+      "size_bytes": 4520
+    },
+    {
+      "path": "app/proguard-rules.pro",
+      "git_blob": "a5a54dcd6ff3e7af6107a4765e04cfcbeb8d71a6",
+      "size_bytes": 99
+    },
+    {
+      "path": "app/src/main/AndroidManifest.xml",
+      "git_blob": "7738b9538998ee4d39d16c44efcdc396391331d1",
+      "size_bytes": 1480
+    },
+    {
+      "path": "app/src/main/assets/crops_fallback.json",
+      "git_blob": "dd54d6b30fc7f2ff0cd78c4cc9a04b84fa900332",
+      "size_bytes": 18365
+    },
+    {
+      "path": "app/src/main/assets/mock/error_busy.json",
+      "git_blob": "a911ff83dbaeba5d7005a535d1771809ed6a8ac2",
+      "size_bytes": 103
+    },
+    {
+      "path": "app/src/main/assets/mock/predict_disease.json",
+      "git_blob": "b2940c488932d64f4d11b2ed3a014fd33d4383a1",
+      "size_bytes": 1020
+    },
+    {
+      "path": "app/src/main/assets/mock/predict_healthy.json",
+      "git_blob": "740221c0f9d5482cf9c1e5d51cd6e6b5a44fb3fe",
+      "size_bytes": 717
+    },
+    {
+      "path": "app/src/main/assets/mock/predict_mismatch.json",
+      "git_blob": "46e1b584fc7f46e6a3c6a9bd722b923e692d44f4",
+      "size_bytes": 684
+    },
+    {
+      "path": "app/src/main/assets/mock/predict_uncertain.json",
+      "git_blob": "64d9a644ec0e48b1353a33d8f39e99dc592ae33e",
+      "size_bytes": 780
+    },
+    {
+      "path": "app/src/main/assets/mock/predict_unsupported.json",
+      "git_blob": "4c91d112b44e8dcf2aa01d7aea442d96d6c14e59",
+      "size_bytes": 653
+    },
+    {
+      "path": "app/src/main/assets/web/app.js",
+      "git_blob": "5e07eb003b611ab81c987eb97c4b3a8ad5ba1903",
+      "size_bytes": 44301
+    },
+    {
+      "path": "app/src/main/assets/web/data/app.json",
+      "git_blob": "2ed6dc0a20914c4215a9708aa4c8053273944e83",
+      "size_bytes": 353070
+    },
+    {
+      "path": "app/src/main/assets/web/icon.svg",
+      "git_blob": "3828e476fc6c697d8d8bab38acf2d67d99add9bc",
+      "size_bytes": 291
+    },
+    {
+      "path": "app/src/main/assets/web/index.html",
+      "git_blob": "2f64ce3e1c1e4d99255756ffd6431f123b47bd25",
+      "size_bytes": 4630
+    },
+    {
+      "path": "app/src/main/assets/web/ort/README.md",
+      "git_blob": "2ee514e1d775286a0852516f06a82746537a7dfb",
+      "size_bytes": 463
+    },
+    {
+      "path": "app/src/main/assets/web/ort/ort-wasm-simd-threaded.mjs",
+      "git_blob": "a0cd7c723952a71485176efb70f162671cd12e3e",
+      "size_bytes": 20856
+    },
+    {
+      "path": "app/src/main/assets/web/ort/ort-wasm-simd-threaded.wasm",
+      "git_blob": "9ffca1a8b35463a2d85d82e1a4cdacae6a9da445",
+      "size_bytes": 11210254
+    },
+    {
+      "path": "app/src/main/assets/web/ort/ort.wasm.min.js",
+      "git_blob": "d0fed4d7c030235d4466562c878b1c3102a54013",
+      "size_bytes": 48327
+    },
+    {
+      "path": "app/src/main/assets/web/style.css",
+      "git_blob": "bc76e95d6004ae692b3f025e16400aa4d2aa2966",
+      "size_bytes": 11807
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/AgriSmartApp.kt",
+      "git_blob": "e9a5f876f7fab70b5005b33538f5548183058327",
+      "size_bytes": 152
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/MainActivity.kt",
+      "git_blob": "b06ce807ca3a3769f7523907b180b8c1093dcf14",
+      "size_bytes": 24620
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/core/designsystem/components/MockBanner.kt",
+      "git_blob": "24753c0e1d9bb30ac18d71d9b7f089fa065df1d5",
+      "size_bytes": 1230
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/core/designsystem/components/PrimaryButton.kt",
+      "git_blob": "7f4f4cd3bbde9bc84ed03d255c00f8c481ea86ba",
+      "size_bytes": 1046
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/core/designsystem/components/SecondaryButton.kt",
+      "git_blob": "c81de5821f79404303ac3166d662250971848886",
+      "size_bytes": 951
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/core/designsystem/theme/Color.kt",
+      "git_blob": "4eee1b3faff96bd438814de9722e153edb27e7e1",
+      "size_bytes": 793
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/core/designsystem/theme/Shape.kt",
+      "git_blob": "aa9b78a5dfe6bd50d5c36ec510f95802640ab31c",
+      "size_bytes": 326
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/core/designsystem/theme/Theme.kt",
+      "git_blob": "4fc6093f4f10920b6c2499f00181c8359b59d897",
+      "size_bytes": 1195
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/core/designsystem/theme/Type.kt",
+      "git_blob": "43dab1442143429bb6d34c0082ddc0b3ce122c34",
+      "size_bytes": 1321
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/core/model/ModelDownloader.kt",
+      "git_blob": "ff48b5ede411cb85601f50fb10eecb8d1a10d299",
+      "size_bytes": 4130
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/data/api/ApiConfig.kt",
+      "git_blob": "a4462d955503cb51886626348b21304f4b973a56",
+      "size_bytes": 2074
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/data/api/FakeAgriSmartApi.kt",
+      "git_blob": "d194f238c4fef35e5d6152646f02fa83dc9298e2",
+      "size_bytes": 12021
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/data/api/model/ApiModels.kt",
+      "git_blob": "6a0c80200b3c433d33597d6acceadfbaf6252937",
+      "size_bytes": 2141
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/data/repo/CropRepository.kt",
+      "git_blob": "0f4f8c98a6001f4e8a454d6264d1aa07c2571803",
+      "size_bytes": 1121
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/data/repo/PredictionRepository.kt",
+      "git_blob": "7c74901f49221cb315bfc998330f45c70d54c49d",
+      "size_bytes": 2429
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/di/NetworkModule.kt",
+      "git_blob": "949f6c8603778da81dd10ac11df23064cc2b0a25",
+      "size_bytes": 830
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/domain/model/CropModels.kt",
+      "git_blob": "0d94f25d47f636268f7fbdbde8c965893d72249d",
+      "size_bytes": 983
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/feature/help/HelpAboutScreen.kt",
+      "git_blob": "f81595518afa2eb477ca88ada3fbfeda004b02ab",
+      "size_bytes": 6059
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/feature/history/RecentTestsScreen.kt",
+      "git_blob": "b3ceab7edaeb431fad0ea09a25e482db4c35eb15",
+      "size_bytes": 5181
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/feature/home/HomeScreen.kt",
+      "git_blob": "e2a6041fb2efc1465089ea99134a76d0f1ac1c90",
+      "size_bytes": 6589
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/feature/onboarding/LanguageScreen.kt",
+      "git_blob": "c38c9035b9b1cf3fee2e136b483df825856460c1",
+      "size_bytes": 5473
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/feature/onboarding/ModelDownloadScreen.kt",
+      "git_blob": "8209afe06314a9d2c560924a77f1e9baeeebcd03",
+      "size_bytes": 8756
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/feature/scan/AddPhotoScreen.kt",
+      "git_blob": "d8101a6c562b6f1cf0435281f9f256a97cf5eec2",
+      "size_bytes": 4662
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/feature/scan/CheckingScreen.kt",
+      "git_blob": "9157f0c7b8aed1e298e8078a91513cc7ed81c960",
+      "size_bytes": 1865
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/feature/scan/ChoosePlantScreen.kt",
+      "git_blob": "3f5b81c3d674adddded1f7a85944aee34efb3aea",
+      "size_bytes": 7615
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/feature/scan/LiveCameraScreen.kt",
+      "git_blob": "6d80c423faecb4a6f163474dade221ce5daffce1",
+      "size_bytes": 12326
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/feature/scan/ResultScreen.kt",
+      "git_blob": "0672dc67fee4d4c73f67bdab1952c2cbc98088e0",
+      "size_bytes": 7920
+    },
+    {
+      "path": "app/src/main/java/com/agrismart/app/feature/settings/SettingsScreen.kt",
+      "git_blob": "1163bf55d770eceab953453f64729f1a0011b44b",
+      "size_bytes": 17559
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_chevron_right.xml",
+      "git_blob": "164c48a0438626284c4a5e43494543a7147bc007",
+      "size_bytes": 356
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_eco.xml",
+      "git_blob": "13e75048be78b0a52d32b6e9dbcd653e360328fa",
+      "size_bytes": 811
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_launcher_background.xml",
+      "git_blob": "d79677b2fe9052791098f163315ceb69166048e9",
+      "size_bytes": 329
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_launcher_foreground.xml",
+      "git_blob": "a9cb82b0a97404526a76137d0441e9953ed761fb",
+      "size_bytes": 487
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_photo_camera.xml",
+      "git_blob": "b0f24246596c3bfcacfcd047f283d93720f82fdd",
+      "size_bytes": 550
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_photo_library.xml",
+      "git_blob": "a9fc8eabc2a94ddbe887db850f919949ba9bb4ae",
+      "size_bytes": 477
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_storage.xml",
+      "git_blob": "b9cf614b2de0d7933712985e8f1c8391e2f11814",
+      "size_bytes": 398
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_translate.xml",
+      "git_blob": "1723432434d8415746fdae80cccaef3da221b219",
+      "size_bytes": 616
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_volume_up.xml",
+      "git_blob": "c4cf81b182681c4b7f0dbf9f1d3b7f43c96644eb",
+      "size_bytes": 515
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_wb_sunny.xml",
+      "git_blob": "0ff2d8d1ba846ea3d274a92bc391f15a06766faa",
+      "size_bytes": 670
+    },
+    {
+      "path": "app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+      "git_blob": "d378acd7ac991213513686c290aa05550f1cc70d",
+      "size_bytes": 271
+    },
+    {
+      "path": "app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml",
+      "git_blob": "d378acd7ac991213513686c290aa05550f1cc70d",
+      "size_bytes": 271
+    },
+    {
+      "path": "app/src/main/res/values/strings.xml",
+      "git_blob": "04a1b8a2a866446561f8498f4ffc187c1c8f990a",
+      "size_bytes": 6193
+    },
+    {
+      "path": "app/src/main/res/values/styles.xml",
+      "git_blob": "00d82dbe5121e57c3cf5b1a309a5b92ddd704e25",
+      "size_bytes": 382
+    },
+    {
+      "path": "backend/Dockerfile",
+      "git_blob": "d069f017ca11d15608a4bed9ffd51b84e3ffc082",
+      "size_bytes": 692
+    },
+    {
+      "path": "backend/Procfile",
+      "git_blob": "4b32c3e9699f199b013d998b176091af1ba82e0a",
+      "size_bytes": 54
+    },
+    {
+      "path": "backend/README.md",
+      "git_blob": "02f4047beca593ecbf696ac2cdd719213d9f1f83",
+      "size_bytes": 2910
+    },
+    {
+      "path": "backend/app/__init__.py",
+      "git_blob": "f9b2240d93524705e91d3b41e3823fd63b92fb0b",
+      "size_bytes": 66
+    },
+    {
+      "path": "backend/app/main.py",
+      "git_blob": "4884adaf10f7d9dbd8c2df534c04acb4016c9ef0",
+      "size_bytes": 7693
+    },
+    {
+      "path": "backend/app/predictor.py",
+      "git_blob": "8346278b9bb2755607147998b5ca82c5d70b6461",
+      "size_bytes": 7644
+    },
+    {
+      "path": "backend/app/treatments.py",
+      "git_blob": "85caab9fc4db55e29b4bd796a34b4e104505cda5",
+      "size_bytes": 2726
+    },
+    {
+      "path": "backend/render.yaml",
+      "git_blob": "c3385af39d1778c983c0109aa030b1bd95177f81",
+      "size_bytes": 248
+    },
+    {
+      "path": "backend/requirements.txt",
+      "git_blob": "0ee3e20bd9f2e4392232ddf61650d3ab2d5643dd",
+      "size_bytes": 166
+    },
+    {
+      "path": "backend/webapp/app.js",
+      "git_blob": "9901dd4188d7d2300d0a443814908b9cd5d0aadf",
+      "size_bytes": 36026
+    },
+    {
+      "path": "backend/webapp/index.html",
+      "git_blob": "2c975bd8349fa5188a7db41cb47da89b7742fc0c",
+      "size_bytes": 11477
+    },
+    {
+      "path": "backend/webapp/styles.css",
+      "git_blob": "0d64be5418140ebb3df0e14309d85c8ec3ff77a4",
+      "size_bytes": 17345
+    },
+    {
+      "path": "build.gradle.kts",
+      "git_blob": "769c284041813dc5466839aa2efb5142476721db",
+      "size_bytes": 416
+    },
+    {
+      "path": "docs/android_app_prompt.md",
+      "git_blob": "e6c5fcd12132294a22ecb7d7e992289f1404a4eb",
+      "size_bytes": 52289
+    },
+    {
+      "path": "docs/guide.md",
+      "git_blob": "3fbe1c6f1aaa91d721af37a22dc93ad55fad4172",
+      "size_bytes": 37058
+    },
+    {
+      "path": "gradle.properties",
+      "git_blob": "dc943fa27c48d137f28930b28a1f36822d195125",
+      "size_bytes": 241
+    },
+    {
+      "path": "gradle/libs.versions.toml",
+      "git_blob": "1a20c9f7ffbdbcb8f5b9432c64f20196d5e9153f",
+      "size_bytes": 5194
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.jar",
+      "git_blob": "a4b76b9530d66f5e68d973ea569d8e19de379189",
+      "size_bytes": 43583
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.properties",
+      "git_blob": "df97d72b8b91fa0e088ae27b1c84a6063481fe22",
+      "size_bytes": 253
+    },
+    {
+      "path": "gradlew.bat",
+      "git_blob": "02ee792a70b9e3bd16d97f30fa6b9a3585f4ddb3",
+      "size_bytes": 2168
+    },
+    {
+      "path": "main.py",
+      "git_blob": "07688c99a7c1dbae9140d48b3c2e15f9cb988c0b",
+      "size_bytes": 85
+    },
+    {
+      "path": "model/README.md",
+      "git_blob": "3ee691ee0cbcd4a53620424f1c5170e22ac66df0",
+      "size_bytes": 2223
+    },
+    {
+      "path": "model/india/README.md",
+      "git_blob": "c4e54f2c989c4813e71ab16d310afab065e7b343",
+      "size_bytes": 8865
+    },
+    {
+      "path": "model/india/crops.json",
+      "git_blob": "004475364de139b824571eb4918c2aa421db5adf",
+      "size_bytes": 8495
+    },
+    {
+      "path": "model/india/history.csv",
+      "git_blob": "9bba02fb6c9c662e2f818cec0fde00927a80c10a",
+      "size_bytes": 1450
+    },
+    {
+      "path": "model/india/metrics.json",
+      "git_blob": "c25d539795d6fb59cb567ef54cfa1178969794b7",
+      "size_bytes": 2818
+    },
+    {
+      "path": "model/india/predict.py",
+      "git_blob": "e21dce3bf77bff34493aa69368e56de46ff48c1e",
+      "size_bytes": 4711
+    },
+    {
+      "path": "model/india/report_per_class.csv",
+      "git_blob": "2b53eedd07a968cbc8538881559232d4132ae3c4",
+      "size_bytes": 26418
+    },
+    {
+      "path": "model/india/report_per_crop.csv",
+      "git_blob": "0d24944cd378e97abb15f24ad46599c3351d3e4b",
+      "size_bytes": 2686
+    },
+    {
+      "path": "model/india/test_predictions.csv",
+      "git_blob": "542f831069ad016100b5a9182f8a47c76a8f76b6",
+      "size_bytes": 1753074
+    },
+    {
+      "path": "model/india/test_predictions_v2.csv",
+      "git_blob": "df72a379ac5cdcad7af3d89f2f07c49211ca98f6",
+      "size_bytes": 1753889
+    },
+    {
+      "path": "model/india/training_curves.png",
+      "git_blob": "b309b6bdae7819780776928f98526a15463dea4f",
+      "size_bytes": 27020
+    },
+    {
+      "path": "model/india/weights.json",
+      "git_blob": "ef78554479c452c34045f8f84a2f2b14272397f0",
+      "size_bytes": 329
+    },
+    {
+      "path": "model/labels.json",
+      "git_blob": "de001ccb795f22dc3e6dc13f7901122bb95b74aa",
+      "size_bytes": 817
+    },
+    {
+      "path": "model/predict.py",
+      "git_blob": "1aa945dd2d1ecb6c16d63ae75163ec8500e3410e",
+      "size_bytes": 3645
+    },
+    {
+      "path": "model/training/00_smoke_test/kernel-metadata.json",
+      "git_blob": "297c31e8646b90e1dac135875b9789844e5af6cb",
+      "size_bytes": 459
+    },
+    {
+      "path": "model/training/00_smoke_test/smoke_test.py",
+      "git_blob": "8488935af023e2d8ff72cb67f9bbf723bd2243a4",
+      "size_bytes": 8526
+    },
+    {
+      "path": "model/training/01_data_prep/agrismart_data_prep.ipynb",
+      "git_blob": "a227686cc30a59b7659b3d2a3b62a20b668133be",
+      "size_bytes": 36945
+    },
+    {
+      "path": "model/training/01_data_prep/agrismart_data_prep.py",
+      "git_blob": "796763a16ca6f0a0f08c52d898d2055c29699c86",
+      "size_bytes": 28895
+    },
+    {
+      "path": "model/training/01_data_prep/kernel-metadata.json",
+      "git_blob": "3aac59ca75e500944e5aaaaf4241bbebb7e672a4",
+      "size_bytes": 497
+    },
+    {
+      "path": "model/training/02_train/agrismart_train.ipynb",
+      "git_blob": "9e3a43caf3f0f61da3f82287d5e19e02d6546671",
+      "size_bytes": 29508
+    },
+    {
+      "path": "model/training/02_train/agrismart_train.py",
+      "git_blob": "7d0326a9717ff9cf673a822ff1ffa499eb43f325",
+      "size_bytes": 22864
+    },
+    {
+      "path": "model/training/02_train/kernel-metadata.json",
+      "git_blob": "de197476cc681a9a80a6e7a93e8593c4c01068cc",
+      "size_bytes": 416
+    },
+    {
+      "path": "model/training/india/01_data_prep/india_data_prep.ipynb",
+      "git_blob": "814530ffbc5aa2b440b9b76cc0dc807464b91a6c",
+      "size_bytes": 85072
+    },
+    {
+      "path": "model/training/india/01_data_prep/india_data_prep.py",
+      "git_blob": "59b5e23a6604a1c6a98fee7786204d781774e223",
+      "size_bytes": 68855
+    },
+    {
+      "path": "model/training/india/01_data_prep/kernel-metadata.json",
+      "git_blob": "95b7af72c8c39e4987e40402d35157dcbd3bf5de",
+      "size_bytes": 1019
+    },
+    {
+      "path": "model/training/india/02_train/india_train.ipynb",
+      "git_blob": "1f4736a6b3a43feda5629ee7511afa86980cc8bb",
+      "size_bytes": 36699
+    },
+    {
+      "path": "model/training/india/02_train/india_train.py",
+      "git_blob": "a21ea523a97281c5fe3e2e3457225a14ff462e1d",
+      "size_bytes": 28800
+    },
+    {
+      "path": "model/training/india/02_train/kernel-metadata.json",
+      "git_blob": "a9b8fb01e22e77c195a52e754c076eabbac28617",
+      "size_bytes": 438
+    },
+    {
+      "path": "model/training/india/03_eval/india_confusion.py",
+      "git_blob": "12c5dd90d4bbbb42964acae6f2bda630ca61947a",
+      "size_bytes": 10081
+    },
+    {
+      "path": "model/weights.json",
+      "git_blob": "4e50f61ce9df203270f8d7228e6035207f0aa956",
+      "size_bytes": 313
+    },
+    {
+      "path": "offline/README.md",
+      "git_blob": "d2926a76ff146a680a0d6b715809f3e6b953e583",
+      "size_bytes": 7390
+    },
+    {
+      "path": "offline/android/app/build.gradle.kts",
+      "git_blob": "cff9cd3c17558d513001929d69ae4375ad5c1e88",
+      "size_bytes": 1578
+    },
+    {
+      "path": "offline/android/app/src/main/AndroidManifest.xml",
+      "git_blob": "94089cdb12ae1e43a79dd03a90481faba5d57d0a",
+      "size_bytes": 2009
+    },
+    {
+      "path": "offline/android/app/src/main/java/com/agrismart/offline/MainActivity.java",
+      "git_blob": "2fdaaedc95a2b5af8356da05999b105301d19bc6",
+      "size_bytes": 14667
+    },
+    {
+      "path": "offline/android/app/src/main/java/com/agrismart/offline/PhotoProvider.java",
+      "git_blob": "adeb7462ed1f54f0ba4dc5de766616403c333a59",
+      "size_bytes": 2338
+    },
+    {
+      "path": "offline/android/app/src/main/res/drawable/ic_launcher.xml",
+      "git_blob": "a6448bac550611efd6643f2265928b96d9635816",
+      "size_bytes": 688
+    },
+    {
+      "path": "offline/android/app/src/main/res/drawable/ic_launcher_fg.xml",
+      "git_blob": "7eaa62791b4f2186d545a17439d9ff42a2076b88",
+      "size_bytes": 639
+    },
+    {
+      "path": "offline/android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+      "git_blob": "5fbf3fae3a5956b720dc3144e8b26f789aad7e1c",
+      "size_bytes": 244
+    },
+    {
+      "path": "offline/android/app/src/main/res/mipmap/ic_launcher.xml",
+      "git_blob": "a6448bac550611efd6643f2265928b96d9635816",
+      "size_bytes": 688
+    },
+    {
+      "path": "offline/android/app/src/main/res/values/strings.xml",
+      "git_blob": "96582a268b2e9fe89684f9e6ede2b93697da589a",
+      "size_bytes": 111
+    },
+    {
+      "path": "offline/android/app/src/main/res/values/themes.xml",
+      "git_blob": "88bdec324fb8207215253c464b78f862ac2fa5dc",
+      "size_bytes": 446
+    },
+    {
+      "path": "offline/android/build.gradle.kts",
+      "git_blob": "f928a84390b953ebfda7816eae78d728b7d5a6fe",
+      "size_bytes": 74
+    },
+    {
+      "path": "offline/android/gradle.properties",
+      "git_blob": "d5d9a511b7c445818f07095fc19e3dcce7eb86ad",
+      "size_bytes": 168
+    },
+    {
+      "path": "offline/android/gradle/wrapper/gradle-wrapper.jar",
+      "git_blob": "a4b76b9530d66f5e68d973ea569d8e19de379189",
+      "size_bytes": 43583
+    },
+    {
+      "path": "offline/android/gradle/wrapper/gradle-wrapper.properties",
+      "git_blob": "fae6f6590788291486475db4477d6a0ade7ac74e",
+      "size_bytes": 339
+    },
+    {
+      "path": "offline/android/gradlew.bat",
+      "git_blob": "02ee792a70b9e3bd16d97f30fa6b9a3585f4ddb3",
+      "size_bytes": 2168
+    },
+    {
+      "path": "offline/android/settings.gradle.kts",
+      "git_blob": "f64dbcc27c8782f63332f3383426f598742a951e",
+      "size_bytes": 336
+    },
+    {
+      "path": "offline/run.bat",
+      "git_blob": "395b601f8c9cfd4a17a4ecd6d2b06029ba7f2538",
+      "size_bytes": 594
+    },
+    {
+      "path": "offline/serve.ps1",
+      "git_blob": "5b69ce71d3b5dc42c6b32b356c135a4e65a1ab52",
+      "size_bytes": 3247
+    },
+    {
+      "path": "offline/tools/build_audio.py",
+      "git_blob": "59aa6ad5f2e79328a19eca463f43d2ce96c58069",
+      "size_bytes": 4641
+    },
+    {
+      "path": "offline/tools/build_offline_data.py",
+      "git_blob": "ac42079193741f72d4714e2183f684acfd2f00a1",
+      "size_bytes": 112253
+    },
+    {
+      "path": "offline/tools/export_onnx.py",
+      "git_blob": "78b4e701738c151b02853f27708b7ea537adbf75",
+      "size_bytes": 9128
+    },
+    {
+      "path": "offline/tools/fetch_assets.ps1",
+      "git_blob": "ae14fe164d2fad9db1a47f1ca9b80c9dee789a28",
+      "size_bytes": 1974
+    },
+    {
+      "path": "offline/tools/package_release.ps1",
+      "git_blob": "aafb0808ec26b927e9c539dc19508b995a713ee8",
+      "size_bytes": 2913
+    },
+    {
+      "path": "offline/web/app.js",
+      "git_blob": "5e07eb003b611ab81c987eb97c4b3a8ad5ba1903",
+      "size_bytes": 44301
+    },
+    {
+      "path": "offline/web/data/app.json",
+      "git_blob": "2ed6dc0a20914c4215a9708aa4c8053273944e83",
+      "size_bytes": 353070
+    },
+    {
+      "path": "offline/web/icon.svg",
+      "git_blob": "3828e476fc6c697d8d8bab38acf2d67d99add9bc",
+      "size_bytes": 291
+    },
+    {
+      "path": "offline/web/index.html",
+      "git_blob": "2f64ce3e1c1e4d99255756ffd6431f123b47bd25",
+      "size_bytes": 4630
+    },
+    {
+      "path": "offline/web/models/models.json",
+      "git_blob": "5aca3226325108f4b31d377ef05cf619574be66e",
+      "size_bytes": 66750
+    },
+    {
+      "path": "offline/web/ort/README.md",
+      "git_blob": "2ee514e1d775286a0852516f06a82746537a7dfb",
+      "size_bytes": 463
+    },
+    {
+      "path": "offline/web/ort/ort-wasm-simd-threaded.mjs",
+      "git_blob": "a0cd7c723952a71485176efb70f162671cd12e3e",
+      "size_bytes": 20856
+    },
+    {
+      "path": "offline/web/ort/ort-wasm-simd-threaded.wasm",
+      "git_blob": "9ffca1a8b35463a2d85d82e1a4cdacae6a9da445",
+      "size_bytes": 11210254
+    },
+    {
+      "path": "offline/web/ort/ort.wasm.min.js",
+      "git_blob": "d0fed4d7c030235d4466562c878b1c3102a54013",
+      "size_bytes": 48327
+    },
+    {
+      "path": "offline/web/style.css",
+      "git_blob": "bc76e95d6004ae692b3f025e16400aa4d2aa2966",
+      "size_bytes": 11807
+    },
+    {
+      "path": "render.yaml",
+      "git_blob": "dd06a198f02568305b273ab08fd509897959fb77",
+      "size_bytes": 241
+    },
+    {
+      "path": "report/dataset/README.md",
+      "git_blob": "a53284f28184ba1d92da9d962cada22502042413",
+      "size_bytes": 1578
+    },
+    {
+      "path": "report/dataset/classes.json",
+      "git_blob": "ca37a6db981a6f33d17d0d9acf3f96fbf21d6b2c",
+      "size_bytes": 5282
+    },
+    {
+      "path": "report/dataset/dedup_report.json",
+      "git_blob": "0da7a3f1ed0e414e30622ea386e1a62dbcedbdf9",
+      "size_bytes": 1141
+    },
+    {
+      "path": "report/dataset/summary.csv",
+      "git_blob": "ede543056c28625bff7c025a3be7b0fb64ddb2c5",
+      "size_bytes": 1444
+    },
+    {
+      "path": "report/experiments.md",
+      "git_blob": "cf36d16fb46f985f0b388e8e682ce12cd0cbee2f",
+      "size_bytes": 4471
+    },
+    {
+      "path": "report/figures/confusion_field.png",
+      "git_blob": "6a6ebf2fa38c58a86fc6bb2d4254f63e07767996",
+      "size_bytes": 216307
+    },
+    {
+      "path": "report/figures/confusion_lab.png",
+      "git_blob": "ff333ea7b665c9df77f2b986a3737043a180bc6a",
+      "size_bytes": 202339
+    },
+    {
+      "path": "report/figures/field_errors.png",
+      "git_blob": "b8f7f55575466a33b34712da82b9ac72451b8fb6",
+      "size_bytes": 2887231
+    },
+    {
+      "path": "report/figures/india_v1_confusion_crops.png",
+      "git_blob": "887fdce1d1577e08287516aae21cc9ce8267e823",
+      "size_bytes": 242189
+    },
+    {
+      "path": "report/figures/india_v1_confusion_crops_field.png",
+      "git_blob": "e943a473e0933423aecb30715551066480d54b9f",
+      "size_bytes": 162348
+    },
+    {
+      "path": "report/figures/india_v1_confusion_full.png",
+      "git_blob": "bf295e89c7f5d547d1bf59620762603302741b24",
+      "size_bytes": 248600
+    },
+    {
+      "path": "report/figures/india_v2_confusion_crops.png",
+      "git_blob": "d9dcef149dfa6e92f158a39fb77ae5718ee9914b",
+      "size_bytes": 242660
+    },
+    {
+      "path": "report/figures/india_v2_confusion_crops_field.png",
+      "git_blob": "2ed2d6e9129ca69c028b9be88b138e46929772dc",
+      "size_bytes": 164115
+    },
+    {
+      "path": "report/figures/india_v2_confusion_full.png",
+      "git_blob": "2c9b0c02b56b6bd5e974914085f205d629cdc0ed",
+      "size_bytes": 248422
+    },
+    {
+      "path": "report/figures/training_curves.png",
+      "git_blob": "47a4343f2cb32da04b3fb6089df6b3ab3b57ebfa",
+      "size_bytes": 35129
+    },
+    {
+      "path": "report/model_report.md",
+      "git_blob": "5abd874dd368ce8e8a49d3190078a781055f6271",
+      "size_bytes": 3511
+    },
+    {
+      "path": "report/results/history.csv",
+      "git_blob": "db17acedf8cdbe4943d67ab662229cfa91e59cc2",
+      "size_bytes": 1161
+    },
+    {
+      "path": "report/results/india_v1_confusion_crops.csv",
+      "git_blob": "b7d942e798728e0efb6994317e70c3c13a524b77",
+      "size_bytes": 8382
+    },
+    {
+      "path": "report/results/india_v1_top_confusions.csv",
+      "git_blob": "2c4bb4c07aa91d6a9b3a705e2a866fe4dfc5136e",
+      "size_bytes": 1946
+    },
+    {
+      "path": "report/results/india_v2_confusion_crops.csv",
+      "git_blob": "5b4712e73b795bb649207771dd1a5ccd7e9c66cc",
+      "size_bytes": 8382
+    },
+    {
+      "path": "report/results/india_v2_top_confusions.csv",
+      "git_blob": "8b4912a2dc76f9a6a7aa00eb4e8af8dfc933611c",
+      "size_bytes": 1984
+    },
+    {
+      "path": "report/results/metrics.json",
+      "git_blob": "b7ff52bf8356c265b99c1b248cb47388cba9f783",
+      "size_bytes": 1046
+    },
+    {
+      "path": "report/results/report_field.csv",
+      "git_blob": "f4b47d92c028f17497e3793a4d92446d46d888b9",
+      "size_bytes": 2565
+    },
+    {
+      "path": "report/results/report_lab.csv",
+      "git_blob": "a43788b4d7fb2f34f1cc3d744d66a8705d5a1fb7",
+      "size_bytes": 1970
+    },
+    {
+      "path": "requirements.txt",
+      "git_blob": "0ee3e20bd9f2e4392232ddf61650d3ab2d5643dd",
+      "size_bytes": 166
+    },
+    {
+      "path": "samples/README.md",
+      "git_blob": "04876380649a16216470e07d91a27b38659ac8e1",
+      "size_bytes": 902
+    },
+    {
+      "path": "samples/corn_common_rust_1.jpg",
+      "git_blob": "5372a5aba6e4605cbf615e59b59526d7161eaa6b",
+      "size_bytes": 37960
+    },
+    {
+      "path": "samples/potato_early_blight_1.jpg",
+      "git_blob": "543deb73b05c0df7e03ea1777cf507a02cd21701",
+      "size_bytes": 222008
+    },
+    {
+      "path": "samples/samples.csv",
+      "git_blob": "ed7e100b927ee60c24653a56c544e6cef6398132",
+      "size_bytes": 210
+    },
+    {
+      "path": "samples/tomato_healthy_1.jpg",
+      "git_blob": "180225bd8b16df5b2dacd336a4791305d7467204",
+      "size_bytes": 34789
+    },
+    {
+      "path": "samples/tomato_late_blight_1.jpg",
+      "git_blob": "cddbd47c18af0b4671578f4b4972e3a56c60d717",
+      "size_bytes": 169278
+    },
+    {
+      "path": "server/live_camera/live_camera.html",
+      "git_blob": "0a890cfc61725d2b3d11d192a67c114b8dc7df65",
+      "size_bytes": 18490
+    },
+    {
+      "path": "server/live_camera/live_camera.py",
+      "git_blob": "c9881a1b3914cf5e7659a68e1eac8a26e07f0949",
+      "size_bytes": 7453
+    },
+    {
+      "path": "server/live_camera_india/build_advice.py",
+      "git_blob": "5b32943007cdad6e4b44fc246ab51bab761f667d",
+      "size_bytes": 94848
+    },
+    {
+      "path": "server/live_camera_india/india_advice.json",
+      "git_blob": "c797d74eda75d55650781cb2bcf9dc03c5328b40",
+      "size_bytes": 93740
+    },
+    {
+      "path": "server/live_camera_india/india_crops_fallback.json",
+      "git_blob": "82943c38a99472b37a55aff4b12fc89f375ce14e",
+      "size_bytes": 11512
+    },
+    {
+      "path": "server/live_camera_india/india_translations.json",
+      "git_blob": "58d63c2f610c4acf8df84d3de819595eb15adac5",
+      "size_bytes": 233971
+    },
+    {
+      "path": "server/live_camera_india/live_camera_india.html",
+      "git_blob": "c3b9ab744d888c98f7d5b3a5453f1447fe08784f",
+      "size_bytes": 27682
+    },
+    {
+      "path": "server/live_camera_india/live_camera_india.py",
+      "git_blob": "6aee1f69d2a0fb64af0c8bb6f4df8b3e853a8726",
+      "size_bytes": 11928
+    },
+    {
+      "path": "settings.gradle.kts",
+      "git_blob": "15195ab968425081e5712a01bde8b52fe29497c1",
+      "size_bytes": 533
+    },
+    {
+      "path": "webapp/app.js",
+      "git_blob": "9901dd4188d7d2300d0a443814908b9cd5d0aadf",
+      "size_bytes": 36026
+    },
+    {
+      "path": "webapp/index.html",
+      "git_blob": "2c975bd8349fa5188a7db41cb47da89b7742fc0c",
+      "size_bytes": 11477
+    },
+    {
+      "path": "webapp/styles.css",
+      "git_blob": "0d64be5418140ebb3df0e14309d85c8ec3ff77a4",
+      "size_bytes": 17345
+    }
+  ]
+}

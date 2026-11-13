@@ -1,0 +1,25 @@
+# PROPOSED overlay, not activated. Build the future FastAPI service first.
+# Merge with compose.dev.yaml; enable both redis and crop-inference profiles.
+services:
+  ai-inference:
+    image: ${CROP_INFERENCE_IMAGE:-crop-inference:local-review-required}
+    profiles: [crop-inference]
+    environment:
+      AI_SERVICE_TOKEN: ${AI_SERVICE_TOKEN:?Set a dedicated server-only inference credential}
+      AGRISMART_MODEL_PATH: /models/model.pt
+      PYTHONDONTWRITEBYTECODE: "1"
+    volumes:
+      - ../ai/models/agrismart-india/checkpoints:/models:ro
+    expose: ["8000"]
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/ready',timeout=3)"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+# No host port is published. Host-run Next.js needs an explicitly reviewed loopback
+# port or a containerized web service on this network before integration.

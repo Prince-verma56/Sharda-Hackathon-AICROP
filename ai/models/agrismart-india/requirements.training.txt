@@ -1,0 +1,10 @@
+# OPTIONAL separate research environment; not needed for pretrained inference.
+# Original Kaggle notebooks also need dataset/account/path setup and a suitable GPU.
+-r requirements.txt
+pandas
+scikit-learn
+matplotlib
+ImageHash
+huggingface-hub
+pyarrow
+jupytext

@@ -1,0 +1,452 @@
+{
+  "repository": "https://github.com/wpzvqrs8/SIH_2026",
+  "revision": "9db1605a7c9fdc989f51320ae4970f6a1d8fd255",
+  "purpose": "Actual local AgriSmart integration, training/evaluation and test assets",
+  "source_rights": "No repository-wide source licence declared; model NC research/education; preserve attribution and review before redistribution",
+  "frontend_backend_imported": false,
+  "files": [
+    {
+      "source_path": "README.md",
+      "installed_path": "ai/models/agrismart-india/upstream/README.md",
+      "sha256": "c4adf00a57cb71e3a61cea708d43e9819ee9f2520918b3864a90d25764048358",
+      "size_bytes": 12164,
+      "sha256_git_blob": "e4758cc630548060cdce9fd70c3cbca621845030b7b78b946ae9afe5da670a77"
+    },
+    {
+      "source_path": "docs/guide.md",
+      "installed_path": "ai/models/agrismart-india/upstream/docs/guide.md",
+      "sha256": "b4db73736b682e7f337cebb912dd9f4aaebae913ff16dce7b9223eaf0fede5fe",
+      "size_bytes": 37492,
+      "sha256_git_blob": "28d58347baa910cc9c2f0e7eeed8496f856b9a9e332bc80f234aa738599e3924"
+    },
+    {
+      "source_path": "model/README.md",
+      "installed_path": "ai/models/agrismart-india/upstream/model/README.md",
+      "sha256": "6b59824c655ac1687b1051aa64b4fcac2533ec93fe8c4c53f6a6bc39c8abfa28",
+      "size_bytes": 2264,
+      "sha256_git_blob": "cfb716fea52a8c22aed39e5d30c11fd0ec78f52452cae075fc31f6c4da7661a3"
+    },
+    {
+      "source_path": "model/india/README.md",
+      "installed_path": "ai/models/agrismart-india/upstream/model/india/README.md",
+      "sha256": "48ae130d939e50a900e442deded1774590fa1ae55a5b2fe3c94d809900402e69",
+      "size_bytes": 9019,
+      "sha256_git_blob": "616b07aa7943657676229dde5eb8814fec618afefe06a61ba094bfaf15801343"
+    },
+    {
+      "source_path": "model/india/crops.json",
+      "installed_path": "ai/models/agrismart-india/upstream/model/india/crops.json",
+      "sha256": "6d98a0ecdf73c249219a9a7f3cc56b880836699f453bfd3cc989092774a39061",
+      "size_bytes": 9001,
+      "sha256_git_blob": "74f8dc807d6e9d9463aa1b4d5f8881c0778121312564ffe6e0530d6d5dc7c235"
+    },
+    {
+      "source_path": "model/india/history.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/model/india/history.csv",
+      "sha256": "586cc07cdea772b289f7cd2cc923b3e55808bea353a3ed2110a915ef6f061509",
+      "size_bytes": 1467,
+      "sha256_git_blob": "61fe7a1c46d5dad754c9fe19bb8b0721aa6e6e22086cd6c7d68cc2987cb28d3b"
+    },
+    {
+      "source_path": "model/india/metrics.json",
+      "installed_path": "ai/models/agrismart-india/upstream/model/india/metrics.json",
+      "sha256": "96d6fd620a38d2d291586808fbb165c82bae9b848d846a4cc3bd75d43d321d67",
+      "size_bytes": 2933,
+      "sha256_git_blob": "a428235822aee3dfdd2f27c3fd91570c677dd352d02ebe019fe185e3a63c47aa"
+    },
+    {
+      "source_path": "model/india/predict.py",
+      "installed_path": "ai/models/agrismart-india/upstream/model/india/predict.py",
+      "sha256": "6d9ba5f7048af92fc4bf92fde83ce866adc4c51ca705bfdcf9b6626c1f5d42aa",
+      "size_bytes": 4842,
+      "sha256_git_blob": "1e80a1989a94102ed2408d37a4f13b5a6ef81a9f7e711084bd39117621d27195"
+    },
+    {
+      "source_path": "model/india/report_per_class.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/model/india/report_per_class.csv",
+      "sha256": "880010a1398cbabc9f5d580adc55400c93559bf7d3cea6765bb7af88903fb1d1",
+      "size_bytes": 26809,
+      "sha256_git_blob": "329be9a0f1f157a94f7ae58a07e12e7265e5f54bddd9ff06b38f575f27d1dcc0"
+    },
+    {
+      "source_path": "model/india/report_per_crop.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/model/india/report_per_crop.csv",
+      "sha256": "47a599945729c3225bac63564c0e4f4c91e1e9e88dd54e14361358a49a3d8bae",
+      "size_bytes": 2746,
+      "sha256_git_blob": "ab9ab4ea3bacff6244be6f0c04ad1344ef331cfaafd9e0e0191583c78928094c"
+    },
+    {
+      "source_path": "model/india/test_predictions.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/model/india/test_predictions.csv",
+      "sha256": "a2f35f15b2a23c586a9cdda9bb7c68d2a799da38c4238be1fea7d650aa6e4b44",
+      "size_bytes": 1781403,
+      "sha256_git_blob": "07e9240fff0ca05a1b13e75473eebc2e75a6bfeec6fc896e60391bd1ab7d1d27"
+    },
+    {
+      "source_path": "model/india/test_predictions_v2.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/model/india/test_predictions_v2.csv",
+      "sha256": "d6e7ec8bf27adea4b3bda836f2a28a809b2f8b1d1cad5b000720fd333f4abdf9",
+      "size_bytes": 1782218,
+      "sha256_git_blob": "6cffba7b9a0d85e6c37658e85a6b44daa545fa6a41e01d9d7075520c844b7e20"
+    },
+    {
+      "source_path": "model/india/training_curves.png",
+      "installed_path": "ai/models/agrismart-india/upstream/model/india/training_curves.png",
+      "sha256": "c30e8cacdf36e59c962324ab363f67b2b61e635bd4f744b7372d1baa34afb6ea",
+      "size_bytes": 27020,
+      "sha256_git_blob": "c30e8cacdf36e59c962324ab363f67b2b61e635bd4f744b7372d1baa34afb6ea"
+    },
+    {
+      "source_path": "model/india/weights.json",
+      "installed_path": "ai/models/agrismart-india/upstream/model/india/weights.json",
+      "sha256": "706f4821a680c08261f75e76599775cfccc27a990bcea862f1cca9c9d3e4218b",
+      "size_bytes": 337,
+      "sha256_git_blob": "230520f759a39f6c7823907f9d4a0ef530bac3e06bc15e167974bd08ed58bb52"
+    },
+    {
+      "source_path": "model/labels.json",
+      "installed_path": "ai/models/agrismart-india/upstream/model/labels.json",
+      "sha256": "9b6ca4c10d506eca0d62ecca9d1c647a2cd49931c4b253bd4984349b68b9ccc7",
+      "size_bytes": 846,
+      "sha256_git_blob": "fba6dae4136fb7321ef53039cdb2f97df50100ddb713f384991cacadbd768623"
+    },
+    {
+      "source_path": "model/predict.py",
+      "installed_path": "ai/models/agrismart-india/upstream/model/predict.py",
+      "sha256": "02ab8ba04cc671cadcc9d6628c0eb433eca4c52d85874abe9d6f75b9e0281012",
+      "size_bytes": 3744,
+      "sha256_git_blob": "164760e7895a6f57a93bdf952157ecd508deffa5646cd0444c6c76392e7fcd27"
+    },
+    {
+      "source_path": "model/training/00_smoke_test/kernel-metadata.json",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/00_smoke_test/kernel-metadata.json",
+      "sha256": "112b159c52a5b002e4f277d49e09eb8c6a88d79c9a0741b36d7451f332b052b7",
+      "size_bytes": 477,
+      "sha256_git_blob": "6d0793764257e68c4942a964cc129b9c5d1727b5d290332e248113727df24611"
+    },
+    {
+      "source_path": "model/training/00_smoke_test/smoke_test.py",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/00_smoke_test/smoke_test.py",
+      "sha256": "8c638b052d5ed31b4fc32c4b4d78e52db5cd3ae500314d50f241e76fcbebe669",
+      "size_bytes": 8763,
+      "sha256_git_blob": "493581db55f6c56a934e27700c30e9407b7c33b6e2d64c31bd1c3fa3623cc305"
+    },
+    {
+      "source_path": "model/training/01_data_prep/agrismart_data_prep.ipynb",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/01_data_prep/agrismart_data_prep.ipynb",
+      "sha256": "77d54efb0cea2d60aed3c44f77cb235d638431448f8f0d9139f4ff36e4f9536d",
+      "size_bytes": 37700,
+      "sha256_git_blob": "42011d417a7c7a2298be78cde7f73e51df6ed358ba430eb6bb1b4598823bd47e"
+    },
+    {
+      "source_path": "model/training/01_data_prep/agrismart_data_prep.py",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/01_data_prep/agrismart_data_prep.py",
+      "sha256": "d91b2884ad6380b7018e0ff59d591caf58fb9f1d4ac338ae9b1da43e658f6250",
+      "size_bytes": 29536,
+      "sha256_git_blob": "cbfdba06fb5e1c5a762fef2809a60d6bd0b03c5f5cec2f36421739b51411838a"
+    },
+    {
+      "source_path": "model/training/01_data_prep/kernel-metadata.json",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/01_data_prep/kernel-metadata.json",
+      "sha256": "8f6ad0268668f6570a210f45f9664a8d66b9bf82a4cac2dae4446d777981c6e3",
+      "size_bytes": 516,
+      "sha256_git_blob": "d75bc3492540033f013b4ac5d1d0b6623dd40ef32b8c218078c9e540ceb7553a"
+    },
+    {
+      "source_path": "model/training/02_train/agrismart_train.ipynb",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/02_train/agrismart_train.ipynb",
+      "sha256": "3b02a42690684343ed814a401fb1b37e029b5d7e1bf2255b6e2165a09c221460",
+      "size_bytes": 30146,
+      "sha256_git_blob": "8b59a48a727d210f923cc268a7130ac854f131341c161751fe702b9629dbec19"
+    },
+    {
+      "source_path": "model/training/02_train/agrismart_train.py",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/02_train/agrismart_train.py",
+      "sha256": "3185d6be0dde4cd5a5902fb1030d590f92fff462676110cb3fc562effb7f09cc",
+      "size_bytes": 23407,
+      "sha256_git_blob": "edbc16a8ef094f80df1415fa7b4c24e43fd668845d4c80fc7b462c8b216b4003"
+    },
+    {
+      "source_path": "model/training/02_train/kernel-metadata.json",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/02_train/kernel-metadata.json",
+      "sha256": "600d7abbfb5cc53a2890cb9ba34b6a4654d150356b08bb42644f1cf723567471",
+      "size_bytes": 433,
+      "sha256_git_blob": "a63b4889d2b380114931b324a28021a95aa48d27c17a38ba300e66b04b76b119"
+    },
+    {
+      "source_path": "model/training/india/01_data_prep/india_data_prep.ipynb",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/india/01_data_prep/india_data_prep.ipynb",
+      "sha256": "b116a53388369c6a0a3b2074801d528f5eecdb4e0e505de506e0ba6721328a28",
+      "size_bytes": 86413,
+      "sha256_git_blob": "619d41e9d55b1fd2528bf1f041d92929fa04182dd8dd750b3d196e3d1eeb77f3"
+    },
+    {
+      "source_path": "model/training/india/01_data_prep/india_data_prep.py",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/india/01_data_prep/india_data_prep.py",
+      "sha256": "16529d7f1b703de3fcc7de2f062bff19a65c4ebf4589201e89bac4ac423d1121",
+      "size_bytes": 70096,
+      "sha256_git_blob": "92621ece5b6d8fd3a477d690924864004c1d9c34980ea650352e02224412c501"
+    },
+    {
+      "source_path": "model/training/india/01_data_prep/kernel-metadata.json",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/india/01_data_prep/kernel-metadata.json",
+      "sha256": "40d74b2a70fc8d7835527b3163b4f6c570b275caa5219fe71d2a3deaa051074a",
+      "size_bytes": 1049,
+      "sha256_git_blob": "42264260637a67208d1e47e15ece0bcf0ed7d31409c14bb55c130b343d6e22d9"
+    },
+    {
+      "source_path": "model/training/india/02_train/india_train.ipynb",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/india/02_train/india_train.ipynb",
+      "sha256": "245c1bc1c1a73021e8469a68be3fe6e5e629a93704726d0e7a6e373e26ad8d86",
+      "size_bytes": 37452,
+      "sha256_git_blob": "115710c50abd772dd5c691feda6e319bbefc4df4a99efadf9f026fc424fc65d4"
+    },
+    {
+      "source_path": "model/training/india/02_train/india_train.py",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/india/02_train/india_train.py",
+      "sha256": "0b5f6fcba5bfbe9165f5a490e3ca06d9be8963aa039b4e88a98b7e8504914b47",
+      "size_bytes": 29434,
+      "sha256_git_blob": "e0a0f97bf47d6b6767d5031510170b0601704772b07e6dfa30cc79e9f95d4c46"
+    },
+    {
+      "source_path": "model/training/india/02_train/kernel-metadata.json",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/india/02_train/kernel-metadata.json",
+      "sha256": "7e1d3891df141f771439dfcf470d2922a1151b6b7148b8f72d9f40ebde6cdbd4",
+      "size_bytes": 456,
+      "sha256_git_blob": "18e2bc30281553e8ee5575633c5f076b4b06f023c6356b9f64986d9e674064e2"
+    },
+    {
+      "source_path": "model/training/india/03_eval/india_confusion.py",
+      "installed_path": "ai/models/agrismart-india/upstream/model/training/india/03_eval/india_confusion.py",
+      "sha256": "ad80d38facd0c4a0146879c51d776b439d57825e43d938b6a5668bf91a682655",
+      "size_bytes": 10257,
+      "sha256_git_blob": "deeac8fc2f2dd54a1f29633e634fc9cd659ad145020527e00cef39e722febfd7"
+    },
+    {
+      "source_path": "model/weights.json",
+      "installed_path": "ai/models/agrismart-india/upstream/model/weights.json",
+      "sha256": "704b102b95efc85349c2c5edd4d518cc5c89a00d11828ae8f85420b0ba73a371",
+      "size_bytes": 321,
+      "sha256_git_blob": "e4608717232806abc6c5b1da3fcf5fc088ef099c785cbde0e52a8e76b0b50b2d"
+    },
+    {
+      "source_path": "report/dataset/README.md",
+      "installed_path": "ai/models/agrismart-india/upstream/report/dataset/README.md",
+      "sha256": "59bc3485b5f9796fc25eb8d4466e9858cd26da44f6bd8a29e8eef589064d21d1",
+      "size_bytes": 1597,
+      "sha256_git_blob": "cadffb6f538f6ad5e2cee2feb6839cc52886b04d94553085130e0c2ae3200c5e"
+    },
+    {
+      "source_path": "report/dataset/classes.json",
+      "installed_path": "ai/models/agrismart-india/upstream/report/dataset/classes.json",
+      "sha256": "ef1f478cdc00ca6334b41664e8db5a3147be369118917486cccf8cedf77bf77c",
+      "size_bytes": 5457,
+      "sha256_git_blob": "bf4606306dba9867232eed36a18ba694fc67cb14175bf51b4458134286e03bc4"
+    },
+    {
+      "source_path": "report/dataset/dedup_report.json",
+      "installed_path": "ai/models/agrismart-india/upstream/report/dataset/dedup_report.json",
+      "sha256": "91fc331b1797b96f143622619f1f0480b38884b428ce1cd3c42308157a02b785",
+      "size_bytes": 1195,
+      "sha256_git_blob": "89bc193dd09e28033c33140f686dd9f8c48000b132717c5cf02edbd6a4f35e15"
+    },
+    {
+      "source_path": "report/dataset/summary.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/report/dataset/summary.csv",
+      "sha256": "e5622acc4d1f6ac79f4686c6521d48d9bf257806c84591edd90a8921b83e8cf9",
+      "size_bytes": 1473,
+      "sha256_git_blob": "052425232128a9756d927479819d7c9bb3e96ff5fa98b0ab17330340dce90426"
+    },
+    {
+      "source_path": "report/experiments.md",
+      "installed_path": "ai/models/agrismart-india/upstream/report/experiments.md",
+      "sha256": "49b2f4eec41e9a83e35c16da0dd8d1953dfa96fc34cdfb64f784e08c2b1ae743",
+      "size_bytes": 4519,
+      "sha256_git_blob": "f82b3a8519e3aadb2900dd66e13d639a6189ac2300ca841fcace45b85783f582"
+    },
+    {
+      "source_path": "report/figures/confusion_field.png",
+      "installed_path": "ai/models/agrismart-india/upstream/report/figures/confusion_field.png",
+      "sha256": "c94a8f641179ea01008fec10f47bd187917a19c9013818d1b9417da08142b72f",
+      "size_bytes": 216307,
+      "sha256_git_blob": "c94a8f641179ea01008fec10f47bd187917a19c9013818d1b9417da08142b72f"
+    },
+    {
+      "source_path": "report/figures/confusion_lab.png",
+      "installed_path": "ai/models/agrismart-india/upstream/report/figures/confusion_lab.png",
+      "sha256": "286dd6a524cbd89dae5058f6af087757b6ba4c1171be10acc3483abc743d02b9",
+      "size_bytes": 202339,
+      "sha256_git_blob": "286dd6a524cbd89dae5058f6af087757b6ba4c1171be10acc3483abc743d02b9"
+    },
+    {
+      "source_path": "report/figures/field_errors.png",
+      "installed_path": "ai/models/agrismart-india/upstream/report/figures/field_errors.png",
+      "sha256": "ddaf4ee62dc70920d0b71f64283361ff15fe95929d8d169c9da9b5b597cce3aa",
+      "size_bytes": 2887231,
+      "sha256_git_blob": "ddaf4ee62dc70920d0b71f64283361ff15fe95929d8d169c9da9b5b597cce3aa"
+    },
+    {
+      "source_path": "report/figures/india_v1_confusion_crops.png",
+      "installed_path": "ai/models/agrismart-india/upstream/report/figures/india_v1_confusion_crops.png",
+      "sha256": "8406963484e6c333379f2a7624cb419846cc5b6abae188d3b2442bb776133244",
+      "size_bytes": 242189,
+      "sha256_git_blob": "8406963484e6c333379f2a7624cb419846cc5b6abae188d3b2442bb776133244"
+    },
+    {
+      "source_path": "report/figures/india_v1_confusion_crops_field.png",
+      "installed_path": "ai/models/agrismart-india/upstream/report/figures/india_v1_confusion_crops_field.png",
+      "sha256": "d414fd60243bfa80553194c95a928c71a36b0f92276f3499ec8a6e3ddfc4dbdb",
+      "size_bytes": 162348,
+      "sha256_git_blob": "d414fd60243bfa80553194c95a928c71a36b0f92276f3499ec8a6e3ddfc4dbdb"
+    },
+    {
+      "source_path": "report/figures/india_v1_confusion_full.png",
+      "installed_path": "ai/models/agrismart-india/upstream/report/figures/india_v1_confusion_full.png",
+      "sha256": "a0e49a5706dd60f0635c12f8f3b9c7a2a65d5dfb2a8cb25187845e4b9923d37d",
+      "size_bytes": 248600,
+      "sha256_git_blob": "a0e49a5706dd60f0635c12f8f3b9c7a2a65d5dfb2a8cb25187845e4b9923d37d"
+    },
+    {
+      "source_path": "report/figures/india_v2_confusion_crops.png",
+      "installed_path": "ai/models/agrismart-india/upstream/report/figures/india_v2_confusion_crops.png",
+      "sha256": "ed64aee3441d8bc6c557221728102ac43c23a1eeac0ab43dd4b766ad920b21d5",
+      "size_bytes": 242660,
+      "sha256_git_blob": "ed64aee3441d8bc6c557221728102ac43c23a1eeac0ab43dd4b766ad920b21d5"
+    },
+    {
+      "source_path": "report/figures/india_v2_confusion_crops_field.png",
+      "installed_path": "ai/models/agrismart-india/upstream/report/figures/india_v2_confusion_crops_field.png",
+      "sha256": "b7ad1d3c368690f923c246d6a2d11d3f2b1b4536a2bdbe248bdc60675e01f5a7",
+      "size_bytes": 164115,
+      "sha256_git_blob": "b7ad1d3c368690f923c246d6a2d11d3f2b1b4536a2bdbe248bdc60675e01f5a7"
+    },
+    {
+      "source_path": "report/figures/india_v2_confusion_full.png",
+      "installed_path": "ai/models/agrismart-india/upstream/report/figures/india_v2_confusion_full.png",
+      "sha256": "af07aac1e2ec2671eb698cbacce8f7fde2848633a736c916e5eb62bbf5f94af9",
+      "size_bytes": 248422,
+      "sha256_git_blob": "af07aac1e2ec2671eb698cbacce8f7fde2848633a736c916e5eb62bbf5f94af9"
+    },
+    {
+      "source_path": "report/figures/training_curves.png",
+      "installed_path": "ai/models/agrismart-india/upstream/report/figures/training_curves.png",
+      "sha256": "cbc0393eb85b9caa5f3d2674a8fcd29558880705eaed3d0e4ad1e5f92e518328",
+      "size_bytes": 35129,
+      "sha256_git_blob": "cbc0393eb85b9caa5f3d2674a8fcd29558880705eaed3d0e4ad1e5f92e518328"
+    },
+    {
+      "source_path": "report/model_report.md",
+      "installed_path": "ai/models/agrismart-india/upstream/report/model_report.md",
+      "sha256": "998a830921a27a5ae864405d63ffa90f01e35b068bc2ec290eaeb981c9912b61",
+      "size_bytes": 3531,
+      "sha256_git_blob": "787b8bb2df1b288c5cf61e47338e0421fa2196c3a020c8be9f0a89d5610cb2c9"
+    },
+    {
+      "source_path": "report/results/history.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/report/results/history.csv",
+      "sha256": "33a91dacf322fe682cc2618e943145311014ce3b649383681742c18a9f685c9f",
+      "size_bytes": 1171,
+      "sha256_git_blob": "dece37c3924680accd2808f3690737eaa256fc43907aea5b57f4f51c938dcb26"
+    },
+    {
+      "source_path": "report/results/india_v1_confusion_crops.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/report/results/india_v1_confusion_crops.csv",
+      "sha256": "ad0ec83540ba2b74b6fe57ea52395e648eafabfabbdbd26a528ba49453e640e0",
+      "size_bytes": 8442,
+      "sha256_git_blob": "7210e9916259a1305ca3ab0fc815423482f17ed5b5ec2e479ee4425f54b00696"
+    },
+    {
+      "source_path": "report/results/india_v1_top_confusions.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/report/results/india_v1_top_confusions.csv",
+      "sha256": "16078ccdb109e328102fae63b37fb0a23cbd80aad60691b53c351f66bb551507",
+      "size_bytes": 1977,
+      "sha256_git_blob": "da60615407951f156aa3b7ba7dba1eb952e7039d087d1e203a24ae766c5b159d"
+    },
+    {
+      "source_path": "report/results/india_v2_confusion_crops.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/report/results/india_v2_confusion_crops.csv",
+      "sha256": "a14761817a400db47e299d3c663d1d1a8641bbbceb989763628aa2da5395bf63",
+      "size_bytes": 8442,
+      "sha256_git_blob": "8c5fd1161630c6577f79f93267695db80c56937c041ff43cc3d22be4baf27b56"
+    },
+    {
+      "source_path": "report/results/india_v2_top_confusions.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/report/results/india_v2_top_confusions.csv",
+      "sha256": "67133ae42c4ae464bd625791fe7f1a7ae75d81ef01b5cba98721d15c8e1bfd53",
+      "size_bytes": 2015,
+      "sha256_git_blob": "af39aeaccebe46b4f77aed161405557aada1e826f9fe8f234f17cd878a38104c"
+    },
+    {
+      "source_path": "report/results/metrics.json",
+      "installed_path": "ai/models/agrismart-india/upstream/report/results/metrics.json",
+      "sha256": "27a4c296fc9fb1bde00ad034aeb2130ab91afac77705ba114b8bd310a9b1b4af",
+      "size_bytes": 1094,
+      "sha256_git_blob": "f3ef02ebc098008119d1920dd51febef33bdec5ab602c4ae1afa14feff1f003d"
+    },
+    {
+      "source_path": "report/results/report_field.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/report/results/report_field.csv",
+      "sha256": "218935fc3715ac6dc8a14c351e14f5e49fe027804785035c081a271b3e3f6725",
+      "size_bytes": 2597,
+      "sha256_git_blob": "fde927f677a703d839d1c8c8d047b4223fae597a65416b704d53df59c7aa2349"
+    },
+    {
+      "source_path": "report/results/report_lab.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/report/results/report_lab.csv",
+      "sha256": "78ee468f5329a2b646d8061de9aaae8546daa4f975a4904b470e06f50c268c62",
+      "size_bytes": 2002,
+      "sha256_git_blob": "6fee8b6185b425de3440c6ab8c1574e571437ce57cf03b093782cddbb9a33802"
+    },
+    {
+      "source_path": "samples/README.md",
+      "installed_path": "ai/models/agrismart-india/upstream/samples/README.md",
+      "sha256": "69275fed03328f6e30aca3d9b57026fa62cf8928528e93051748acaf73fedf4b",
+      "size_bytes": 918,
+      "sha256_git_blob": "f77481b1f16a525308e7d5789b952ebdd8207328e8d2afa7fdb59e12b48a0543"
+    },
+    {
+      "source_path": "samples/corn_common_rust_1.jpg",
+      "installed_path": "ai/models/agrismart-india/upstream/samples/corn_common_rust_1.jpg",
+      "sha256": "d551e7c75cb72e01ddb13abdc7cc996e7727c54bb21556a552b82bebcd81f825",
+      "size_bytes": 37960,
+      "sha256_git_blob": "d551e7c75cb72e01ddb13abdc7cc996e7727c54bb21556a552b82bebcd81f825"
+    },
+    {
+      "source_path": "samples/potato_early_blight_1.jpg",
+      "installed_path": "ai/models/agrismart-india/upstream/samples/potato_early_blight_1.jpg",
+      "sha256": "53410fa233b049b9d1ccf632a0295969427b799a1b807a16b324166e0b73131a",
+      "size_bytes": 222008,
+      "sha256_git_blob": "53410fa233b049b9d1ccf632a0295969427b799a1b807a16b324166e0b73131a"
+    },
+    {
+      "source_path": "samples/samples.csv",
+      "installed_path": "ai/models/agrismart-india/upstream/samples/samples.csv",
+      "sha256": "08ed5a4981c4029c7f5887e3dbddecd80a1b4e2ba7bcba61d8549ec57f9832a0",
+      "size_bytes": 215,
+      "sha256_git_blob": "2d7f63f570fe4810853bf97d0fe0640dd63c9ec3c1eeb48d6d0664c57cff66bb"
+    },
+    {
+      "source_path": "samples/tomato_healthy_1.jpg",
+      "installed_path": "ai/models/agrismart-india/upstream/samples/tomato_healthy_1.jpg",
+      "sha256": "bc0ec6abdabe070a8e98749360809fc8cca196e21661f93a038d75b45e13b18d",
+      "size_bytes": 34789,
+      "sha256_git_blob": "bc0ec6abdabe070a8e98749360809fc8cca196e21661f93a038d75b45e13b18d"
+    },
+    {
+      "source_path": "samples/tomato_late_blight_1.jpg",
+      "installed_path": "ai/models/agrismart-india/upstream/samples/tomato_late_blight_1.jpg",
+      "sha256": "fd87cea75ee543ab40c76fb94cbc40e42d1c848e5f5dd7756e56f44d0367c734",
+      "size_bytes": 169278,
+      "sha256_git_blob": "fd87cea75ee543ab40c76fb94cbc40e42d1c848e5f5dd7756e56f44d0367c734"
+    }
+  ],
+  "checkpoint": {
+    "canonical": "ai/models/agrismart-india/checkpoints/model.pt",
+    "original_predictor_alias": "ai/models/agrismart-india/upstream/model/india/model.pt",
+    "release": "india-model-v1",
+    "sha256": "ffaffb1e3ca0a81831454e8268b11cf2d16b418838042b023ad188f79e61a08a",
+    "size_bytes": 344160243,
+    "verified": true,
+    "storage": "same-volume hard link; no duplicate binary"
+  }
+}

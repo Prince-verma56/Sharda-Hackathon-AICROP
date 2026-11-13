@@ -1,0 +1,391 @@
+[
+ {
+  "image": "tomato_late_blight_1.jpg",
+  "crop_hint": "tomato",
+  "expected": "Late blight",
+  "predicted_label": "tomato::Late blight",
+  "confidence": 0.7153,
+  "raw_top_score": 0.46,
+  "top3": [
+   [
+    "tomato::Late blight",
+    0.7153
+   ],
+   [
+    "tomato::Early blight",
+    0.2178
+   ],
+   [
+    "tomato::Leaf mold",
+    0.0366
+   ]
+  ],
+  "advisories": [],
+  "quality": "ok",
+  "sharpness": 511.4,
+  "brightness": 121.6,
+  "inference_ms": 308,
+  "latency_ms": 328,
+  "device": "cpu"
+ },
+ {
+  "image": "potato_early_blight_1.jpg",
+  "crop_hint": "potato",
+  "expected": "Early blight",
+  "predicted_label": "potato::Early blight",
+  "confidence": 0.9901,
+  "raw_top_score": 0.756,
+  "top3": [
+   [
+    "potato::Early blight",
+    0.9901
+   ],
+   [
+    "potato::Late blight",
+    0.0077
+   ],
+   [
+    "potato::Healthy",
+    0.0015
+   ]
+  ],
+  "advisories": [],
+  "quality": "ok",
+  "sharpness": 595.6,
+  "brightness": 72.5,
+  "inference_ms": 297,
+  "latency_ms": 326,
+  "device": "cpu"
+ },
+ {
+  "image": "corn_common_rust_1.jpg",
+  "crop_hint": "corn_maize",
+  "expected": "Common rust",
+  "predicted_label": "corn_maize::Gray leaf spot",
+  "confidence": 0.6141,
+  "raw_top_score": 0.133,
+  "top3": [
+   [
+    "corn_maize::Gray leaf spot",
+    0.6141
+   ],
+   [
+    "corn_maize::Common rust",
+    0.267
+   ],
+   [
+    "corn_maize::Northern leaf blight",
+    0.0498
+   ]
+  ],
+  "advisories": [
+   "CROP_MISMATCH"
+  ],
+  "quality": "ok",
+  "sharpness": 587.9,
+  "brightness": 152.4,
+  "inference_ms": 335,
+  "latency_ms": 337,
+  "device": "cpu"
+ },
+ {
+  "image": "tomato_healthy_1.jpg",
+  "crop_hint": "tomato",
+  "expected": "Healthy",
+  "predicted_label": "tomato::Healthy",
+  "confidence": 0.9613,
+  "raw_top_score": 0.8656,
+  "top3": [
+   [
+    "tomato::Healthy",
+    0.9613
+   ],
+   [
+    "tomato::Mosaic virus",
+    0.0213
+   ],
+   [
+    "tomato::Yellow leaf curl virus",
+    0.0068
+   ]
+  ],
+  "advisories": [],
+  "quality": "ok",
+  "sharpness": 59.8,
+  "brightness": 169.3,
+  "inference_ms": 287,
+  "latency_ms": 300,
+  "device": "cpu"
+ },
+ {
+  "image": "tomato_late_blight_1.jpg",
+  "crop_hint": null,
+  "expected": "Late blight",
+  "predicted_label": "tomato::Late blight",
+  "confidence": 0.46,
+  "raw_top_score": 0.46,
+  "top3": [
+   [
+    "tomato::Late blight",
+    0.46
+   ],
+   [
+    "potato::Late blight",
+    0.1605
+   ],
+   [
+    "tomato::Early blight",
+    0.1401
+   ]
+  ],
+  "advisories": [],
+  "quality": "ok",
+  "sharpness": 511.4,
+  "brightness": 121.6,
+  "inference_ms": 296,
+  "latency_ms": 308,
+  "device": "cpu"
+ },
+ {
+  "image": "potato_early_blight_1.jpg",
+  "crop_hint": null,
+  "expected": "Early blight",
+  "predicted_label": "potato::Early blight",
+  "confidence": 0.756,
+  "raw_top_score": 0.756,
+  "top3": [
+   [
+    "potato::Early blight",
+    0.756
+   ],
+   [
+    "tomato::Early blight",
+    0.0183
+   ],
+   [
+    "cherry::Leaf spot",
+    0.0182
+   ]
+  ],
+  "advisories": [],
+  "quality": "ok",
+  "sharpness": 595.6,
+  "brightness": 72.5,
+  "inference_ms": 296,
+  "latency_ms": 321,
+  "device": "cpu"
+ },
+ {
+  "image": "corn_common_rust_1.jpg",
+  "crop_hint": null,
+  "expected": "Common rust",
+  "predicted_label": "banana::Insect pest damage",
+  "confidence": 0.2035,
+  "raw_top_score": 0.2035,
+  "top3": [
+   [
+    "banana::Insect pest damage",
+    0.2035
+   ],
+   [
+    "corn_maize::Gray leaf spot",
+    0.133
+   ],
+   [
+    "corn_maize::Common rust",
+    0.0578
+   ]
+  ],
+  "advisories": [],
+  "quality": "ok",
+  "sharpness": 587.9,
+  "brightness": 152.4,
+  "inference_ms": 296,
+  "latency_ms": 298,
+  "device": "cpu"
+ },
+ {
+  "image": "tomato_healthy_1.jpg",
+  "crop_hint": null,
+  "expected": "Healthy",
+  "predicted_label": "tomato::Healthy",
+  "confidence": 0.8656,
+  "raw_top_score": 0.8656,
+  "top3": [
+   [
+    "tomato::Healthy",
+    0.8656
+   ],
+   [
+    "tomato::Mosaic virus",
+    0.0192
+   ],
+   [
+    "potato::Healthy",
+    0.0073
+   ]
+  ],
+  "advisories": [],
+  "quality": "ok",
+  "sharpness": 59.8,
+  "brightness": 169.3,
+  "inference_ms": 324,
+  "latency_ms": 334,
+  "device": "cpu"
+ },
+ {
+  "image": "blurry",
+  "crop_hint": "tomato",
+  "expected": null,
+  "predicted_label": "tomato::Late blight",
+  "confidence": 0.7592,
+  "raw_top_score": 0.4013,
+  "top3": [
+   [
+    "tomato::Late blight",
+    0.7592
+   ],
+   [
+    "tomato::Early blight",
+    0.202
+   ],
+   [
+    "tomato::Spotted wilt virus",
+    0.0059
+   ]
+  ],
+  "advisories": [
+   "IMAGE_QUALITY"
+  ],
+  "quality": "warning",
+  "sharpness": 10.2,
+  "brightness": 121.7,
+  "inference_ms": 312,
+  "latency_ms": 326,
+  "device": "cpu"
+ },
+ {
+  "image": "dark",
+  "crop_hint": "tomato",
+  "expected": null,
+  "predicted_label": "tomato::Late blight",
+  "confidence": 0.5118,
+  "raw_top_score": 0.3691,
+  "top3": [
+   [
+    "tomato::Late blight",
+    0.5118
+   ],
+   [
+    "tomato::Early blight",
+    0.448
+   ],
+   [
+    "tomato::Leaf mold",
+    0.0134
+   ]
+  ],
+  "advisories": [
+   "IMAGE_QUALITY"
+  ],
+  "quality": "warning",
+  "sharpness": 91.8,
+  "brightness": 14.6,
+  "inference_ms": 316,
+  "latency_ms": 326,
+  "device": "cpu"
+ },
+ {
+  "image": "tiny_upscale_needed",
+  "crop_hint": "tomato",
+  "expected": null,
+  "predicted_label": "tomato::Late blight",
+  "confidence": 0.5244,
+  "raw_top_score": 0.4097,
+  "top3": [
+   [
+    "tomato::Late blight",
+    0.5244
+   ],
+   [
+    "tomato::Early blight",
+    0.4503
+   ],
+   [
+    "tomato::Leaf mold",
+    0.0066
+   ]
+  ],
+  "advisories": [
+   "IMAGE_QUALITY"
+  ],
+  "quality": "warning",
+  "sharpness": 923.0,
+  "brightness": 121.6,
+  "inference_ms": 281,
+  "latency_ms": 282,
+  "device": "cpu"
+ },
+ {
+  "image": "non_plant_gradient",
+  "crop_hint": null,
+  "expected": null,
+  "predicted_label": "rice::Leaf folder (pest)",
+  "confidence": 0.039,
+  "raw_top_score": 0.039,
+  "top3": [
+   [
+    "rice::Leaf folder (pest)",
+    0.039
+   ],
+   [
+    "rice::Leaf scald",
+    0.0369
+   ],
+   [
+    "papaya::Anthracnose",
+    0.0303
+   ]
+  ],
+  "advisories": [
+   "LOW_GLOBAL_EVIDENCE"
+  ],
+  "quality": "ok",
+  "sharpness": 85.4,
+  "brightness": 127.5,
+  "inference_ms": 314,
+  "latency_ms": 320,
+  "device": "cpu"
+ },
+ {
+  "image": "non_plant_checkerboard",
+  "crop_hint": null,
+  "expected": null,
+  "predicted_label": "tea::Blister blight",
+  "confidence": 0.0324,
+  "raw_top_score": 0.0324,
+  "top3": [
+   [
+    "tea::Blister blight",
+    0.0324
+   ],
+   [
+    "strawberry::Healthy",
+    0.0264
+   ],
+   [
+    "rice::Sheath blight",
+    0.0253
+   ]
+  ],
+  "advisories": [
+   "LOW_GLOBAL_EVIDENCE"
+  ],
+  "quality": "ok",
+  "sharpness": 1556.2,
+  "brightness": 145.5,
+  "inference_ms": 278,
+  "latency_ms": 285,
+  "device": "cpu"
+ }
+]
