@@ -12,7 +12,8 @@
  *                 guidance, expert request, TinyFish web search)
  *   validate      safety guardrails (ai/guardrails/mitra.ts)
  *
- * No canned answers: without a configured model this throws MitraNotConfiguredError.
+ * Without a working model, answers are assembled from the farmer's own records + TinyFish web
+ * search (labelled in the UI) — never canned text. Reply language/tone come from Mitra settings.
  * The voice call uses the same instructions, context loader and tool functions.
  */
 import 'server-only';
@@ -22,7 +23,8 @@ import { ToolNode } from '@langchain/langgraph/prebuilt';
 import { mitraInstructions, type ConversationTurn } from '@/ai/agents/mitra';
 import { loadFarmerContext, type FarmerContext } from '@/ai/context/farmer-context';
 import { enforceMitraSafety } from '@/ai/guardrails/mitra';
-import { getMitraChatModel, type MitraModel } from '@/ai/models/mitra-model';
+import { getMitraChatModel, markAutoModelUnavailable, type MitraModel } from '@/ai/models/mitra-model';
+import type { MitraSettings } from '@/ai/settings/mitra-settings';
 import { mitraTools, sourcesFromToolOutput, WEB_SEARCH_TOOL } from '@/ai/tools/mitra-langchain';
 import type { MitraScope } from '@/ai/voice/mitra-tools';
 import { researchConfigured, searchFarmingWeb, type WebSource } from '@/server/cropai/research';
@@ -80,7 +82,7 @@ function textOf(message: BaseMessage | undefined): string {
     : message.content.map((part) => ('text' in part && typeof part.text === 'string' ? part.text : '')).join('');
 }
 
-function buildMitraGraph(m: MitraModel, scope: MitraScope, summary: string | null) {
+function buildMitraGraph(m: MitraModel, scope: MitraScope, summary: string | null, settings?: MitraSettings, extraInstructions?: string) {
   const tools = m.supportsTools ? mitraTools(scope) : [];
   const llm = m.supportsTools && m.model.bindTools ? m.model.bindTools(tools) : m.model;
   const toolNode = new ToolNode(tools);
@@ -102,7 +104,7 @@ function buildMitraGraph(m: MitraModel, scope: MitraScope, summary: string | nul
     })
     .addNode('agent', async (s: S) => {
       const system = new SystemMessage(
-        mitraInstructions(s.context, { channel: 'text', language: scope.language, web: m.supportsTools ? [] : s.web, summary }) + toolHint,
+        mitraInstructions(s.context, { channel: 'text', settings, extraInstructions, language: scope.language, web: m.supportsTools ? [] : s.web, summary }) + toolHint,
       );
       const reply = await llm.invoke([system, ...s.messages]);
       return { messages: [reply] };
@@ -114,7 +116,8 @@ function buildMitraGraph(m: MitraModel, scope: MitraScope, summary: string | nul
     })
     .addNode('validate', (s: S) => {
       const { text, removedDoses } = enforceMitraSafety(textOf(s.messages.at(-1)));
-      const note = scope.language === 'hi' ? 'दवा की मात्रा के लिए अपने कृषि अधिकारी या KVK से पूछें।' : 'For spray doses, please ask your agriculture officer or KVK.';
+      const reply = settings?.language ?? scope.language;
+      const note = reply === 'hi' ? 'दवा की मात्रा के लिए अपने कृषि अधिकारी या KVK से पूछें।' : reply === 'hinglish' ? 'Dawa ki matra ke liye apne krishi adhikari ya KVK se poochhiye.' : 'For spray doses, please ask your agriculture officer or KVK.';
       return { answer: removedDoses ? `${text} ${note}`.trim() : text };
     })
     .addEdge(START, 'understand')
@@ -142,15 +145,13 @@ export async function askMitra(
   question: string,
   scope: MitraScope,
   history: ConversationTurn[] = [],
-  options: { model?: MitraModel; summary?: string | null; requireModel?: boolean } = {},
+  options: { model?: MitraModel; summary?: string | null; requireModel?: boolean; settings?: MitraSettings; extraInstructions?: string } = {},
 ): Promise<MitraAnswer> {
-  const m = options.model ?? getMitraChatModel();
-  if (!m) {
-    // No LLM configured: answer from the farmer's own records + TinyFish web search (never canned text).
-    if (options.requireModel) throw new MitraNotConfiguredError();
+  const withoutModel = async (): Promise<MitraAnswer> => {
+    // No working LLM: answer from the farmer's own records + TinyFish web search (never canned text).
     const intent = classifyIntent(question);
     const context = await loadFarmerContext(scope, { weather: intent === 'weather' });
-    const r = await answerFromRecordsAndWeb(question.slice(0, 500), intent, scope, context);
+    const r = await answerFromRecordsAndWeb(question.slice(0, 500), intent, scope, context, options.settings?.language);
     return {
       answer: r.answer,
       intent,
@@ -160,8 +161,13 @@ export async function askMitra(
       sources: r.sources.slice(0, 4).map(({ title, url, site, trusted }) => ({ title, url, site, trusted })),
       toolsUsed: r.toolsUsed,
     };
+  };
+  const m = options.model ?? getMitraChatModel();
+  if (!m) {
+    if (options.requireModel) throw new MitraNotConfiguredError();
+    return withoutModel();
   }
-  const graph = buildMitraGraph(m, scope, options.summary ?? null);
+  const graph = buildMitraGraph(m, scope, options.summary ?? null, options.settings, options.extraInstructions);
   const messages: BaseMessage[] = [
     ...history.slice(-12).map((t) => (t.role === 'farmer' ? new HumanMessage(t.text.slice(0, 800)) : new AIMessage(t.text.slice(0, 800)))),
     new HumanMessage(question.slice(0, 500)),
@@ -173,6 +179,12 @@ export async function askMitra(
       { recursionLimit: 12, runName: 'mitra-text-assistant', tags: ['cropai', 'farmer', 'mitra'], metadata: { channel: 'text', provider: m.provider, model: m.name } },
     )) as S;
   } catch (error) {
+    if (m.auto) {
+      // An automatically chosen provider failed (e.g. Vapi chat needs a payment method): fall back.
+      markAutoModelUnavailable();
+      if (options.requireModel) throw new MitraNotConfiguredError();
+      return withoutModel();
+    }
     throw new MitraProviderError((error as Error).message || 'MITRA_PROVIDER_FAILED');
   }
   if (!result.answer) throw new MitraProviderError('MITRA_EMPTY_ANSWER');

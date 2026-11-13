@@ -9,17 +9,20 @@ import { maskPhone } from '@/server/auth/phone';
 import { can, ROLE_LABELS } from '@/server/auth/rbac';
 import { researchConfigured } from '@/server/cropai/research';
 import { getSettings } from '@/server/cropai/settings';
+import { getMitraDefaults } from '@/ai/settings/mitra-settings';
+import { mitraModelStatus } from '@/ai/models/mitra-model';
 import { db } from '@/server/db';
 import { fmtDate, PageHeader } from '../ui';
-import { InviteForm, PlatformSettingsForm } from './settings-forms';
+import { InviteForm, MitraDefaultsForm, PlatformSettingsForm } from './settings-forms';
 
 export const metadata = { title: 'Settings' };
 
 export default async function SettingsPage() {
   const staff = await requireStaff('settings:manage');
   const superAdmin = can(staff.role, 'admins:manage');
-  const [settings, admins, invites] = await Promise.all([
+  const [settings, mitraDefaults, admins, invites] = await Promise.all([
     getSettings(),
+    getMitraDefaults(),
     db.user.findMany({
       where: { roles: { some: { role: { in: ['ADMIN', 'SUPER_ADMIN'] } } } },
       orderBy: { createdAt: 'asc' },
@@ -28,12 +31,14 @@ export default async function SettingsPage() {
     db.roleInvitation.findMany({ where: { role: 'ADMIN', status: 'PENDING', expiresAt: { gt: new Date() } }, orderBy: { createdAt: 'desc' } }),
   ]);
   const genai = genAiStatus();
+  const mitraModel = mitraModelStatus();
   const integrations = [
     ['Authentication', `Phone + OTP · ${process.env.AUTH_OTP_PROVIDER === 'twilio_verify' ? 'Twilio Verify (real SMS)' : process.env.AUTH_OTP_PROVIDER === 'dev' ? 'development mode (no SMS, localhost only)' : 'not configured'}`],
     ['Twilio Verify', process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_VERIFY_SERVICE_SID ? 'credentials configured' : 'not configured'],
     ['Model inference', process.env.AI_INFERENCE_BASE_URL ? 'configured' : 'not configured'],
     ['Text GenAI provider', genai.configured ? `${genai.provider} · ${genai.model}` : 'not configured (approved-guidance fallback)'],
     ['Vapi voice', process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY ? `configured${/^https:/.test(process.env.APP_PUBLIC_URL ?? '') ? ' · tools enabled' : ' · tools need a public https URL'}` : 'not configured'],
+    ['Mitra text chat', mitraModel.configured ? (mitraModel.auto ? `automatic · Vapi chat (${mitraModel.model}) when the Vapi account has a payment method, otherwise records + TinyFish` : `${mitraModel.provider} · ${mitraModel.model}`) : 'records + TinyFish web search (no LLM)'],
     ['TinyFish research', researchConfigured() ? 'configured' : 'not configured'],
     ['LangSmith tracing', process.env.LANGSMITH_API_KEY || process.env.LANGCHAIN_API_KEY ? 'configured' : 'not configured'],
   ];
@@ -54,6 +59,16 @@ export default async function SettingsPage() {
           </CardContent>
         </Card>
       </div>
+
+      <Card className="mt-4 rounded-2xl">
+        <CardHeader>
+          <CardTitle>Mitra assistant</CardTitle>
+          <CardDescription>Defaults for every farmer’s voice and chat assistant. Farmers can change their own in Mitra settings; Hinglish is recommended for most Indian farmers.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <MitraDefaultsForm values={mitraDefaults} />
+        </CardContent>
+      </Card>
 
       <Card className="mt-4 rounded-2xl">
         <CardHeader>

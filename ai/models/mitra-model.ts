@@ -6,7 +6,10 @@
  *                                     OpenAI endpoint, OpenRouter, Together, Ollama…) — tool calling
  *   GENAI_PROVIDER=vapi               Vapi Chat API (needs a payment method on the Vapi account) —
  *                                     plain chat; web research is done before the model call
- *   unset / none                      no model: Mitra reports "not configured" (no canned answers)
+ *   unset (auto)                      tries the Vapi Chat API when VAPI_API_KEY is set; if Vapi refuses
+ *                                     (e.g. 402 "add a payment method") it is skipped for 10 minutes and
+ *                                     Mitra answers from the farmer's records + TinyFish web search
+ *   none                              no model: records + TinyFish answers only
  */
 import 'server-only';
 import { SimpleChatModel, type BaseChatModel, type BaseChatModelParams } from '@langchain/core/language_models/chat_models';
@@ -19,6 +22,16 @@ export interface MitraModel {
   name: string;
   /** model can call LangChain tools (bindTools) */
   supportsTools: boolean;
+  /** chosen automatically (not configured explicitly): on failure Mitra falls back instead of erroring */
+  auto?: boolean;
+}
+
+const AUTO_RETRY_MS = 10 * 60 * 1000;
+let autoBlockedUntil = 0;
+
+/** After an automatic provider fails (e.g. Vapi 402), skip it for a while so answers stay fast. */
+export function markAutoModelUnavailable() {
+  autoBlockedUntil = Date.now() + AUTO_RETRY_MS;
 }
 
 function text(message: BaseMessage): string {
@@ -68,7 +81,7 @@ export class VapiChatModel extends SimpleChatModel {
 }
 
 export function getMitraChatModel(options: { temperature?: number; maxTokens?: number } = {}): MitraModel | null {
-  const provider = (process.env.GENAI_PROVIDER || 'none').toLowerCase();
+  const provider = (process.env.GENAI_PROVIDER || 'auto').toLowerCase();
   const temperature = options.temperature ?? 0.4;
 
   if (provider === 'openai-compatible' || provider === 'openai') {
@@ -98,10 +111,15 @@ export function getMitraChatModel(options: { temperature?: number; maxTokens?: n
     return { model: new VapiChatModel(apiKey, name, temperature), provider: 'vapi', name, supportsTools: false };
   }
 
+  if (provider === 'auto' && process.env.VAPI_API_KEY && Date.now() >= autoBlockedUntil) {
+    const name = process.env.GENAI_MODEL || 'gpt-4o-mini';
+    return { model: new VapiChatModel(process.env.VAPI_API_KEY, name, temperature), provider: 'vapi', name, supportsTools: false, auto: true };
+  }
+
   return null;
 }
 
 export function mitraModelStatus() {
   const m = getMitraChatModel();
-  return m ? { configured: true, provider: m.provider, model: m.name, tools: m.supportsTools } : { configured: false, provider: null, model: null, tools: false };
+  return m ? { configured: true, provider: m.provider, model: m.name, tools: m.supportsTools, auto: Boolean(m.auto) } : { configured: false, provider: null, model: null, tools: false, auto: false };
 }

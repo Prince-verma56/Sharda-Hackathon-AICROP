@@ -128,7 +128,7 @@ suite('Mitra memory and agent (integration)', () => {
 
   it("without an LLM answers from the farmer's own records (labelled), never canned text", async () => {
     const saved = process.env.GENAI_PROVIDER;
-    delete process.env.GENAI_PROVIDER;
+    process.env.GENAI_PROVIDER = 'none'; // explicit: no automatic Vapi chat either
     const report = await agent.askMitra('explain my latest report', scope());
     expect(report.mode).toBe('records');
     expect(report.answer).toMatch(/Early blight/);
@@ -136,7 +136,20 @@ suite('Mitra memory and agent (integration)', () => {
     const greeting = await agent.askMitra('hello', scope());
     expect(greeting.mode).toBe('guide');
     await expect(agent.askMitra('hello', scope(), [], { requireModel: true })).rejects.toBeInstanceOf(agent.MitraNotConfiguredError);
-    if (saved !== undefined) process.env.GENAI_PROVIDER = saved;
+    if (saved === undefined) delete process.env.GENAI_PROVIDER;
+    else process.env.GENAI_PROVIDER = saved;
+  });
+
+  it('answers a described problem before any crop check, in Hinglish by default (no LLM)', async () => {
+    const saved = process.env.GENAI_PROVIDER;
+    process.env.GENAI_PROVIDER = 'none';
+    const answer = await agent.askMitra('patton par bhure dhabbe hain, kya karun?', { farmerId: farmerB, activeDiagnosisId: null, language: 'en' }, [], {
+      settings: { language: 'hinglish', tone: 'friendly', voice: 'female', pace: 'normal', length: 'short' },
+    });
+    expect(answer.answer).not.toMatch(/You don.t have a crop check yet/);
+    expect(answer.answer).toMatch(/general jaankari|safe kadam/);
+    if (saved === undefined) delete process.env.GENAI_PROVIDER;
+    else process.env.GENAI_PROVIDER = saved;
   });
 
   it('answers through the LangGraph agent and strips chemical doses', async () => {

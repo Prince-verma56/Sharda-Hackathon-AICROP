@@ -230,6 +230,8 @@ model FarmerProfile {
   voiceTranscriptConsentAt DateTime?
   /// Privacy-policy version the farmer last consented under, e.g. "2026-11-13".
   consentPolicyVersion     String?
+  /// Mitra preferences chosen by the farmer (partial; unset fields follow the admin default)
+  mitraSettings            Json?
   onboardedAt              DateTime?
   createdAt                DateTime  @default(now())
   updatedAt                DateTime  @updatedAt

@@ -4,10 +4,12 @@
  *
  * Mitra text conversation — same LangGraph brain, farmer context and safety rules as the voice
  * call. History comes from the server (Redis working copy / PostgreSQL when the farmer consented),
- * never from the browser. Without a configured LLM: 503 GENAI_NOT_CONFIGURED (no canned answers).
+ * never from the browser. Reply language/tone follow Mitra settings (Hinglish by default). Without a
+ * working LLM, answers come from the farmer's records + TinyFish web search (labelled by mode).
  */
 import { z } from 'zod';
 import { linkedDiagnosisId, maybeSummarise, openConversation, recentTurns, recordTurns } from '@/ai/conversation/mitra';
+import { getMitraSettings } from '@/ai/settings/mitra-settings';
 import { MitraNotConfiguredError, MitraProviderError, askMitra } from '@/ai/workflows/farmer-assistant';
 import { getCurrentFarmer } from '@/server/auth/dal';
 import { db } from '@/server/db';
@@ -37,11 +39,15 @@ export async function POST(req: Request) {
   const language = farmer.language === 'hi' ? 'hi' : 'en';
   const conversation = await openConversation(farmer.userId, { conversationId: body.data.conversationId, language, diagnosisId: ownedDiagnosisId });
   const activeDiagnosisId = ownedDiagnosisId ?? (await linkedDiagnosisId(conversation.id));
-  const history = await recentTurns(farmer.userId, conversation);
+  const [history, mitra] = await Promise.all([recentTurns(farmer.userId, conversation), getMitraSettings(farmer.userId)]);
   const farmerTurn = { role: 'farmer' as const, text: body.data.message, modality: 'text' as const, turnId: body.data.turnId };
 
   try {
-    const result = await askMitra(body.data.message, { farmerId: farmer.userId, activeDiagnosisId, language }, history, { summary: conversation.summary });
+    const result = await askMitra(body.data.message, { farmerId: farmer.userId, activeDiagnosisId, language }, history, {
+      summary: conversation.summary,
+      settings: mitra.effective,
+      extraInstructions: mitra.defaults.extraInstructions,
+    });
     await recordTurns(farmer.userId, conversation, [
       farmerTurn,
       { role: 'mitra', text: result.answer, modality: 'text', provider: result.provider, model: result.model, turnId: body.data.turnId ? `${body.data.turnId}:a` : undefined },

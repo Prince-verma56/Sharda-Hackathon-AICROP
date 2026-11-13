@@ -12,10 +12,11 @@ import {
   Loader2,
   RotateCcw,
   Search,
-  Sprout,
   TriangleAlert,
   Volume2,
 } from "lucide-react";
+import { displayClass, eyebrowClass } from "@/components/app/page-intro";
+import { CropThumb } from "@/components/crops/crop-thumb";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -23,6 +24,7 @@ import { Progress } from "@/components/ui/progress";
 import { cropName } from "@/lib/crops";
 import { t } from "@/lib/i18n/farmer";
 import { cn } from "@/lib/utils";
+import { speakText } from "@/lib/voice/speak";
 
 const MAX_BYTES = 8 * 1024 * 1024;
 const TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -78,13 +80,8 @@ async function checkQuality(file: File): Promise<Quality | "unreadable"> {
   }
 }
 
-function speak(text: string, lang: string) {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = lang === "en" ? "en-IN" : "hi-IN";
-  utterance.rate = 0.9;
-  window.speechSynthesis.speak(utterance);
+function speak(text: string) {
+  void speakText(text);
 }
 
 export interface ScanSample {
@@ -228,7 +225,7 @@ export function ScanFlow({
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-md flex-1 flex-col px-5 pt-5 pb-6 lg:max-w-5xl lg:px-8 lg:pt-10">
+    <div className="mx-auto flex w-full max-w-[88rem] flex-1 flex-col px-4 pt-6 pb-8 sm:px-6 lg:px-8 lg:pt-10">
       <div className="flex items-center gap-3">
         {step > 1 && phase === "idle" && (
           <Button
@@ -242,7 +239,7 @@ export function ScanFlow({
           </Button>
         )}
         <div className="flex-1">
-          <p className="text-sm font-medium text-muted-foreground">
+          <p className={cn(eyebrowClass(lang), "text-[var(--crop-green-600)]")}>
             {tx.step(step, 3)}
           </p>
           <div className="mt-1.5 flex gap-1.5">
@@ -261,10 +258,12 @@ export function ScanFlow({
 
       {step === 1 && (
         <section className="mt-6 flex flex-col gap-4">
-          <h1 className="text-[1.7rem] font-semibold tracking-tight">
+          <h1
+            className={cn("text-[clamp(2rem,5vw,3.4rem)]", displayClass(lang))}
+          >
             {tx.chooseCrop}
           </h1>
-          <label className="flex h-13 items-center gap-2 rounded-2xl bg-white px-4 ring-1 ring-border">
+          <label className="flex h-13 items-center gap-2 rounded-2xl bg-white px-4 ring-1 ring-border focus-within:ring-2 focus-within:ring-[var(--crop-green-500)] lg:max-w-xl">
             <Search className="size-5 text-muted-foreground" />
             <input
               value={query}
@@ -275,7 +274,7 @@ export function ScanFlow({
           </label>
           {mine.length > 0 && !query && (
             <>
-              <h2 className="text-sm font-semibold tracking-wide text-muted-foreground uppercase">
+              <h2 className={cn(eyebrowClass(lang), "text-muted-foreground")}>
                 {tx.yourCrops}
               </h2>
               <CropGrid
@@ -284,7 +283,7 @@ export function ScanFlow({
                 images={cropImages}
                 onPick={setCrop}
               />
-              <h2 className="text-sm font-semibold tracking-wide text-muted-foreground uppercase">
+              <h2 className={cn(eyebrowClass(lang), "text-muted-foreground")}>
                 {tx.allCrops}
               </h2>
             </>
@@ -302,204 +301,267 @@ export function ScanFlow({
               rel="noopener noreferrer"
               className="text-[11px] text-muted-foreground underline-offset-2 hover:underline"
             >
-              {lang === 'hi' ? 'फसल फ़ोटो: विकिमीडिया कॉमन्स योगदानकर्ता (CC BY / CC BY-SA / CC0) — श्रेय' : 'Crop photos: Wikimedia Commons contributors (CC BY / CC BY-SA / CC0) — credits'}
+              {lang === "hi"
+                ? "फसल फ़ोटो: विकिमीडिया कॉमन्स योगदानकर्ता (CC BY / CC BY-SA / CC0) — श्रेय"
+                : "Crop photos: Wikimedia Commons contributors (CC BY / CC BY-SA / CC0) — credits"}
             </a>
           )}
         </section>
       )}
 
       {step === 2 && crop && (
-        <section className="mt-6 grid gap-5 lg:grid-cols-2 lg:gap-8">
-          <div className="flex flex-col gap-5">
+        <section className="mt-6 flex flex-col gap-5 lg:gap-6">
+          <div className="flex flex-col gap-2">
             <CropBadge id={crop} lang={lang} images={cropImages} />
-            <h1 className="-mt-3 text-[1.7rem] font-semibold tracking-tight lg:text-4xl">
+            <h1
+              className={cn(
+                "text-[clamp(2rem,5vw,3.4rem)]",
+                displayClass(lang),
+              )}
+            >
               {tx.takePhoto}
             </h1>
-            <div className="rounded-[24px] bg-white p-5 ring-1 ring-border">
-              <div className="flex items-center justify-between">
-                <h2 className="font-semibold">{tx.photoTips}</h2>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="rounded-full"
-                  onClick={() => speak(tx.tips.join("। "), lang)}
-                >
-                  <Volume2 /> {tx.listenTips}
-                </Button>
-              </div>
-              <ol className="mt-3 grid gap-2 text-base">
-                {tx.tips.map((tip, i) => (
-                  <li key={tip} className="flex items-center gap-3">
-                    <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[var(--crop-green-100)] text-sm font-bold text-[var(--crop-green-800)]">
-                      {i + 1}
-                    </span>
-                    {tip}
-                  </li>
-                ))}
-              </ol>
-            </div>
           </div>
-          <div className="flex flex-col gap-4 lg:pt-12">
-            <Button
-              className="h-20 rounded-[24px] text-xl"
-              onClick={() => cameraRef.current?.click()}
-            >
-              <Camera className="size-7" /> {tx.takePhoto}
-            </Button>
-            <Button
-              variant="outline"
-              className="h-14 rounded-[20px] bg-white text-base"
-              onClick={() => galleryRef.current?.click()}
-            >
-              <ImageIcon /> {tx.gallery}
-            </Button>
-            <input
-              ref={cameraRef}
-              type="file"
-              accept="image/*"
-              capture="environment"
-              className="hidden"
-              onChange={(e) => {
-                void onFile(e.target.files?.[0]);
-                e.target.value = "";
-              }}
-            />
-            <input
-              ref={galleryRef}
-              type="file"
-              accept={TYPES.join(",")}
-              className="hidden"
-              onChange={(e) => {
-                void onFile(e.target.files?.[0]);
-                e.target.value = "";
-              }}
-            />
-            {samples.length > 0 && (
-              <div className="rounded-[24px] bg-white p-4 ring-1 ring-border">
-                <p className="flex items-center gap-2 text-sm font-semibold">
-                  <FlaskConical className="size-4 text-[var(--crop-green-600)]" />{" "}
-                  {lang === "hi"
-                    ? "पत्ती पास नहीं है? नमूना फोटो से आज़माएँ"
-                    : "No leaf handy? Try a sample photo"}
-                </p>
-                <div className="mt-3 grid grid-cols-4 gap-2">
-                  {[...samples]
-                    .sort(
-                      (a, b) =>
-                        Number(b.crop === crop) - Number(a.crop === crop),
-                    )
-                    .map((sample) => (
-                      <button
-                        key={sample.file}
-                        type="button"
-                        onClick={() => void pickSample(sample)}
-                        className="group flex flex-col gap-1 text-left"
-                        title={`${cropName(sample.crop, lang)} · ${sample.condition}`}
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element -- authenticated sample route */}
-                        <img
-                          src={sample.url}
-                          alt=""
-                          className="aspect-square w-full rounded-xl object-cover ring-1 ring-border transition group-hover:ring-2 group-hover:ring-[var(--crop-green-500)]"
-                        />
-                        <span className="truncate text-[11px] font-medium">
-                          {cropName(sample.crop, lang)}
-                        </span>
-                      </button>
-                    ))}
+          <div className="grid items-stretch gap-5 lg:grid-cols-12 lg:gap-6">
+            <div className="flex flex-col lg:col-span-5">
+              <div className="flex flex-1 flex-col rounded-[24px] bg-white p-5 ring-1 ring-border sm:p-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="font-semibold">{tx.photoTips}</h2>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="rounded-full"
+                    onClick={() => speak(tx.tips.join(lang === "hi" ? "। " : ". "))}
+                  >
+                    <Volume2 /> {tx.listenTips}
+                  </Button>
                 </div>
-                <p className="mt-2 text-[10px] text-muted-foreground">
-                  PlantDoc (Singh et al., 2020) · CC BY 4.0
-                </p>
+                <ol className="mt-3 grid gap-2 text-base">
+                  {tx.tips.map((tip, i) => (
+                    <li key={tip} className="flex items-center gap-3">
+                      <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[var(--crop-green-100)] text-sm font-bold text-[var(--crop-green-800)]">
+                        {i + 1}
+                      </span>
+                      {tip}
+                    </li>
+                  ))}
+                </ol>
+                <div className="relative mt-5 hidden min-h-40 flex-1 overflow-hidden rounded-2xl sm:block">
+                  <Image
+                    src="/images/home/leaf.jpg"
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 30vw, 60vw"
+                    className="object-cover"
+                  />
+                  <span className="absolute bottom-3 left-3 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-[var(--crop-green-900)]">
+                    {lang === "hi"
+                      ? "ऐसी पास की, साफ़ फोटो"
+                      : "Close, sharp and well lit — like this"}
+                  </span>
+                </div>
               </div>
-            )}
+            </div>
+            <div className="flex flex-col gap-4 lg:col-span-7">
+              <Button
+                className="h-20 rounded-[24px] text-xl"
+                onClick={() => cameraRef.current?.click()}
+              >
+                <Camera className="size-7" /> {tx.takePhoto}
+              </Button>
+              <Button
+                variant="outline"
+                className="h-14 rounded-[20px] bg-white text-base"
+                onClick={() => galleryRef.current?.click()}
+              >
+                <ImageIcon /> {tx.gallery}
+              </Button>
+              <input
+                ref={cameraRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={(e) => {
+                  void onFile(e.target.files?.[0]);
+                  e.target.value = "";
+                }}
+              />
+              <input
+                ref={galleryRef}
+                type="file"
+                accept={TYPES.join(",")}
+                className="hidden"
+                onChange={(e) => {
+                  void onFile(e.target.files?.[0]);
+                  e.target.value = "";
+                }}
+              />
+              {samples.length > 0 && (
+                <div className="rounded-[24px] bg-white p-4 ring-1 ring-border">
+                  <p className="flex items-center gap-2 text-sm font-semibold">
+                    <FlaskConical className="size-4 text-[var(--crop-green-600)]" />{" "}
+                    {lang === "hi"
+                      ? "पत्ती पास नहीं है? नमूना फोटो से आज़माएँ"
+                      : "No leaf handy? Try a sample photo"}
+                  </p>
+                  <div className="mt-3 grid grid-cols-4 gap-2 sm:gap-3">
+                    {[...samples]
+                      .sort(
+                        (a, b) =>
+                          Number(b.crop === crop) - Number(a.crop === crop),
+                      )
+                      .map((sample) => (
+                        <button
+                          key={sample.file}
+                          type="button"
+                          onClick={() => void pickSample(sample)}
+                          className="group flex flex-col gap-1 text-left"
+                          title={`${cropName(sample.crop, lang)} · ${sample.condition}`}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element -- authenticated sample route */}
+                          <img
+                            src={sample.url}
+                            alt=""
+                            className="aspect-square w-full rounded-xl object-cover ring-1 ring-border transition group-hover:ring-2 group-hover:ring-[var(--crop-green-500)]"
+                          />
+                          <span className="truncate text-[11px] font-medium">
+                            {cropName(sample.crop, lang)}
+                          </span>
+                        </button>
+                      ))}
+                  </div>
+                  <p className="mt-2 text-[10px] text-muted-foreground">
+                    PlantDoc (Singh et al., 2020) · CC BY 4.0
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </section>
       )}
 
       {step === 3 && crop && preview && (
-        <section className="mt-6 grid gap-4 lg:grid-cols-2 lg:gap-8">
-          <div className="flex flex-col gap-4">
+        <section className="mt-6 flex flex-col gap-5 lg:gap-6">
+          <div className="flex flex-col gap-2">
             <CropBadge id={crop} lang={lang} images={cropImages} />
-            {/* eslint-disable-next-line @next/next/no-img-element -- local preview */}
-            <img
-              src={preview}
-              alt=""
-              className="aspect-square w-full rounded-[28px] bg-black/5 object-cover"
-            />
+            <h1
+              className={cn(
+                "text-[clamp(2rem,5vw,3.4rem)]",
+                displayClass(lang),
+              )}
+            >
+              {lang === "hi" ? "फोटो जांचें" : "Check photo"}
+            </h1>
           </div>
-          <div className="flex flex-col gap-4 lg:pt-12">
-            {quality && (
-              <div
-                className={cn(
-                  "flex items-start gap-3 rounded-2xl px-4 py-3 text-base",
-                  quality.ok
-                    ? "bg-[var(--crop-green-100)] text-[var(--crop-green-900)]"
-                    : "bg-amber-50 text-amber-900 ring-1 ring-amber-200",
-                )}
-              >
-                {quality.ok ? (
-                  <CheckCircle2 className="mt-0.5 size-5 shrink-0" />
-                ) : (
-                  <TriangleAlert className="mt-0.5 size-5 shrink-0" />
-                )}
-                <span>
-                  {quality.ok
-                    ? tx.qualityOk
-                    : quality.issues
-                        .map((i) =>
-                          i === "dark"
-                            ? tx.tooDark
-                            : i === "blurry"
-                              ? tx.tooBlurry
-                              : tx.tooSmall,
-                        )
-                        .join(" ")}
-                  <span className="block text-xs opacity-70">
-                    {tx.qualityNote}
+          <div className="grid items-stretch gap-5 lg:grid-cols-12 lg:gap-6">
+            <div className="lg:col-span-7">
+              {/* eslint-disable-next-line @next/next/no-img-element -- local preview */}
+              <img
+                src={preview}
+                alt=""
+                className="aspect-[4/3] w-full rounded-[28px] bg-black/5 object-cover lg:aspect-auto lg:h-full lg:max-h-[34rem]"
+              />
+            </div>
+            <div className="flex flex-col gap-4 rounded-[28px] bg-white p-5 ring-1 ring-border sm:p-6 lg:col-span-5">
+              {quality && (
+                <div
+                  className={cn(
+                    "flex items-start gap-3 rounded-2xl px-4 py-3 text-base",
+                    quality.ok
+                      ? "bg-[var(--crop-green-100)] text-[var(--crop-green-900)]"
+                      : "bg-amber-50 text-amber-900 ring-1 ring-amber-200",
+                  )}
+                >
+                  {quality.ok ? (
+                    <CheckCircle2 className="mt-0.5 size-5 shrink-0" />
+                  ) : (
+                    <TriangleAlert className="mt-0.5 size-5 shrink-0" />
+                  )}
+                  <span>
+                    {quality.ok
+                      ? tx.qualityOk
+                      : quality.issues
+                          .map((i) =>
+                            i === "dark"
+                              ? tx.tooDark
+                              : i === "blurry"
+                                ? tx.tooBlurry
+                                : tx.tooSmall,
+                          )
+                          .join(" ")}
+                    <span className="block text-xs opacity-70">
+                      {tx.qualityNote}
+                    </span>
                   </span>
-                </span>
-              </div>
-            )}
-            {!hasConsent && (
-              <label className="flex items-start gap-3 rounded-2xl bg-white px-4 py-3 text-sm ring-1 ring-border">
-                <Checkbox
-                  checked={consent}
-                  onCheckedChange={(v) => setConsent(Boolean(v))}
-                  className="mt-0.5 size-5"
-                />
-                {tx.consent}
-              </label>
-            )}
-            {phase !== "idle" ? (
-              <div
-                className="flex flex-col gap-2 rounded-2xl bg-white p-4 ring-1 ring-border"
-                aria-live="polite"
-              >
-                <span className="flex items-center gap-2 font-medium">
-                  <Loader2 className="size-5 animate-spin" />
-                  {phase === "uploading" ? tx.uploading : tx.analysing}
-                </span>
-                <Progress value={phase === "uploading" ? progress : 100} />
-              </div>
-            ) : (
-              <div className="grid grid-cols-[auto_1fr] gap-3">
-                <Button
-                  variant="outline"
-                  className="h-16 rounded-[20px] bg-white px-5 text-base"
-                  onClick={reset}
+                </div>
+              )}
+              {!hasConsent && (
+                <label className="flex items-start gap-3 rounded-2xl bg-white px-4 py-3 text-sm ring-1 ring-border">
+                  <Checkbox
+                    checked={consent}
+                    onCheckedChange={(v) => setConsent(Boolean(v))}
+                    className="mt-0.5 size-5"
+                  />
+                  {tx.consent}
+                </label>
+              )}
+              {phase !== "idle" ? (
+                <div
+                  className="flex flex-col gap-2 rounded-2xl bg-white p-4 ring-1 ring-border"
+                  aria-live="polite"
                 >
-                  <RotateCcw /> {tx.retake}
-                </Button>
-                <Button
-                  className="h-16 rounded-[20px] text-lg"
-                  onClick={upload}
-                  disabled={!consent}
-                >
-                  {tx.usePhoto}
-                </Button>
+                  <span className="flex items-center gap-2 font-medium">
+                    <Loader2 className="size-5 animate-spin" />
+                    {phase === "uploading" ? tx.uploading : tx.analysing}
+                  </span>
+                  <Progress value={phase === "uploading" ? progress : 100} />
+                </div>
+              ) : (
+                <div className="grid grid-cols-[auto_1fr] gap-3">
+                  <Button
+                    variant="outline"
+                    className="h-16 rounded-[20px] bg-white px-5 text-base"
+                    onClick={reset}
+                  >
+                    <RotateCcw /> {tx.retake}
+                  </Button>
+                  <Button
+                    className="h-16 rounded-[20px] text-lg"
+                    onClick={upload}
+                    disabled={!consent}
+                  >
+                    {tx.usePhoto}
+                  </Button>
+                </div>
+              )}
+              <div className="mt-auto border-t border-border/70 pt-4">
+                <p className="text-[11px] font-semibold tracking-[0.16em] text-[var(--crop-green-600)] uppercase">
+                  {lang === "hi" ? "आगे क्या होगा" : "What happens next"}
+                </p>
+                <ol className="mt-3 flex flex-col gap-2.5 text-sm text-muted-foreground">
+                  {(lang === "hi"
+                    ? [
+                        "AI मॉडल फोटो जांचता है (कुछ सेकंड)",
+                        "रिपोर्ट: संभावित स्थिति, स्कोर और आगे के कदम",
+                        "मित्र समझाता है; ज़रूरत हो तो विशेषज्ञ से पूछें",
+                      ]
+                    : [
+                        "The AI model checks the photo (a few seconds)",
+                        "Your report: likely condition, score and next steps",
+                        "Mitra explains it; ask an expert if needed",
+                      ]
+                  ).map((line, i) => (
+                    <li key={line} className="flex items-center gap-3">
+                      <span className="grid size-6 shrink-0 place-items-center rounded-full bg-[var(--crop-green-100)] text-xs font-bold text-[var(--crop-green-800)]">
+                        {i + 1}
+                      </span>
+                      {line}
+                    </li>
+                  ))}
+                </ol>
               </div>
-            )}
+            </div>
           </div>
         </section>
       )}
@@ -510,37 +572,6 @@ export function ScanFlow({
         </Alert>
       )}
     </div>
-  );
-}
-
-function CropThumb({
-  id,
-  images,
-  size,
-}: {
-  id: string;
-  images: Record<string, string>;
-  size: "sm" | "lg";
-}) {
-  const src = images[id];
-  const box = size === "lg" ? "size-16" : "size-7";
-  return src ? (
-    <Image
-      src={src}
-      alt=""
-      width={size === "lg" ? 128 : 56}
-      height={size === "lg" ? 128 : 56}
-      className={cn(box, "rounded-xl object-cover")}
-    />
-  ) : (
-    <span
-      className={cn(
-        box,
-        "grid place-items-center rounded-xl bg-[var(--crop-green-100)] text-[var(--crop-green-700,#3b6029)]",
-      )}
-    >
-      <Sprout className={size === "lg" ? "size-7" : "size-4"} />
-    </span>
   );
 }
 
@@ -572,7 +603,7 @@ function CropGrid({
   onPick: (id: string) => void;
 }) {
   return (
-    <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 lg:grid-cols-6 lg:gap-3">
+    <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 lg:gap-3 xl:grid-cols-8">
       {ids.map((id) => (
         <li key={id}>
           <button

@@ -20,6 +20,7 @@ import Link from 'next/link';
 import type Vapi from '@vapi-ai/web';
 import {
   AlertCircle,
+  ArrowDown,
   ArrowUpRight,
   CloudSun,
   FileText,
@@ -34,6 +35,7 @@ import {
   Plus,
   RotateCcw,
   Send,
+  Settings2,
   Trash2,
   Volume2,
 } from 'lucide-react';
@@ -45,6 +47,7 @@ import { Switch } from '@/components/ui/switch';
 import { LiveWaveform } from '@/components/ui/voice/live-waveform';
 import { cn } from '@/lib/utils';
 import { cleanTranscript } from '@/lib/voice/clean-transcript';
+import { speakText } from '@/lib/voice/speak';
 
 type Phase = 'idle' | 'preparing' | 'permission' | 'connecting' | 'live' | 'ended' | 'failed';
 type LiveState = 'listening' | 'farmer' | 'processing' | 'mitra';
@@ -80,7 +83,7 @@ const L = {
   en: {
     eyebrow: 'AI farming mentor',
     titleA: 'Talk to',
-    tagline: 'Voice or text · Hindi & English',
+    tagline: 'Voice or text · Hinglish, Hindi or English',
     voice: 'Voice',
     languages: 'Languages',
     audioStored: 'Audio stored',
@@ -144,11 +147,13 @@ const L = {
     deleteHistory: 'Delete saved history',
     confirmDelete: 'Tap again to delete everything',
     earlier: 'Earlier conversations',
+    latest: 'Latest',
+    settings: 'Settings',
   },
   hi: {
     eyebrow: 'AI खेती सलाहकार',
     titleA: 'बात करें',
-    tagline: 'बोलकर या लिखकर · हिंदी और English',
+    tagline: 'बोलकर या लिखकर · हिंग्लिश, हिंदी या English',
     voice: 'आवाज़',
     languages: 'भाषाएँ',
     audioStored: 'आवाज़ सेव',
@@ -212,6 +217,8 @@ const L = {
     deleteHistory: 'सेव की गई बातचीत मिटाएँ',
     confirmDelete: 'सब मिटाने के लिए फिर दबाएँ',
     earlier: 'पिछली बातचीत',
+    latest: 'नए संदेश',
+    settings: 'सेटिंग्स',
   },
 };
 
@@ -320,10 +327,26 @@ export function MitraClient({
     conversationRef.current = conversationId;
   });
 
-  useEffect(() => {
+  // Chat-app scrolling: follow new messages only while the farmer is at the bottom (reading older
+  // messages is never interrupted); otherwise offer a "latest" button.
+  const atBottomRef = useRef(true);
+  const [showLatest, setShowLatest] = useState(false);
+  const scrollToLatest = (behavior: ScrollBehavior = 'smooth') => {
     const el = scrollRef.current;
-    if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior });
+  };
+  function onScroll() {
+    const el = scrollRef.current;
+    if (!el) return;
+    const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+    atBottomRef.current = atBottom;
+    setShowLatest(!atBottom);
+  }
+  useEffect(() => {
+    const own = messages.at(-1)?.role === 'farmer';
+    if (atBottomRef.current || own) scrollToLatest(own ? 'smooth' : 'auto');
   }, [messages, partial]);
+  useEffect(() => scrollToLatest('auto'), []); // open at the latest message
 
   function mark(stage: string, extra?: unknown) {
     if (process.env.NODE_ENV !== 'production') {
@@ -702,12 +725,10 @@ export function MitraClient({
   }
 
   function replay(say: string) {
-    if (!('speechSynthesis' in window)) return;
-    const u = new SpeechSynthesisUtterance(say);
-    u.lang = lang === 'hi' ? 'hi-IN' : 'en-IN';
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
+    // Voice follows the script: Devanagari → Hindi voice, Roman Hinglish/English → Indian-English voice.
+    void speakText(say);
   }
+
 
   const inCall = phase === 'live';
   const busy = phase === 'preparing' || phase === 'permission' || phase === 'connecting';
@@ -762,13 +783,16 @@ export function MitraClient({
         }
       />
 
-      <div className="grid flex-1 gap-5 lg:grid-cols-12 lg:gap-6">
+      {/* Desktop: both columns share one height (fills the screen) so their edges line up. */}
+      {/* Fixed height on desktop (NOT flex-1: a flex item's min-height:auto would let the chat
+          content stretch the grid). Messages scroll inside the conversation panel like a chat app. */}
+      <div className="grid gap-5 lg:h-[clamp(37rem,calc(100dvh-18.5rem),54rem)] lg:min-h-0 lg:flex-none lg:grid-cols-12 lg:grid-rows-[minmax(0,1fr)] lg:gap-6">
         {/* Voice — photo panel like the home hero */}
-        <section aria-label={l.voice} className="flex flex-col gap-5 lg:col-span-5">
-          <div className="relative overflow-hidden rounded-[28px] bg-[var(--crop-green-950)] text-white">
-            <Image src="/images/home/field-band.jpg" alt="" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover object-[50%_40%]" />
+        <section aria-label={l.voice} className="flex flex-col lg:col-span-5 lg:min-h-0">
+          <div className="relative flex-1 overflow-hidden rounded-[28px] bg-[var(--crop-green-950)] text-white lg:min-h-0">
+            <Image src="/images/home/field-band.jpg" alt="" fill loading="eager" fetchPriority="high" sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover object-[50%_40%]" />
             <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-[var(--crop-green-950)]/60 to-[var(--crop-green-950)]/95" />
-            <div className="relative flex min-h-[27rem] flex-col justify-between gap-6 p-5 sm:min-h-[30rem] sm:p-7">
+            <div className="relative flex min-h-[30rem] flex-col justify-between gap-5 p-5 sm:min-h-[33rem] sm:p-7 lg:h-full lg:min-h-0">
               <div className="flex items-start justify-between">
                 <span className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-lg">
                   <LeafMark className="size-5 text-[var(--crop-green-200)]" />
@@ -777,13 +801,43 @@ export function MitraClient({
                 <span className={cn(label, 'rounded-full border border-white/30 px-3 py-1 backdrop-blur-md')}>{inCall ? l.live : l.voice}</span>
               </div>
 
+              {/* The report Mitra talks about (glass strip, like the home hero chips) */}
+              {report ? (
+                <Link
+                  href={`/farmer/diagnosis/${report.id}`}
+                  className="group -mt-1 flex items-center gap-3 rounded-2xl bg-white/12 p-2 pr-3 ring-1 ring-white/15 backdrop-blur-md transition-colors hover:bg-white/20"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element -- private authenticated image route */}
+                  <img src={`/api/v1/images/diagnoses/${report.id}`} alt="" className="size-11 shrink-0 rounded-xl object-cover" />
+                  <span className="min-w-0 flex-1">
+                    <span className={cn(label, 'block text-[var(--crop-green-200)]')}>{l.report}</span>
+                    <span className="block truncate text-sm font-semibold">
+                      {report.crop} · {report.condition}
+                      <span className="font-normal text-white/60"> · {report.date}</span>
+                    </span>
+                  </span>
+                  <ArrowUpRight className="size-4 shrink-0 text-white/70 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </Link>
+              ) : (
+                <Link
+                  href="/farmer/scan"
+                  className="group -mt-1 flex items-center gap-3 rounded-2xl bg-white/12 p-2 pr-3 ring-1 ring-white/15 backdrop-blur-md transition-colors hover:bg-white/20"
+                >
+                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white/15">
+                    <FileText className="size-5" strokeWidth={1.7} />
+                  </span>
+                  <span className="min-w-0 flex-1 text-sm text-white/85">{l.noReport}</span>
+                  <ArrowUpRight className="size-4 shrink-0 text-white/70" />
+                </Link>
+              )}
+
               <div className="flex flex-col items-center gap-4 text-center">
                 <button
                   type="button"
                   onClick={inCall ? endCall : startCall}
                   disabled={!voiceAvailable || busy}
                   aria-label={inCall ? l.end : l.tap}
-                  className="relative grid size-32 place-items-center rounded-full bg-white text-[var(--crop-green-900)] shadow-[0_30px_60px_-24px_rgba(0,0,0,0.7)] transition-transform hover:scale-[1.03] active:scale-95 disabled:cursor-wait disabled:opacity-80"
+                  className="relative grid size-28 place-items-center rounded-full sm:size-32 bg-white text-[var(--crop-green-900)] shadow-[0_30px_60px_-24px_rgba(0,0,0,0.7)] transition-transform hover:scale-[1.03] active:scale-95 disabled:cursor-wait disabled:opacity-80"
                 >
                   {(inCall || busy) && (
                     <span
@@ -858,39 +912,16 @@ export function MitraClient({
               </div>
             </div>
           </div>
-
-          {/* The report Mitra talks about */}
-          {report ? (
-            <Link href={`/farmer/diagnosis/${report.id}`} className="group flex items-center gap-4 rounded-[24px] bg-white p-4 ring-1 ring-border transition-shadow hover:shadow-[0_16px_32px_-24px_rgba(28,46,22,0.6)]">
-              {/* eslint-disable-next-line @next/next/no-img-element -- private authenticated image route */}
-              <img src={`/api/v1/images/diagnoses/${report.id}`} alt="" className="size-16 shrink-0 rounded-2xl object-cover" />
-              <span className="min-w-0 flex-1">
-                <span className={cn(label, 'text-[var(--crop-green-600)]')}>{l.report}</span>
-                <span className="mt-0.5 block truncate font-semibold tracking-tight">
-                  {report.crop} · {report.condition}
-                </span>
-                <span className="text-xs text-muted-foreground">{report.date}</span>
-              </span>
-              <ArrowUpRight className="size-5 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
-          ) : (
-            <div className="flex items-center gap-4 rounded-[24px] bg-white p-4 ring-1 ring-border">
-              <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[var(--crop-green-100)] text-[var(--crop-green-600)]">
-                <FileText className="size-5" strokeWidth={1.7} />
-              </span>
-              <span className="min-w-0 flex-1 text-sm text-muted-foreground">{l.noReport}</span>
-              <Link href="/farmer/scan" className="shrink-0 rounded-xl bg-[var(--crop-green-800)] px-3 py-2 text-[11px] font-semibold tracking-[0.12em] text-white uppercase">
-                {l.checkCrop}
-              </Link>
-            </div>
-          )}
         </section>
 
         {/* Conversation */}
-        <section aria-label={l.conversation} className="flex min-h-[34rem] flex-col overflow-hidden rounded-[28px] bg-white ring-1 ring-border lg:col-span-7 lg:h-[calc(100dvh-14rem)] lg:min-h-[36rem]">
+        <section aria-label={l.conversation} className="relative flex h-[min(40rem,82dvh)] min-h-0 flex-col overflow-hidden rounded-[28px] bg-white ring-1 ring-border lg:col-span-7 lg:h-full">
           <div className="flex items-center justify-between gap-2 border-b border-border/70 px-5 py-3 sm:px-6">
             <span className={cn(label, 'text-[11px] text-foreground/70')}>{l.conversation}</span>
             <div className="flex items-center gap-1">
+              <Link href="/farmer/settings" aria-label={l.settings} className={cn(label, 'flex h-9 items-center gap-1.5 rounded-xl px-2.5 hover:bg-muted')}>
+                <Settings2 className="size-3.5" /> <span className="hidden sm:inline">{l.settings}</span>
+              </Link>
               <Link href="/farmer/assistant?new=1" className={cn(label, 'flex h-9 items-center gap-1.5 rounded-xl px-2.5 text-[var(--crop-green-800)] hover:bg-[var(--crop-green-100)]')}>
                 <Plus className="size-3.5" /> {l.newChat}
               </Link>
@@ -931,7 +962,7 @@ export function MitraClient({
             </div>
           </div>
 
-          <div ref={scrollRef} className="flex flex-1 flex-col gap-4 overflow-y-auto px-4 py-5 sm:px-6">
+          <div ref={scrollRef} onScroll={onScroll} className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overscroll-contain scroll-smooth px-4 py-5 [scrollbar-width:thin] sm:px-6">
             {messages.length === 0 && !partial ? (
               <div className="my-auto flex flex-col gap-6 py-4">
                 <div>
@@ -1040,6 +1071,17 @@ export function MitraClient({
             )}
           </div>
 
+          {showLatest && (
+            <div className="pointer-events-none relative">
+              <button
+                type="button"
+                onClick={() => scrollToLatest()}
+                className={cn(label, 'pointer-events-auto absolute -top-14 left-1/2 inline-flex h-9 -translate-x-1/2 items-center gap-1.5 rounded-full bg-[var(--crop-ink)] px-4 text-white shadow-lg transition-transform hover:-translate-y-0.5')}
+              >
+                <ArrowDown className="size-3.5" /> {l.latest}
+              </button>
+            </div>
+          )}
           <div className="border-t border-border/70 bg-white px-4 py-3 sm:px-6">
             {messages.length > 0 && (
               <div className="mb-2.5 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none]">

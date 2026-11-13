@@ -16,6 +16,7 @@ import { storeImage } from '@/server/cropai/image-store';
 import { invalidateGuidance } from '@/server/cropai/knowledge';
 import { fetchSourceExcerpt, searchSources } from '@/server/cropai/research';
 import { saveSettings, SETTINGS_SCHEMA } from '@/server/cropai/settings';
+import { MitraDefaultsSchema, saveMitraDefaults } from '@/ai/settings/mitra-settings';
 import { getTaxonomy } from '@/server/cropai/taxonomy';
 import { db } from '@/server/db';
 import { notificationService } from '@/server/notifications';
@@ -199,6 +200,25 @@ export async function updateSettings(_prev: ActionState, form: FormData): Promis
   await auditService.audit({ actorId: staff.userId, action: 'settings.update', resource: 'platform_settings', resourceId: 'global', metadata: parsed.data });
   revalidatePath('/admin/settings');
   return { ok: 'Settings saved.' };
+}
+
+/** Mitra defaults for every farmer who has not chosen their own (+ optional guidance for the prompt). */
+export async function updateMitraDefaults(_prev: ActionState, form: FormData): Promise<ActionState> {
+  const staff = await requireStaff('settings:manage');
+  const parsed = MitraDefaultsSchema.safeParse({
+    language: form.get('language'),
+    tone: form.get('tone'),
+    voice: form.get('voice'),
+    pace: form.get('pace'),
+    length: form.get('length'),
+    extraInstructions: String(form.get('extraInstructions') ?? ''),
+  });
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Invalid Mitra settings.' };
+  await saveMitraDefaults(parsed.data, staff.userId);
+  const { extraInstructions, ...choices } = parsed.data;
+  await auditService.audit({ actorId: staff.userId, action: 'settings.mitra_defaults', resource: 'platform_settings', resourceId: 'mitra_defaults', metadata: { ...choices, extraInstructionsLength: extraInstructions.length } });
+  revalidatePath('/admin/settings');
+  return { ok: 'Mitra defaults saved. They apply to every farmer who has not chosen their own, from their next message or call.' };
 }
 
 export async function createRoleInvitation(_prev: ActionState, form: FormData): Promise<ActionState> {

@@ -6,6 +6,7 @@
 import 'server-only';
 import { mitraGreeting, mitraInstructions, type ConversationTurn } from '@/ai/agents/mitra';
 import { loadFarmerContext } from '@/ai/context/farmer-context';
+import { getMitraSettings, transcriberFor, voiceFor } from '@/ai/settings/mitra-settings';
 import { hmac, safeEqualHex } from '@/server/auth/crypto';
 import { db } from '@/server/db';
 import { MITRA_TOOL_DEFINITIONS } from './mitra-tools';
@@ -59,26 +60,28 @@ export async function createVoiceSession(
   }
   const scope = { farmerId, activeDiagnosisId: diagnosisId, language };
 
-  const [context, conversation] = await Promise.all([
+  const [context, conversation, mitra] = await Promise.all([
     loadFarmerContext(scope), // DB only — weather is a tool, never a start-up wait
     db.conversation.create({
       data: { userId: farmerId, channel: 'voice', metadata: { provider: 'vapi', diagnosisId, conversationId: options.conversationId ?? null, startedAt: new Date().toISOString(), audioStored: false } },
     }),
+    getMitraSettings(farmerId),
   ]);
+  const settings = mitra.effective;
   const expiresAt = Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS;
   const token = signVoiceToken(conversation.id, expiresAt);
 
   const serverUrl = `${process.env.APP_PUBLIC_URL}/api/v1/voice/tools`;
   const assistant: Record<string, unknown> = {
     name: `${ASSISTANT_NAME} (CropAI)`,
-    firstMessage: mitraGreeting(language, profile?.preferredName ?? null),
+    firstMessage: mitraGreeting(settings.language, profile?.preferredName ?? null),
     firstMessageMode: 'assistant-speaks-first',
     model: {
       provider: 'openai',
       model: process.env.VAPI_LLM_MODEL || 'gpt-4o-mini',
       temperature: 0.4,
-      maxTokens: 250,
-      messages: [{ role: 'system', content: mitraInstructions(context, { channel: 'voice', language, history, summary: options.summary, toolsEnabled: toolsEnabled() }) }],
+      maxTokens: settings.length === 'detailed' ? 350 : 250,
+      messages: [{ role: 'system', content: mitraInstructions(context, { channel: 'voice', settings, extraInstructions: mitra.defaults.extraInstructions, history, summary: options.summary, toolsEnabled: toolsEnabled() }) }],
       ...(toolsEnabled()
         ? {
             tools: MITRA_TOOL_DEFINITIONS.map((tool) => ({
@@ -89,9 +92,9 @@ export async function createVoiceSession(
           }
         : {}),
     },
-    voice: language === 'hi' ? { provider: 'azure', voiceId: 'hi-IN-SwaraNeural' } : { provider: 'azure', voiceId: 'en-IN-NeerjaNeural' },
-    // nova-3 "multi": English + Hindi code-switching (Hinglish) in one stream.
-    transcriber: { provider: 'deepgram', model: 'nova-3', language: 'multi', smartFormat: true },
+    // Voice + speech recognition follow Mitra's language setting (Hinglish by default).
+    voice: voiceFor(settings),
+    transcriber: transcriberFor(settings),
     backgroundSpeechDenoisingPlan: { smartDenoisingPlan: { enabled: true } },
     clientMessages: ['transcript', 'speech-update', 'status-update', 'conversation-update', 'user-interrupted', 'assistant.speechStarted', 'model-output'],
     maxDurationSeconds: 600,

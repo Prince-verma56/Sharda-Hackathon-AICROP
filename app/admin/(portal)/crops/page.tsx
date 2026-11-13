@@ -3,9 +3,11 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { cropEmoji, cropName } from '@/lib/crops';
+import { CropThumb } from '@/components/crops/crop-thumb';
+import { cropName } from '@/lib/crops';
 import { requireStaff } from '@/server/auth/dal';
 import { can } from '@/server/auth/rbac';
+import { getCropImages } from '@/server/cropai/crop-images';
 import { tryGetTaxonomy } from '@/server/cropai/taxonomy';
 import { db } from '@/server/db';
 import { PageHeader } from '../ui';
@@ -14,10 +16,11 @@ export const metadata = { title: 'Crops & conditions' };
 
 export default async function CropsPage() {
   const staff = await requireStaff('crops:view');
-  const [taxonomy, usage, approved] = await Promise.all([
+  const [taxonomy, usage, approved, cropImages] = await Promise.all([
     tryGetTaxonomy(),
     db.diagnosis.groupBy({ by: ['predictedLabel'], _count: true }),
     db.knowledgeEntry.findMany({ where: { status: 'APPROVED' }, select: { conditionLabel: true, id: true } }),
+    getCropImages(),
   ]);
   if (!taxonomy) return <Alert variant="destructive"><AlertDescription>The inference service is offline, so the model taxonomy cannot be loaded.</AlertDescription></Alert>;
   const used = new Map(usage.map((u) => [u.predictedLabel, u._count]));
@@ -36,7 +39,7 @@ export default async function CropsPage() {
                 <AccordionItem key={crop.id} value={crop.id}>
                   <AccordionTrigger>
                     <span className="flex flex-1 items-center gap-3 text-left">
-                      <span className="text-xl">{cropEmoji(crop.id)}</span>
+                      <CropThumb id={crop.id} images={cropImages} size="md" />
                       <span className="flex-1 font-medium">{cropName(crop.id)} <span className="text-xs font-normal text-muted-foreground">({crop.classCount} conditions)</span></span>
                       <span className="hidden text-xs text-muted-foreground sm:inline">upstream F1 {crop.upstreamMetrics ? crop.upstreamMetrics.macroF1.toFixed(2) : '—'}</span>
                       <Badge variant="outline">{cropUses} checks</Badge>

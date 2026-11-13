@@ -28,7 +28,9 @@ services:
       AI_SERVICE_TOKEN: ${AI_SERVICE_TOKEN:?Set AI_SERVICE_TOKEN (32+ chars) in .env.local}
       AI_INFERENCE_DEVICE: ${AI_INFERENCE_DEVICE:-cpu}
       AI_INFERENCE_THREADS: ${AI_INFERENCE_THREADS:-4}
-      AI_INFERENCE_ENABLE_DOCS: ${AI_INFERENCE_ENABLE_DOCS:-false}
+      # Swagger UI at http://localhost:8001/docs (+ /openapi.json). The port is loopback-only;
+      # set AI_INFERENCE_ENABLE_DOCS=false for any deployment reachable by others.
+      AI_INFERENCE_ENABLE_DOCS: ${AI_INFERENCE_ENABLE_DOCS:-true}
     volumes:
       # Verified checkpoint, mounted read-only (single copy on disk; never baked into the image).
       - ../ai/models/agrismart-india/checkpoints/model.pt:/models/model.pt:ro

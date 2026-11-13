@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { createRoleInvitation, updateSettings, type ActionState } from '@/server/admin/actions';
+import { MITRA_SETTING_GROUPS } from '@/lib/mitra/settings-options';
+import { createRoleInvitation, updateMitraDefaults, updateSettings, type ActionState } from '@/server/admin/actions';
 import type { PlatformSettings } from '@/server/cropai/settings';
 
 export function PlatformSettingsForm({ values }: { values: PlatformSettings }) {
@@ -46,6 +47,54 @@ export function InviteForm({ role, allowAdmin = false }: { role: 'VOLUNTEER' | '
       </div>
       {state.error && <Alert variant="destructive"><AlertDescription>{state.error}</AlertDescription></Alert>}
       {state.ok && <Alert><AlertDescription>{state.ok}</AlertDescription></Alert>}
+    </form>
+  );
+}
+
+/** Mitra defaults (language, tone, voice, pace, length) + extra guidance appended to Mitra's prompt. */
+export function MitraDefaultsForm({ values }: { values: Record<'language' | 'tone' | 'voice' | 'pace' | 'length', string> & { extraInstructions: string } }) {
+  const [state, action, pending] = useActionState<ActionState, FormData>(updateMitraDefaults, {});
+  return (
+    <form action={action} className="flex flex-col gap-4">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        {MITRA_SETTING_GROUPS.map((group) => (
+          <div key={group.key} className="flex flex-col gap-1.5">
+            <Label htmlFor={`mitra-${group.key}`}>{group.title.en}</Label>
+            <select id={`mitra-${group.key}`} name={group.key} defaultValue={values[group.key]} className="h-9 rounded-lg border border-input bg-white px-2 text-sm">
+              {group.options.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label.en} — {o.hint.en}
+                </option>
+              ))}
+            </select>
+          </div>
+        ))}
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="mitra-extra">Extra guidance for Mitra (optional)</Label>
+        <Textarea
+          id="mitra-extra"
+          name="extraInstructions"
+          defaultValue={values.extraInstructions}
+          maxLength={800}
+          rows={4}
+          placeholder="e.g. Farmers here mostly grow wheat, mustard and potato. Mention the local KVK helpline when suggesting expert help."
+        />
+        <span className="text-xs text-muted-foreground">Added to Mitra’s instructions for voice and chat. It can never override the safety rules (no invented diseases, chemicals or doses).</span>
+      </div>
+      {state.error && (
+        <Alert variant="destructive">
+          <AlertDescription>{state.error}</AlertDescription>
+        </Alert>
+      )}
+      {state.ok && (
+        <Alert>
+          <AlertDescription>{state.ok}</AlertDescription>
+        </Alert>
+      )}
+      <Button type="submit" disabled={pending} className="w-fit">
+        {pending && <Loader2 className="animate-spin" />}Save Mitra defaults
+      </Button>
     </form>
   );
 }

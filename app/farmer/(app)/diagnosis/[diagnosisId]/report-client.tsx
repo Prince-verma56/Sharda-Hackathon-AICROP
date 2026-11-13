@@ -7,6 +7,7 @@ import { Download, MessageCircle, Share2, ThumbsDown, ThumbsUp, UserRoundCheck, 
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart';
+import { canSpeak, speakText, stopSpeaking } from '@/lib/voice/speak';
 
 const chartConfig = { score: { label: 'Model score', color: 'var(--crop-green-600)' } } satisfies ChartConfig;
 
@@ -30,10 +31,13 @@ const L = {
   en: { listen: 'Listen', stop: 'Stop', ask: 'Ask Mitra', share: 'Share', download: 'Download', expert: 'Ask an expert', expertSent: 'Sent to expert', helpful: 'Was this report helpful?', yes: 'Yes', no: 'No', thanks: 'Thank you! Your feedback is saved.', copied: 'Report summary copied' },
 };
 
-export function ReportActions({ id, lang, speech, shareText, reviewStatus, feedback }: {
+export function ReportActions({ id, lang, speech, speechFallback, shareText, reviewStatus, feedback }: {
   id: string;
   lang: string;
+  /** spoken script in the farmer's Mitra language (Hinglish by default) */
   speech: string;
+  /** Roman-script version for devices without a Hindi voice */
+  speechFallback?: string;
   shareText: string;
   reviewStatus: string;
   feedback: boolean | null;
@@ -44,19 +48,14 @@ export function ReportActions({ id, lang, speech, shareText, reviewStatus, feedb
   const [helpful, setHelpful] = useState<boolean | null>(feedback);
 
   function listen() {
-    if (!('speechSynthesis' in window)) return toast.error('Voice not supported on this phone');
+    if (!canSpeak()) return toast.error('Voice not supported on this phone');
     if (speaking) {
-      window.speechSynthesis.cancel();
+      stopSpeaking();
       setSpeaking(false);
       return;
     }
-    const u = new SpeechSynthesisUtterance(speech);
-    u.lang = lang === 'en' ? 'en-IN' : 'hi-IN';
-    u.rate = 0.9;
-    u.onend = () => setSpeaking(false);
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
     setSpeaking(true);
+    void speakText(speech, { fallback: speechFallback, rate: 0.92, onEnd: () => setSpeaking(false) });
   }
 
   async function act(body: Record<string, unknown>) {

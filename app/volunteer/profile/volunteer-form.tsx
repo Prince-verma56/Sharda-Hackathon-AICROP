@@ -10,28 +10,76 @@ import { saveVolunteerProfile, type VolunteerFormState } from '@/server/voluntee
 
 const LANGS = [['hi', 'हिंदी'], ['en', 'English'], ['mr', 'मराठी'], ['pa', 'ਪੰਜਾਬੀ'], ['bn', 'বাংলা'], ['te', 'తెలుగు'], ['ta', 'தமிழ்'], ['gu', 'ગુજરાતી'], ['kn', 'ಕನ್ನಡ'], ['ml', 'മലയാളം'], ['or', 'ଓଡ଼ିଆ']] as const;
 
+const card = 'flex flex-col gap-4 rounded-[24px] bg-white p-5 ring-1 ring-border sm:p-6';
+const field = 'h-12 rounded-2xl bg-[var(--crop-cream)] text-base';
+
+function SectionTitle({ n, title, hint }: { n: number; title: string; hint?: string }) {
+  return (
+    <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+      <span className="flex items-baseline gap-2.5">
+        <span className="text-[11px] font-semibold tracking-[0.16em] text-[var(--crop-green-600)] tabular-nums">{String(n).padStart(2, '0')}</span>
+        <span className="text-lg font-semibold tracking-tight sm:text-xl">{title}</span>
+      </span>
+      {hint && <span className="text-xs text-muted-foreground">{hint}</span>}
+    </div>
+  );
+}
+
 export function VolunteerForm({ initial }: { initial: { name: string; serviceArea: string; district: string; state: string; languages: string[] } }) {
   const [state, action, pending] = useActionState<VolunteerFormState, FormData>(saveVolunteerProfile, {});
   return (
     <form action={action} className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1.5"><Label htmlFor="name">Your name (shown to admins)</Label><Input id="name" name="name" defaultValue={initial.name} maxLength={80} className="h-11 bg-white" /></div>
-      <div className="flex flex-col gap-1.5"><Label htmlFor="serviceArea">Service area — villages or block you will visit *</Label><Input id="serviceArea" name="serviceArea" required defaultValue={initial.serviceArea} maxLength={120} className="h-11 bg-white" /></div>
-      <div className="grid gap-3 sm:grid-cols-2">
-        <div className="flex flex-col gap-1.5"><Label htmlFor="district">District *</Label><Input id="district" name="district" required defaultValue={initial.district} maxLength={60} className="h-11 bg-white" /></div>
-        <div className="flex flex-col gap-1.5"><Label htmlFor="state">State *</Label><Input id="state" name="state" required defaultValue={initial.state} maxLength={60} className="h-11 bg-white" /></div>
+      <div className={card}>
+        <SectionTitle n={1} title="About you" hint="Shown to admins" />
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="name">Your name</Label>
+          <Input id="name" name="name" defaultValue={initial.name} maxLength={80} className={field} />
+        </div>
       </div>
-      <fieldset className="flex flex-col gap-2">
-        <legend className="mb-1 text-sm font-medium">Languages you can teach in *</legend>
+
+      <div className={card}>
+        <SectionTitle n={2} title="Where you work" hint="* required" />
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="serviceArea">Service area — villages or block you will visit *</Label>
+          <Input id="serviceArea" name="serviceArea" required defaultValue={initial.serviceArea} maxLength={120} className={field} />
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="district">District *</Label>
+            <Input id="district" name="district" required defaultValue={initial.district} maxLength={60} className={field} />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="state">State *</Label>
+            <Input id="state" name="state" required defaultValue={initial.state} maxLength={60} className={field} />
+          </div>
+        </div>
+      </div>
+
+      <fieldset className={card}>
+        <legend className="sr-only">Languages you can teach in</legend>
+        <SectionTitle n={3} title="Languages you can teach in" hint="Choose at least one *" />
         <div className="flex flex-wrap gap-2">
           {LANGS.map(([value, label]) => (
-            <label key={value} className="flex min-h-10 cursor-pointer items-center gap-2 rounded-full bg-white px-3 text-sm ring-1 ring-border has-checked:bg-[var(--crop-green-100)] has-checked:ring-[var(--crop-green-500)]">
-              <input type="checkbox" name="languages" value={value} defaultChecked={initial.languages.includes(value)} className="size-4" /> {label}
+            <label
+              key={value}
+              className="flex min-h-11 cursor-pointer items-center gap-2 rounded-full bg-[var(--crop-cream)] px-4 text-sm font-medium ring-1 ring-border transition-colors has-checked:bg-[var(--crop-green-100)] has-checked:text-[var(--crop-green-900)] has-checked:ring-2 has-checked:ring-[var(--crop-green-600)]"
+            >
+              <input type="checkbox" name="languages" value={value} defaultChecked={initial.languages.includes(value)} className="size-4 accent-[var(--crop-green-600)]" /> {label}
             </label>
           ))}
         </div>
       </fieldset>
-      {state.error && <Alert variant="destructive"><AlertDescription>{state.error}</AlertDescription></Alert>}
-      <Button type="submit" disabled={pending} className="h-12 rounded-2xl">{pending && <Loader2 className="animate-spin" />}Save profile</Button>
+
+      {state.error && (
+        <Alert variant="destructive">
+          <AlertDescription>{state.error}</AlertDescription>
+        </Alert>
+      )}
+      <div className="flex justify-end">
+        <Button type="submit" disabled={pending} className="h-13 w-full rounded-2xl px-6 text-base sm:w-auto">
+          {pending && <Loader2 className="animate-spin" />}Save profile
+        </Button>
+      </div>
     </form>
   );
 }

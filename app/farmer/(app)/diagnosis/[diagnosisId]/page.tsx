@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -5,6 +6,7 @@ import {
   ArrowUpRight,
   BadgeCheck,
   CalendarClock,
+  Clock,
   CloudSun,
   Cpu,
   Droplets,
@@ -13,12 +15,12 @@ import {
   ImageOff,
   Info,
   ShieldCheck,
-  Sparkles,
   Sprout,
   Thermometer,
   TriangleAlert,
   UserRoundCheck,
 } from "lucide-react";
+import { LeafMark } from "@/components/marketing/home/brand";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -28,6 +30,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cropName, splitLabel } from "@/lib/crops";
+import { cn } from "@/lib/utils";
+import { getMitraSettings } from "@/ai/settings/mitra-settings";
 import { requireFarmer } from "@/server/auth/dal";
 import { getDiagnosisForFarmer } from "@/server/cropai/diagnosis-service";
 import { getApprovedGuidance } from "@/server/cropai/knowledge";
@@ -126,13 +130,32 @@ export default async function DiagnosisReport({
     dateStyle: "medium",
     timeStyle: "short",
   });
-  const speech = [
-    ex?.summary,
-    ex?.condition_explanation,
-    ...actions.map((a, i) => `${i + 1}. ${a.text}`),
-  ]
-    .filter(Boolean)
-    .join(" ");
+  // "Listen" follows the farmer's Mitra language (Hinglish by default). Hindi words are written in
+  // Devanagari so a Hindi voice pronounces them; crop/condition names stay in English.
+  const speakIn = (await getMitraSettings(farmer.userId)).effective.language;
+  const cropEn = cropName(d.predictedCrop, "en");
+  const steps = actions.map((a, i) => `${i + 1}. ${a.text}`).join(" ");
+  const speech =
+    speakIn === "en"
+      ? [ex?.summary, ex?.condition_explanation, ...actions.map((a, i) => `${i + 1}. ${a.text}`)].filter(Boolean).join(" ")
+      : speakIn === "hi"
+        ? [
+            `आपकी ${cropName(d.predictedCrop, "hi")} की फोटो में AI मॉडल को ${d.predictedCondition} जैसे संकेत मिले हैं, मॉडल स्कोर ${score} प्रतिशत।`,
+            d.isHealthy ? "पौधा स्वस्थ जैसा दिख रहा है।" : "यह स्क्रीनिंग है, पक्की पुष्टि नहीं।",
+            steps ? `आगे क्या करें: ${steps}` : "",
+            "ज़्यादा जानकारी के लिए मित्र से पूछिए, या विशेषज्ञ से पुष्टि कराइए।",
+          ].filter(Boolean).join(" ")
+        : [
+            `आपके ${cropEn} की photo में AI model को ${d.predictedCondition} जैसे संकेत दिखे हैं, model score ${score} percent।`,
+            d.isHealthy ? "पौधा healthy दिख रहा है।" : "यह एक screening है, पक्की diagnosis नहीं।",
+            steps ? `आगे क्या करें: ${steps}` : "",
+            "और जानकारी के लिए Mitra से पूछिए, या report expert को भेजिए।",
+          ].filter(Boolean).join(" ");
+  const speechFallback = [
+    `Aapke ${cropEn} ki photo mein AI model ko ${d.predictedCondition} jaise sanket dikhe hain, model score ${score} percent.`,
+    d.isHealthy ? "Paudha healthy dikh raha hai." : "Yeh ek screening hai, pakki diagnosis nahi.",
+    steps ? `Aage kya karein: ${steps}` : "",
+  ].filter(Boolean).join(" ");
   const shareText = `${cropName(d.predictedCrop, lang)}: ${d.predictedCondition} (${hi ? "मॉडल स्कोर" : "model score"} ${score}%) — ${when}. ${hi ? "AI जांच, लैब पुष्टि नहीं।" : "AI screening, not lab-confirmed."}`;
 
   return (
@@ -166,7 +189,14 @@ export default async function DiagnosisReport({
                   ? ` (${hi ? "चुनी गई" : "selected"}: ${cropName(d.selectedCrop, lang)})`
                   : ""}
               </span>
-              <h1 className="text-[1.9rem] leading-tight font-semibold tracking-tight">
+              <h1
+                className={cn(
+                  "text-[clamp(1.9rem,4vw,2.9rem)] font-semibold",
+                  hi
+                    ? "leading-tight tracking-tight"
+                    : "leading-[0.95] tracking-[-0.04em] uppercase",
+                )}
+              >
                 {d.predictedCondition}
               </h1>
               <div className="flex flex-wrap gap-2 text-xs">
@@ -222,8 +252,8 @@ export default async function DiagnosisReport({
             </Card>
           )}
           {!review && d.reviewStatus === "PENDING" && (
-            <p className="rounded-2xl bg-white px-4 py-3 text-sm ring-1 ring-border">
-              ⏳{" "}
+            <p className="flex items-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm ring-1 ring-border">
+              <Clock className="size-4 shrink-0 text-[var(--crop-green-600)]" />{" "}
               {hi
                 ? "विशेषज्ञ इस रिपोर्ट की जांच करेंगे।"
                 : "An expert will review this report."}
@@ -474,21 +504,56 @@ export default async function DiagnosisReport({
 
         <aside className="flex flex-col gap-4 lg:col-span-5">
           {/* Mentor: Mitra already knows this report (linked to the conversation on the server) */}
-          <Card className="rounded-[24px] border-0 bg-gradient-to-br from-[var(--crop-green-800)] to-[var(--crop-green-950)] text-white ring-0 print:hidden">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Sparkles className="size-5" />{" "}
-                {hi
-                  ? "मित्र से इस रिपोर्ट के बारे में पूछें"
-                  : "Ask Mitra about this report"}
-              </CardTitle>
-              <CardDescription className="text-white/75">
-                {hi
-                  ? "आपका AI सलाहकार यह रिपोर्ट और आपकी पिछली जांचें जानता है — बोलकर या लिखकर पूछें।"
-                  : "Your AI mentor knows this report and your earlier checks — ask by voice or text."}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-2">
+          <section className="relative overflow-hidden rounded-[28px] bg-[var(--crop-green-950)] text-white print:hidden">
+            <Image
+              src="/images/home/field-band.jpg"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              className="object-cover opacity-60"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[var(--crop-green-950)]/60 via-[var(--crop-green-950)]/85 to-[var(--crop-green-950)]" />
+            <div className="relative flex flex-col gap-5 p-5 sm:p-6">
+              <div className="flex items-center justify-between gap-3">
+                <span className="flex items-center gap-2 font-semibold tracking-tight">
+                  <LeafMark className="size-5 text-[var(--crop-green-200)]" />
+                  {hi ? "मित्र" : "MITRA"}
+                </span>
+                <span
+                  className={cn(
+                    "rounded-full border border-white/30 px-3 py-1 font-semibold backdrop-blur-md",
+                    hi ? "text-[12px]" : "text-[10px] tracking-[0.16em] uppercase",
+                  )}
+                >
+                  {hi ? "AI खेती सलाहकार" : "AI farming mentor"}
+                </span>
+              </div>
+              <div>
+                <h2
+                  className={cn(
+                    "text-[1.8rem] font-semibold",
+                    hi
+                      ? "leading-tight tracking-tight"
+                      : "leading-[0.95] tracking-[-0.04em] uppercase",
+                  )}
+                >
+                  {hi ? (
+                    <>
+                      इस <span className="text-[var(--crop-green-200)]">रिपोर्ट</span> के बारे में पूछें
+                    </>
+                  ) : (
+                    <>
+                      Ask about <span className="text-[var(--crop-green-200)]">this report</span>
+                    </>
+                  )}
+                </h2>
+                <p className="mt-2 text-sm text-white/75">
+                  {hi
+                    ? "मित्र यह रिपोर्ट और आपकी पिछली जांचें जानता है — बोलकर या लिखकर पूछें।"
+                    : "Mitra knows this report and your earlier checks — ask by voice or text."}
+                </p>
+              </div>
+              <div className="flex flex-col gap-2">
               {(hi
                 ? [
                     "इस नतीजे का क्या मतलब है?",
@@ -506,25 +571,32 @@ export default async function DiagnosisReport({
                 <Link
                   key={q}
                   href={`/farmer/assistant?diagnosis=${d.id}&q=${encodeURIComponent(q)}`}
-                  className="flex items-center justify-between gap-2 rounded-xl bg-white/10 px-3.5 py-2.5 text-sm font-medium transition-colors hover:bg-white/20"
+                  className="group flex items-center justify-between gap-2 rounded-2xl bg-white/10 px-4 py-3 text-sm font-medium ring-1 ring-white/10 backdrop-blur-md transition-colors hover:bg-white/20"
                 >
-                  {q} <ArrowUpRight className="size-4 shrink-0 opacity-70" />
+                  {q}{" "}
+                  <ArrowUpRight className="size-4 shrink-0 opacity-70 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
               ))}
+              </div>
               <Link
                 href={`/farmer/assistant?diagnosis=${d.id}`}
-                className="mt-1 rounded-xl bg-white px-3.5 py-2.5 text-center text-sm font-semibold text-[var(--crop-green-900)]"
+                className={cn(
+                  "group inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-white px-5 font-semibold text-[var(--crop-ink)] transition-colors hover:bg-[var(--crop-green-100)]",
+                  hi ? "text-[15px]" : "text-[12px] tracking-[0.12em] uppercase",
+                )}
               >
                 {hi ? "मित्र खोलें" : "Open Mitra"}
+                <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
-            </CardContent>
-          </Card>
+            </div>
+          </section>
 
           {/* I. Actions */}
           <ReportActions
             id={d.id}
             lang={lang}
             speech={speech}
+            speechFallback={speechFallback}
             shareText={shareText}
             reviewStatus={d.reviewStatus}
             feedback={d.feedback[0]?.helpful ?? null}
