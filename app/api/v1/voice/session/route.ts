@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     const language = farmer.language === 'hi' ? 'hi' : 'en';
     const conversation = await openConversation(farmer.userId, { conversationId: body.data.conversationId, language, diagnosisId: ownedDiagnosisId });
     const [history, linked] = await Promise.all([recentTurns(farmer.userId, conversation), ownedDiagnosisId ? null : linkedDiagnosisId(conversation.id)]);
-    const session = await createVoiceSession(farmer.userId, ownedDiagnosisId ?? linked, history, { summary: conversation.summary, conversationId: conversation.id });
+    const session = await createVoiceSession(farmer.userId, ownedDiagnosisId ?? linked, history, { summary: conversation.summary, conversationId: conversation.id, focusReport: Boolean(ownedDiagnosisId) });
     return ok({ ...session, conversationId: conversation.id, persisted: conversation.persisted });
   } catch (error) {
     const code = (error as Error).message;

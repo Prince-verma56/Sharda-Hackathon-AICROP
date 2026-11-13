@@ -1,11 +1,14 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ArrowUpRight, Camera, FileText, Home, Mic, User } from 'lucide-react';
+import { LanguageToggle } from '@/components/farmer/language-toggle';
 import { Logo } from '@/components/marketing/home/brand';
 import { t } from '@/lib/i18n/farmer';
 import { cn } from '@/lib/utils';
+import { stopSpeaking } from '@/lib/voice/speak';
 
 function useItems(lang: string) {
   const pathname = usePathname();
@@ -32,6 +35,9 @@ export function FarmerHeader({ lang, children }: { lang: string; children?: Reac
   const items = useItems(lang).filter((i) => i.href !== '/farmer/scan');
   const tx = t(lang);
   const hi = lang === 'hi';
+  const pathname = usePathname();
+  // "Listen" uses the device's global speech engine: stop it whenever the farmer changes page.
+  useEffect(() => stopSpeaking(), [pathname]);
   return (
     <header className="sticky top-0 z-40 bg-[var(--crop-cream)]/85 shadow-[0_1px_0_rgba(0,0,0,0.06)] backdrop-blur-xl print:hidden">
       <div className="mx-auto flex h-16 max-w-[88rem] items-center justify-between gap-6 px-4 sm:px-6 lg:h-[72px] lg:px-8">
@@ -58,6 +64,7 @@ export function FarmerHeader({ lang, children }: { lang: string; children?: Reac
         </nav>
 
         <div className="flex items-center gap-2">
+          <LanguageToggle lang={hi ? 'hi' : 'en'} />
           {children}
           <Link
             href="/farmer/scan"

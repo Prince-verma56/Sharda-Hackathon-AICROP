@@ -16,7 +16,7 @@ const ago = (ms: number) => new Date(Date.now() - ms);
  * history when consented, otherwise the 24-hour working copy. `?c=` opens a saved conversation,
  * `?new=1` starts fresh, `?diagnosis=` focuses a report.
  */
-export default async function AssistantPage({ searchParams }: { searchParams: Promise<{ diagnosis?: string; c?: string; new?: string; q?: string }> }) {
+export default async function AssistantPage({ searchParams }: { searchParams: Promise<{ diagnosis?: string; c?: string; new?: string; q?: string; voice?: string }> }) {
   const farmer = await requireFarmer();
   const params = await searchParams;
   const lang = farmer.language === 'hi' ? 'hi' : 'en';
@@ -71,6 +71,7 @@ export default async function AssistantPage({ searchParams }: { searchParams: Pr
       initialMessages={initialMessages}
       initialConsent={{ chatHistory: consent.chatHistory, voiceTranscripts: consent.voiceTranscripts }}
       initialQuestion={params.q ? params.q.slice(0, 300) : null}
+      autoVoice={params.voice === '1' && Boolean(owned)}
       savedConversations={saved.map((c) => ({ id: c.id, title: c.title ?? '—', date: c.lastMessageAt?.toISOString() ?? '' }))}
     />
   );

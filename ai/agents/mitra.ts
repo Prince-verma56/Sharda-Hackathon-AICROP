@@ -21,12 +21,12 @@ export interface ConversationTurn {
 
 const LANGUAGE_RULES: Record<MitraLanguage, Record<MitraChannel, string>> = {
   hinglish: {
-    text: 'Reply in Hinglish — natural everyday Hindi mixed with common English farming words (crop, leaf, spray, fungus, report, weather), written in Roman script the way farmers type on WhatsApp. Example: "Aapke tomato ke patte par early blight jaise sanket dikh rahe hain. Sabse pehle zyada kharab patte tod kar hata dijiye." If the farmer writes only in English or only in Devanagari Hindi, follow them.',
-    voice: 'Speak Hinglish — natural everyday Hindi mixed with common English farming words. Write Hindi words in Devanagari and English words in English letters so the voice pronounces both correctly. Example: "आपके tomato के पत्ते पर early blight जैसे संकेत दिख रहे हैं।" If the farmer speaks only English, reply in simple Indian English.',
+    text: 'Reply in Hinglish — natural everyday Hindi mixed with common English farming words (crop, leaf, spray, fungus, report, weather), written in Roman script the way farmers type on WhatsApp. Example: "Aapke tomato ke patte par early blight jaise sanket dikh rahe hain. Sabse pehle zyada kharab patte tod kar hata dijiye." Stay in Hinglish even when the farmer writes in English; switch only if they explicitly ask for English or pure Hindi.',
+    voice: 'Speak Hinglish — natural everyday Hindi mixed with common English farming words. Write Hindi words in Devanagari and English words in English letters so the voice pronounces both correctly. Example: "आपके tomato के पत्ते पर early blight जैसे संकेत दिख रहे हैं।" Keep speaking Hinglish even when the farmer speaks English; switch only if they explicitly ask for English or pure Hindi.',
   },
   hi: {
-    text: 'Reply in simple, clear Hindi (Devanagari). Use an English word only when farmers commonly use it (spray, report). If the farmer writes in English, you may reply in English.',
-    voice: 'Speak simple, clear Hindi (write Devanagari). Use an English word only when farmers commonly use it. If the farmer speaks English, reply in simple Indian English.',
+    text: 'Reply in simple, clear Hindi (Devanagari). Use an English word only when farmers commonly use it (spray, report). Stay in Hindi even if the farmer writes in English, unless they ask for English.',
+    voice: 'Speak simple, clear Hindi (write Devanagari). Use an English word only when farmers commonly use it. Stay in Hindi even if the farmer speaks English, unless they ask for English.',
   },
   en: {
     text: 'Reply in simple Indian English with short sentences. If the farmer writes in Hindi or Hinglish, reply in the same way.',
@@ -111,6 +111,28 @@ export function mitraInstructions(
   ]
     .filter(Boolean)
     .join('\n\n');
+}
+
+/** Opening line when the farmer starts a call from a report: Mitra begins with that report. */
+export function mitraReportGreeting(
+  language: MitraLanguage | 'hi' | 'en',
+  preferredName: string | null,
+  report: { crop: string; condition: string; healthy: boolean },
+): string {
+  const name = preferredName ? (language === 'en' ? ` ${preferredName}` : ` ${preferredName} जी`) : '';
+  if (language === 'en') {
+    return report.healthy
+      ? `Hi${name}! I'm looking at your ${report.crop} report — the leaf looks healthy. What would you like to know?`
+      : `Hi${name}! I'm looking at your ${report.crop} report — it shows signs like ${report.condition}. Shall I tell you what to do first?`;
+  }
+  if (language === 'hi') {
+    return report.healthy
+      ? `नमस्ते${name}! आपकी ${report.crop} की रिपोर्ट में पत्ती स्वस्थ जैसी दिख रही है। क्या जानना चाहेंगे?`
+      : `नमस्ते${name}! आपकी ${report.crop} की रिपोर्ट में ${report.condition} जैसे संकेत दिखे हैं। क्या मैं बताऊँ कि सबसे पहले क्या करें?`;
+  }
+  return report.healthy
+    ? `नमस्ते${name}! मैंने आपकी ${report.crop} report देखी — पत्ता healthy दिख रहा है। बताइए, क्या जानना है?`
+    : `नमस्ते${name}! मैंने आपकी ${report.crop} report देखी — इसमें ${report.condition} जैसे संकेत हैं। बताऊँ सबसे पहले क्या करना है?`;
 }
 
 /** Short, natural greeting in the chosen language (long greetings delay the first turn of a call). */

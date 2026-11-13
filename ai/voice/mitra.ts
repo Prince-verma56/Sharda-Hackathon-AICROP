@@ -4,7 +4,7 @@
  * signed, expiring session token. The private Vapi key never leaves the server.
  */
 import 'server-only';
-import { mitraGreeting, mitraInstructions, type ConversationTurn } from '@/ai/agents/mitra';
+import { mitraGreeting, mitraInstructions, mitraReportGreeting, type ConversationTurn } from '@/ai/agents/mitra';
 import { loadFarmerContext } from '@/ai/context/farmer-context';
 import { getMitraSettings, transcriberFor, voiceFor } from '@/ai/settings/mitra-settings';
 import { hmac, safeEqualHex } from '@/server/auth/crypto';
@@ -48,7 +48,7 @@ export async function createVoiceSession(
   farmerId: string,
   diagnosisId: string | null,
   history: ConversationTurn[] = [],
-  options: { summary?: string | null; conversationId?: string | null } = {},
+  options: { summary?: string | null; conversationId?: string | null; /** call started from a report: Mitra opens with it */ focusReport?: boolean } = {},
 ): Promise<VoiceSessionResult> {
   const publicKey = process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY;
   if (!publicKey) throw new Error('VOICE_NOT_CONFIGURED');
@@ -74,7 +74,14 @@ export async function createVoiceSession(
   const serverUrl = `${process.env.APP_PUBLIC_URL}/api/v1/voice/tools`;
   const assistant: Record<string, unknown> = {
     name: `${ASSISTANT_NAME} (CropAI)`,
-    firstMessage: mitraGreeting(settings.language, profile?.preferredName ?? null),
+    firstMessage:
+      options.focusReport && context.diagnosis
+        ? mitraReportGreeting(settings.language, profile?.preferredName ?? null, {
+            crop: String(context.diagnosis.crop ?? ''),
+            condition: String(context.diagnosis.predicted_condition ?? ''),
+            healthy: context.diagnosis.is_healthy === true,
+          })
+        : mitraGreeting(settings.language, profile?.preferredName ?? null),
     firstMessageMode: 'assistant-speaks-first',
     model: {
       provider: 'openai',

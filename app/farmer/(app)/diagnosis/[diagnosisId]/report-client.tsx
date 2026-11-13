@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Bar, BarChart, LabelList, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, Cell, ComposedChart, LabelList, Line, PolarAngleAxis, RadialBar, RadialBarChart, XAxis, YAxis } from 'recharts';
 import { Download, MessageCircle, Share2, ThumbsDown, ThumbsUp, UserRoundCheck, Volume2, VolumeX } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -11,17 +11,63 @@ import { canSpeak, speakText, stopSpeaking } from '@/lib/voice/speak';
 
 const chartConfig = { score: { label: 'Model score', color: 'var(--crop-green-600)' } } satisfies ChartConfig;
 
-/** Top-k model scores (actual inference output). */
+/** Top-k model scores (actual inference output); the top guess is highlighted. */
 export function ScoreChart({ data }: { data: { name: string; score: number; top: boolean }[] }) {
   return (
-    <ChartContainer config={chartConfig} className="aspect-auto h-[220px] w-full">
-      <BarChart data={data} layout="vertical" margin={{ left: 0, right: 44, top: 4, bottom: 4 }}>
+    <ChartContainer config={chartConfig} className="aspect-auto w-full" style={{ height: Math.max(120, data.length * 44) }}>
+      <BarChart data={data} layout="vertical" margin={{ left: 0, right: 48, top: 0, bottom: 0 }} barCategoryGap={10}>
         <XAxis type="number" domain={[0, 100]} hide />
-        <YAxis type="category" dataKey="name" width={118} tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
-        <Bar dataKey="score" radius={8} fill="var(--color-score)" fillOpacity={0.9}>
+        <YAxis type="category" dataKey="name" width={124} tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
+        <Bar dataKey="score" radius={10} background={{ fill: 'var(--crop-cream)', radius: 10 }}>
+          {data.map((d) => (
+            <Cell key={d.name} fill={d.top ? 'var(--crop-green-800)' : 'var(--crop-green-200)'} />
+          ))}
           <LabelList dataKey="score" position="right" formatter={(v: unknown) => `${v}%`} className="fill-foreground text-xs font-semibold" />
         </Bar>
       </BarChart>
+    </ChartContainer>
+  );
+}
+
+/** Semicircle gauge for the model score (a classifier output, not certainty). */
+export function ScoreGauge({ score, healthy, label }: { score: number; healthy: boolean; label: string }) {
+  const color = healthy ? 'var(--crop-green-600)' : score >= 70 ? '#c2410c' : '#d97706';
+  return (
+    <div className="relative mx-auto w-full max-w-[15rem]">
+      <ChartContainer config={chartConfig} className="aspect-[2/1.15] w-full">
+        <RadialBarChart data={[{ name: 'score', value: score, fill: color }]} startAngle={180} endAngle={0} cx="50%" cy="88%" innerRadius="118%" outerRadius="160%">
+          <PolarAngleAxis type="number" domain={[0, 100]} tick={false} axisLine={false} />
+          <RadialBar dataKey="value" background={{ fill: 'var(--crop-cream)' }} cornerRadius={14} />
+        </RadialBarChart>
+      </ChartContainer>
+      <div className="pointer-events-none absolute inset-x-0 bottom-1 flex flex-col items-center">
+        <span className="text-4xl leading-none font-semibold tracking-tight tabular-nums">{score}%</span>
+        <span className="mt-1 text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">{label}</span>
+      </div>
+    </div>
+  );
+}
+
+const forecastConfig = {
+  rain: { label: 'Rain (mm)', color: 'var(--crop-green-200)' },
+  max: { label: 'Max °C', color: '#c2410c' },
+} satisfies ChartConfig;
+
+/** Next days: rain bars + max temperature line (Open-Meteo forecast stored with the report). */
+export function ForecastChart({ data }: { data: { day: string; max: number | null; min: number | null; rain: number }[] }) {
+  return (
+    <ChartContainer config={forecastConfig} className="aspect-auto h-[150px] w-full">
+      <ComposedChart data={data} margin={{ left: 4, right: 4, top: 22, bottom: 0 }}>
+        <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
+        <YAxis yAxisId="rain" hide domain={[0, (max: number) => Math.max(10, max * 1.4)]} />
+        <YAxis yAxisId="temp" hide domain={['dataMin - 8', 'dataMax + 4']} />
+        <Bar yAxisId="rain" dataKey="rain" fill="var(--color-rain)" radius={8} barSize={26}>
+          <LabelList dataKey="rain" position="insideBottom" formatter={(v: unknown) => `${v}`} className="fill-[var(--crop-green-900)] text-[10px] font-semibold" />
+        </Bar>
+        <Line yAxisId="temp" dataKey="max" stroke="var(--color-max)" strokeWidth={2} dot={{ r: 3 }} isAnimationActive={false}>
+          <LabelList dataKey="max" position="top" formatter={(v: unknown) => (v == null ? '' : `${v}°`)} className="fill-foreground text-[10px] font-semibold" />
+        </Line>
+      </ComposedChart>
     </ChartContainer>
   );
 }
@@ -46,6 +92,8 @@ export function ReportActions({ id, lang, speech, speechFallback, shareText, rev
   const [speaking, setSpeaking] = useState(false);
   const [review, setReview] = useState(reviewStatus);
   const [helpful, setHelpful] = useState<boolean | null>(feedback);
+  // Never keep reading after the farmer leaves the report (e.g. to talk to Mitra).
+  useEffect(() => () => stopSpeaking(), []);
 
   function listen() {
     if (!canSpeak()) return toast.error('Voice not supported on this phone');
@@ -74,10 +122,10 @@ export function ReportActions({ id, lang, speech, speechFallback, shareText, rev
   }
 
   return (
-    <div className="flex flex-col gap-3 print:hidden">
-      <div className="grid grid-cols-2 gap-2.5">
-        <Button className="h-14 rounded-2xl text-base" onClick={listen}>{speaking ? <VolumeX /> : <Volume2 />} {speaking ? l.stop : l.listen}</Button>
-        <Link href={`/farmer/assistant?diagnosis=${id}`} className="inline-flex h-14 items-center justify-center gap-2 rounded-2xl bg-[var(--crop-green-100)] text-base font-medium text-[var(--crop-green-900)]">
+    <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-[repeat(5,minmax(0,1fr))_auto] print:hidden">
+      <div className="contents">
+        <Button className="h-12 rounded-2xl text-base" onClick={listen}>{speaking ? <VolumeX /> : <Volume2 />} {speaking ? l.stop : l.listen}</Button>
+        <Link href={`/farmer/assistant?diagnosis=${id}&voice=1`} onClick={() => stopSpeaking()} className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-[var(--crop-green-100)] text-base font-medium text-[var(--crop-green-900)] transition-colors hover:bg-[var(--crop-green-200)]">
           <MessageCircle className="size-5" /> {l.ask}
         </Link>
         <Button variant="outline" className="h-12 rounded-2xl bg-white" onClick={share}><Share2 /> {l.share}</Button>
@@ -85,7 +133,7 @@ export function ReportActions({ id, lang, speech, speechFallback, shareText, rev
       </div>
       <Button
         variant="outline"
-        className="h-13 rounded-2xl bg-white text-base"
+        className="col-span-2 h-12 rounded-2xl bg-white text-base lg:col-span-1"
         disabled={review === 'PENDING' || review === 'CONFIRMED' || review === 'CHALLENGED'}
         onClick={async () => {
           const res = await act({ action: 'request_expert' });
@@ -97,7 +145,7 @@ export function ReportActions({ id, lang, speech, speechFallback, shareText, rev
       >
         <UserRoundCheck /> {review === 'PENDING' ? l.expertSent : l.expert}
       </Button>
-      <div className="flex items-center justify-between rounded-2xl bg-white px-4 py-3 ring-1 ring-border">
+      <div className="col-span-2 flex items-center justify-between gap-3 rounded-2xl bg-white px-4 py-1.5 ring-1 ring-border lg:col-span-1">
         <span className="text-sm font-medium">{helpful === null ? l.helpful : l.thanks}</span>
         <div className="flex gap-2">
           {[true, false].map((value) => (

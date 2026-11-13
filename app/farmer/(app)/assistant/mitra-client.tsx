@@ -47,7 +47,7 @@ import { Switch } from '@/components/ui/switch';
 import { LiveWaveform } from '@/components/ui/voice/live-waveform';
 import { cn } from '@/lib/utils';
 import { cleanTranscript } from '@/lib/voice/clean-transcript';
-import { speakText } from '@/lib/voice/speak';
+import { speakText, stopSpeaking } from '@/lib/voice/speak';
 
 type Phase = 'idle' | 'preparing' | 'permission' | 'connecting' | 'live' | 'ended' | 'failed';
 type LiveState = 'listening' | 'farmer' | 'processing' | 'mitra';
@@ -258,6 +258,7 @@ export function MitraClient({
   initialConsent,
   savedConversations,
   initialQuestion,
+  autoVoice = false,
 }: {
   lang: string;
   diagnosisId: string | null;
@@ -271,6 +272,8 @@ export function MitraClient({
   savedConversations: { id: string; title: string; date: string }[];
   /** asked automatically once (e.g. a mentor question from a report) */
   initialQuestion?: string | null;
+  /** opened with "Ask Mitra" from a report: start the voice call straight away (Mitra opens with the report) */
+  autoVoice?: boolean;
 }) {
   const l = lang === 'hi' ? L.hi : L.en;
   const label = labelClass(lang);
@@ -557,6 +560,7 @@ export function MitraClient({
   async function startCall() {
     if (['preparing', 'permission', 'connecting', 'live'].includes(phaseRef.current)) return;
     phaseRef.current = 'preparing'; // block double taps before the next render
+    stopSpeaking(); // never talk over Mitra
     clickAt.current = nowMs();
     endedReason.current = null;
     setVoiceError(null);
@@ -695,6 +699,19 @@ export function MitraClient({
     url.searchParams.delete('q');
     window.history.replaceState(null, '', url.pathname + url.search);
     void ask(initialQuestion);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount
+  }, []);
+
+  // "Ask Mitra" from a report: start the call automatically once the SDK is ready.
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    stopSpeaking();
+    if (!autoVoice || autoStarted.current || !voiceAvailable) return;
+    autoStarted.current = true;
+    const url = new URL(window.location.href);
+    url.searchParams.delete('voice');
+    window.history.replaceState(null, '', url.pathname + url.search);
+    void (sdkReady.current ?? Promise.resolve(null)).then(() => startCall());
     // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount
   }, []);
 

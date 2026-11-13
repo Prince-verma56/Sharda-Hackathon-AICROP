@@ -126,7 +126,7 @@ export function MitraSettingsForm({ lang, initial, overrides, defaults }: { lang
         </div>
         <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 text-sm">
           {MITRA_SETTING_GROUPS.map((group) => (
-            <div key={group.key} className="flex flex-col-reverse gap-0.5 bg-[var(--crop-green-950)] p-3">
+            <div key={group.key} className="flex flex-col-reverse gap-0.5 bg-[var(--crop-green-950)] p-3 last:col-span-2">
               <dt className="text-[9px] font-semibold tracking-[0.14em] text-white/60 uppercase">{group.title[lang]}</dt>
               <dd className="font-semibold">{group.options.find((o) => o.value === values[group.key])?.label[lang]}</dd>
             </div>
