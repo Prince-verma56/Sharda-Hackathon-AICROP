@@ -25,7 +25,7 @@ export default async function FarmerHome() {
   const lang = farmer.language === 'hi' ? 'hi' : 'en';
   const tx = t(lang);
   const hi = lang === 'hi';
-  const [latest, farm, unread, checks, settings, profile, cropImages] = await Promise.all([
+  const [latest, farm, unread, checks, settings, profile, cropImages, videos] = await Promise.all([
     db.diagnosis.findFirst({ where: { farmerId: farmer.userId }, orderBy: { createdAt: 'desc' } }),
     db.farm.findFirst({ where: { ownerId: farmer.userId, isPrimary: true } }),
     db.notification.count({ where: { userId: farmer.userId, readAt: null } }),
@@ -33,6 +33,7 @@ export default async function FarmerHome() {
     getSettings(),
     db.farmerProfile.findUnique({ where: { userId: farmer.userId }, select: { mainCrops: true } }),
     getCropImages(),
+    db.volunteerVideo.findMany({ where: { status: 'APPROVED' }, orderBy: { reviewedAt: 'desc' }, take: 3, select: { id: true, title: true, language: true, thumbnailKey: true, volunteer: { select: { name: true } } } }),
   ]);
   const weather = farm?.latitude != null && farm.longitude != null ? await fetchWeather(farm.latitude, farm.longitude).catch(() => null) : null;
   const name = farmer.preferredName ? (hi ? `${farmer.preferredName} जी` : farmer.preferredName) : null;
@@ -227,6 +228,24 @@ export default async function FarmerHome() {
           )}
         </section>
       </div>
+
+      {/* Row 4 — approved volunteer videos (only real, reviewed content) */}
+      {videos.length > 0 && (
+        <section aria-label={hi ? 'स्वयंसेवकों से सीखें' : 'Learn from volunteers'} className="flex flex-col gap-4">
+          <p className={cn(eyebrowClass(lang), 'text-[var(--crop-green-600)]')}>{hi ? 'स्वयंसेवकों से सीखें · विशेषज्ञ-समीक्षित' : 'Learn from volunteers · reviewed by CropAI'}</p>
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {videos.map((v) => (
+              <li key={v.id} className={cn(card, 'overflow-hidden')}>
+                <video src={`/api/v1/videos/${v.id}`} poster={v.thumbnailKey ? `/api/v1/videos/${v.id}/thumbnail` : undefined} controls preload="none" className="aspect-video w-full bg-black" />
+                <div className="p-4">
+                  <p className="font-semibold tracking-tight">{v.title}</p>
+                  <p className="text-xs text-muted-foreground">{v.volunteer.name ?? (hi ? 'CropAI स्वयंसेवक' : 'CropAI volunteer')}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }

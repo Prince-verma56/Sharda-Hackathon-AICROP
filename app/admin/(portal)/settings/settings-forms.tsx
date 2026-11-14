@@ -1,7 +1,7 @@
 'use client';
 
-import { useActionState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { useActionState, useState } from 'react';
+import { Copy, Loader2, Share2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -41,27 +41,125 @@ export function PlatformSettingsForm({ values }: { values: PlatformSettings }) {
   );
 }
 
-/** Invite by mobile number. role=VOLUNTEER (admins) or ADMIN (super admins only, enforced server-side). */
+/**
+ * Invite by mobile number. role=VOLUNTEER (admins) or ADMIN (super admins only, enforced
+ * server-side). Volunteer invitations return a one-time link to copy or share; SMS delivery is
+ * not offered because no messaging provider is configured (Twilio Verify is for OTP only).
+ */
 export function InviteForm({ role, allowAdmin = false }: { role: 'VOLUNTEER' | 'ADMIN'; allowAdmin?: boolean }) {
   const [state, action, pending] = useActionState<ActionState, FormData>(reportFailures(createRoleInvitation), {});
+  const link = (state.data as { link?: string } | undefined)?.link;
+  const [copied, setCopied] = useState(false);
+  const field = 'h-10 bg-white';
   return (
-    <form action={action} className="flex flex-col gap-3">
+    <form action={action} className="flex flex-col gap-4">
       <input type="hidden" name="role" value={role} />
-      <div className="flex flex-wrap gap-2">
-        <Input name="phone" required inputMode="tel" placeholder="Mobile number, e.g. 98765 43210" className="h-9 w-64 bg-white" />
-        {role === 'ADMIN' && allowAdmin && (
-          <select name="adminLevel" className="h-9 rounded-lg border border-input bg-white px-2 text-sm" defaultValue="REVIEWER">
+      <div className="grid gap-3 sm:grid-cols-[7rem_1fr] lg:grid-cols-[7rem_minmax(0,1fr)_minmax(0,1fr)]">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor={`cc-${role}`}>Country</Label>
+          <select id={`cc-${role}`} name="countryCode" defaultValue="+91" className="h-10 rounded-lg border border-input bg-white px-2 text-sm">
+            <option value="+91">+91 India</option>
+            <option value="+977">+977 Nepal</option>
+            <option value="+880">+880 Bangladesh</option>
+            <option value="+94">+94 Sri Lanka</option>
+          </select>
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor={`phone-${role}`}>Mobile number *</Label>
+          <Input id={`phone-${role}`} name="phone" required inputMode="tel" placeholder="98765 43210" className={field} />
+        </div>
+        {role === 'VOLUNTEER' && (
+          <div className="flex flex-col gap-1.5 sm:col-span-2 lg:col-span-1">
+            <Label htmlFor="invitee-name">Name (optional)</Label>
+            <Input id="invitee-name" name="inviteeName" maxLength={80} placeholder="e.g. Sunita Devi" className={field} />
+          </div>
+        )}
+      </div>
+      {role === 'VOLUNTEER' && (
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="service-area">Service area</Label>
+            <Input id="service-area" name="serviceArea" maxLength={120} placeholder="Block or cluster" className={field} />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="district">District (optional)</Label>
+            <Input id="district" name="district" maxLength={60} className={field} />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="village">Village (optional)</Label>
+            <Input id="village" name="village" maxLength={80} className={field} />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="expires">Invitation valid for</Label>
+            <select id="expires" name="expiresInDays" defaultValue="14" className="h-10 rounded-lg border border-input bg-white px-2 text-sm">
+              <option value="3">3 days</option>
+              <option value="7">7 days</option>
+              <option value="14">14 days</option>
+              <option value="30">30 days</option>
+            </select>
+          </div>
+        </div>
+      )}
+      {role === 'ADMIN' && allowAdmin && (
+        <div className="flex flex-col gap-1.5 sm:w-64">
+          <Label htmlFor="admin-level">Admin level</Label>
+          <select id="admin-level" name="adminLevel" className="h-10 rounded-lg border border-input bg-white px-2 text-sm" defaultValue="REVIEWER">
             <option value="ADMIN">Administrator</option>
             <option value="AGRONOMIST">Agronomist</option>
             <option value="REVIEWER">Reviewer</option>
             <option value="ANALYST">Analyst</option>
           </select>
-        )}
-        {role === 'VOLUNTEER' && <Input name="serviceArea" placeholder="Service area (village / block / district)" className="h-9 w-72 bg-white" />}
-        <Button type="submit" size="sm" className="h-9" disabled={pending}>{pending && <Loader2 className="animate-spin" />}Invite {role === 'ADMIN' ? 'admin' : 'volunteer'}</Button>
+        </div>
+      )}
+      <div className="flex flex-wrap items-center gap-3">
+        <Button type="submit" className="h-10" disabled={pending}>
+          {pending && <Loader2 className="animate-spin" />}
+          {role === 'ADMIN' ? 'Invite admin' : 'Send invitation'}
+        </Button>
+        {role === 'VOLUNTEER' && <span className="text-xs text-muted-foreground">Delivery: share link · SMS invitations need a messaging provider (not configured)</span>}
       </div>
-      {state.error && <Alert variant="destructive"><AlertDescription>{state.error}</AlertDescription></Alert>}
-      {state.ok && <Alert><AlertDescription>{state.ok}</AlertDescription></Alert>}
+      {state.error && (
+        <Alert variant="destructive">
+          <AlertDescription>{state.error}</AlertDescription>
+        </Alert>
+      )}
+      {state.ok && (
+        <Alert>
+          <AlertDescription className="flex flex-col gap-3">
+            <span>{state.ok}</span>
+            {link && (
+              <span className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <code className="min-w-0 flex-1 truncate rounded-lg bg-muted px-3 py-2 text-xs">{link}</code>
+                <span className="flex gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={async () => {
+                      await navigator.clipboard.writeText(link).catch(() => undefined);
+                      setCopied(true);
+                    }}
+                  >
+                    <Copy /> {copied ? 'Copied' : 'Copy link'}
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={() =>
+                      navigator.share
+                        ? navigator.share({ title: 'CropAI volunteer invitation', text: 'You are invited to volunteer with CropAI. Open this link and verify your phone number:', url: link }).catch(() => undefined)
+                        : window.open(`https://wa.me/?text=${encodeURIComponent(`You are invited to volunteer with CropAI: ${link}`)}`, '_blank', 'noopener')
+                    }
+                  >
+                    <Share2 /> Share
+                  </Button>
+                </span>
+              </span>
+            )}
+          </AlertDescription>
+        </Alert>
+      )}
     </form>
   );
 }

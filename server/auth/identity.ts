@@ -24,17 +24,24 @@ export async function applyInvitations(tx: Prisma.TransactionClient, userId: str
   const added: AppRole[] = [];
   for (const invite of invitations) {
     if (invite.role !== 'VOLUNTEER' && invite.role !== 'ADMIN') continue; // FARMER/SUPER_ADMIN are never invited
+    // Single use: only the first transaction that flips PENDING -> ACCEPTED applies it.
+    const claimed = await tx.roleInvitation.updateMany({ where: { id: invite.id, status: 'PENDING' }, data: { status: 'ACCEPTED', acceptedAt: now, acceptedUserId: userId } });
+    if (!claimed.count) continue;
     await tx.userRole.upsert({
       where: { userId_role: { userId, role: invite.role } },
       create: { userId, role: invite.role, assignedById: invite.invitedById },
       update: {},
     });
     if (invite.role === 'VOLUNTEER') {
-      await tx.volunteerProfile.upsert({ where: { userId }, create: { userId, serviceArea: invite.serviceArea }, update: {} });
+      await tx.volunteerProfile.upsert({
+        where: { userId },
+        create: { userId, serviceArea: invite.serviceArea, district: invite.district, village: invite.village },
+        update: {},
+      });
+      if (invite.inviteeName) await tx.user.updateMany({ where: { id: userId, name: null }, data: { name: invite.inviteeName } });
     } else {
       await tx.adminProfile.upsert({ where: { userId }, create: { userId, adminLevel: invite.adminLevel ?? 'ADMIN' }, update: { adminLevel: invite.adminLevel ?? 'ADMIN' } });
     }
-    await tx.roleInvitation.update({ where: { id: invite.id }, data: { status: 'ACCEPTED', acceptedAt: now, acceptedUserId: userId } });
     added.push(invite.role);
   }
   return added;

@@ -25,7 +25,11 @@ function SectionTitle({ n, title, hint }: { n: number; title: string; hint?: str
   );
 }
 
-export function VolunteerForm({ initial }: { initial: { name: string; serviceArea: string; district: string; state: string; languages: string[] } }) {
+export function VolunteerForm({
+  initial,
+}: {
+  initial: { name: string; serviceArea: string; district: string; state: string; languages: string[]; village: string; preferredLanguage: string; bio: string; availability: string };
+}) {
   const [state, action, pending] = useActionState<VolunteerFormState, FormData>(saveVolunteerProfile, {});
   return (
     <form action={action} className="flex flex-col gap-4">
@@ -42,6 +46,10 @@ export function VolunteerForm({ initial }: { initial: { name: string; serviceAre
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="serviceArea">Service area — villages or block you will visit *</Label>
           <Input id="serviceArea" name="serviceArea" required defaultValue={initial.serviceArea} maxLength={120} className={field} />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="village">Village (optional)</Label>
+          <Input id="village" name="village" defaultValue={initial.village} maxLength={80} className={field} />
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="flex flex-col gap-1.5">
@@ -69,6 +77,43 @@ export function VolunteerForm({ initial }: { initial: { name: string; serviceAre
           ))}
         </div>
       </fieldset>
+
+      <div className={card}>
+        <SectionTitle n={4} title="A little about you" hint="Optional" />
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="preferredLanguage">App language</Label>
+            <select id="preferredLanguage" name="preferredLanguage" defaultValue={initial.preferredLanguage} className="h-12 rounded-2xl border border-input bg-[var(--crop-cream)] px-3 text-base">
+              <option value="">No preference</option>
+              <option value="hi">हिंदी</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="availability">When are you available?</Label>
+            <select id="availability" name="availability" defaultValue={initial.availability} className="h-12 rounded-2xl border border-input bg-[var(--crop-cream)] px-3 text-base">
+              <option value="">Not specified</option>
+              <option value="weekdays">Weekdays</option>
+              <option value="weekends">Weekends</option>
+              <option value="mornings">Mornings</option>
+              <option value="evenings">Evenings</option>
+              <option value="flexible">Flexible</option>
+            </select>
+          </div>
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="bio">Short introduction</Label>
+          <textarea
+            id="bio"
+            name="bio"
+            defaultValue={initial.bio}
+            maxLength={400}
+            rows={3}
+            placeholder="e.g. Agriculture graduate, farm in Dankaur, can teach in Hindi and Punjabi."
+            className="w-full rounded-2xl bg-[var(--crop-cream)] px-4 py-3 text-base ring-1 ring-border outline-none focus:ring-2 focus:ring-[var(--crop-green-500)]"
+          />
+        </div>
+      </div>
 
       {state.error && (
         <Alert variant="destructive">

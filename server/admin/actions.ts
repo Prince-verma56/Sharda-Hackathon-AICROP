@@ -5,6 +5,7 @@
  * server-side (navigation hiding is cosmetic) and writes an audit event.
  */
 import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { splitLabel } from '@/lib/crops';
@@ -20,6 +21,7 @@ import { MitraDefaultsSchema, saveMitraDefaults } from '@/ai/settings/mitra-sett
 import { getTaxonomy } from '@/server/cropai/taxonomy';
 import { db } from '@/server/db';
 import { notificationService } from '@/server/notifications';
+import { invitationPath, newInviteToken } from '@/server/volunteer/invitations';
 
 export interface ActionState {
   error?: string;
@@ -224,20 +226,46 @@ export async function updateMitraDefaults(_prev: ActionState, form: FormData): P
 export async function createRoleInvitation(_prev: ActionState, form: FormData): Promise<ActionState> {
   const role = form.get('role') === 'ADMIN' ? 'ADMIN' : 'VOLUNTEER';
   const staff = await requireStaff(role === 'ADMIN' ? 'admins:manage' : 'volunteers:manage');
-  const phone = normalizePhoneE164(String(form.get('phone') ?? ''));
-  if (!phone) return { error: 'Enter a valid mobile number (10-digit Indian number or full +country number).' };
+  const country = String(form.get('countryCode') ?? '+91').trim();
+  const raw = String(form.get('phone') ?? '').trim();
+  const phone = normalizePhoneE164(raw.startsWith('+') || country === '+91' ? raw : `${country}${raw.replace(/\D/g, '')}`);
+  if (!phone) return { error: 'Enter a valid mobile number (10-digit Indian number, or choose the country code).' };
   const adminLevel = role === 'ADMIN' ? (['ADMIN', 'AGRONOMIST', 'REVIEWER', 'ANALYST'].includes(String(form.get('adminLevel'))) ? (String(form.get('adminLevel')) as 'ADMIN') : 'ADMIN') : null;
-  const serviceArea = String(form.get('serviceArea') ?? '').trim().slice(0, 120) || null;
+  const text = (name: string, max: number) => String(form.get(name) ?? '').trim().slice(0, max) || null;
+  const days = [3, 7, 14, 30].includes(Number(form.get('expiresInDays'))) ? Number(form.get('expiresInDays')) : 14;
   const existing = await db.user.findUnique({ where: { phone }, include: { roles: true } });
   if (existing?.roles.some((r) => r.role === role)) return { error: `This number already has the ${role.toLowerCase()} role.` };
-  await db.roleInvitation.updateMany({ where: { phone, role, status: 'PENDING' }, data: { status: 'REVOKED' } });
+
+  // One active invitation per number and role: a new invitation replaces (revokes) the previous one.
+  const replaced = await db.roleInvitation.updateMany({ where: { phone, role, status: 'PENDING' }, data: { status: 'REVOKED' } });
+  const { token, tokenHash } = newInviteToken();
   const invite = await db.roleInvitation.create({
-    data: { phone, role, adminLevel, serviceArea, invitedById: staff.userId, expiresAt: new Date(Date.now() + 14 * 86_400_000) },
+    data: {
+      phone,
+      role,
+      adminLevel,
+      serviceArea: text('serviceArea', 120),
+      inviteeName: text('inviteeName', 80),
+      district: text('district', 60),
+      village: text('village', 80),
+      tokenHash: role === 'VOLUNTEER' ? tokenHash : null,
+      invitedById: staff.userId,
+      expiresAt: new Date(Date.now() + days * 86_400_000),
+    },
   });
-  await auditService.audit({ actorId: staff.userId, action: 'role.invite', resource: 'role_invitation', resourceId: invite.id, metadata: { role, adminLevel } });
+  await auditService.audit({ actorId: staff.userId, action: 'role.invite', resource: 'role_invitation', resourceId: invite.id, metadata: { role, adminLevel, days, replaced: replaced.count } });
   revalidatePath('/admin/settings');
   revalidatePath('/admin/volunteers');
-  return { ok: `Invitation created (valid 14 days). The person signs in at /login with ${phone} — the ${role.toLowerCase()} role is added after phone verification.` };
+  if (role === 'ADMIN') {
+    return { ok: `Invitation created (valid ${days} days). The person signs in at /login with ${phone} — the admin role is added after phone verification.` };
+  }
+  const h = await headers();
+  const host = h.get('x-forwarded-host') ?? h.get('host') ?? 'localhost:3000';
+  const proto = h.get('x-forwarded-proto') ?? (/^(localhost|127\.0\.0\.1)(:|$)/.test(host) ? 'http' : 'https');
+  return {
+    ok: `Invitation created for ${phone} (valid ${days} days)${replaced.count ? ' — the earlier invitation for this number was replaced' : ''}. Share the link below; it works only after OTP verification of this number.`,
+    data: { link: `${proto}://${host}${invitationPath(token)}`, phone, days },
+  };
 }
 
 export async function revokeRoleInvitation(form: FormData) {

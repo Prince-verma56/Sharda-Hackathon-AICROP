@@ -1,7 +1,7 @@
 'use client';
 
 import { useTransition } from 'react';
-import { Check, ChevronsUpDown, HandHeart, Loader2, Plus, ShieldCheck, Sprout } from 'lucide-react';
+import { Check, ChevronsUpDown, HandHeart, Loader2, LogOut, Plus, ShieldCheck, Sprout } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import type { Workspace } from '@/lib/auth/redirects';
 import { cn } from '@/lib/utils';
+import { signOut } from '@/server/auth/account-actions';
 import { enableFarmerWorkspace, switchWorkspace } from '@/server/auth/workspace-actions';
 
 const META: Record<Workspace, { icon: typeof Sprout; en: string; hi: string }> = {
@@ -79,6 +80,12 @@ export function WorkspaceSwitcher({ current, available, canStartFarmer, lang = '
             </DropdownMenuGroup>
           </>
         )}
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem disabled={pending} onClick={() => startTransition(() => signOut())}>
+            <LogOut /> {lang === 'hi' ? 'लॉग आउट' : 'Sign out'}
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -17,5 +17,6 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/farmer/:path*", "/volunteer/:path*", "/admin/:path*", "/dev/:path*", "/workspaces/:path*", "/auth/continue"],
+  // /volunteer/accept-invitation/<token> is public: it explains the invitation before sign-in.
+  matcher: ["/farmer/:path*", "/volunteer", "/volunteer/((?!accept-invitation/).*)", "/admin/:path*", "/dev/:path*", "/workspaces/:path*", "/auth/continue"],
 };

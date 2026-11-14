@@ -50,6 +50,10 @@ model User {
   knowledgeReviewed KnowledgeEntry[]    @relation("KnowledgeReviewer")
   invitationsSent   RoleInvitation[]    @relation("InvitationSender")
   sessions          Session[]
+  campaignsCreated    Campaign[]          @relation("CampaignCreator")
+  volunteerActivities VolunteerActivity[] @relation("VolunteerActivities")
+  volunteerVideos     VolunteerVideo[]    @relation("VolunteerVideos")
+  videosReviewed      VolunteerVideo[]    @relation("VideoReviewer")
 
   @@index([createdAt])
   @@map("users")
@@ -170,6 +174,11 @@ model RoleInvitation {
   role           AppRole
   adminLevel     AdminLevel?
   serviceArea    String?
+  /// SHA-256 of the one-time invitation link token (the raw token is never stored)
+  tokenHash      String?          @unique
+  inviteeName    String?
+  district       String?
+  village        String?
   invitedById    String
   status         InvitationStatus @default(PENDING)
   expiresAt      DateTime
@@ -189,6 +198,13 @@ model VolunteerProfile {
   district           String?
   state              String?
   languages          String[]              @default([])
+  /// language for the volunteer's own app/messages (hi | en)
+  preferredLanguage  String?
+  village            String?
+  /// short introduction shown to admins
+  bio                String?
+  /// e.g. "weekends", "weekday mornings"
+  availability       String?
   verificationStatus VolunteerVerification @default(PENDING)
   trainingStatus     TrainingStatus        @default(NOT_STARTED)
   profileCompletedAt DateTime?
@@ -681,4 +697,92 @@ model DocumentChunk {
   document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
   @@map("document_chunks")
+}
+
+// ---- Volunteer programme ------------------------------------------------------------------
+
+enum CampaignStatus {
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+/// An awareness campaign created by an admin; volunteers log activities against it.
+model Campaign {
+  id          String         @id @default(cuid())
+  title       String
+  description String
+  region      String?
+  startsOn    DateTime?
+  endsOn      DateTime?
+  status      CampaignStatus @default(ACTIVE)
+  createdById String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  createdBy  User                @relation("CampaignCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  activities VolunteerActivity[]
+
+  @@index([status, createdAt])
+  @@map("campaigns")
+}
+
+enum VolunteerActivityKind {
+  FIELD_VISIT
+  AWARENESS_SESSION
+  FARMER_ASSISTANCE
+  TRAINING
+}
+
+/// What a volunteer did (aggregate counts only — never farmers' private data).
+model VolunteerActivity {
+  id             String                @id @default(cuid())
+  volunteerId    String
+  campaignId     String?
+  kind           VolunteerActivityKind
+  occurredOn     DateTime
+  village        String?
+  farmersReached Int                   @default(0)
+  notes          String?
+  createdAt      DateTime              @default(now())
+
+  volunteer User      @relation("VolunteerActivities", fields: [volunteerId], references: [id], onDelete: Cascade)
+  campaign  Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+
+  @@index([volunteerId, occurredOn])
+  @@index([campaignId])
+  @@map("volunteer_activities")
+}
+
+enum ContentReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+/// Educational video by a volunteer. The file lives in private storage (never in PostgreSQL);
+/// it is shown to farmers only after an admin approves it.
+model VolunteerVideo {
+  id           String              @id @default(cuid())
+  volunteerId  String
+  title        String
+  description  String?
+  language     String?
+  crop         String?
+  storageKey   String
+  thumbnailKey String?
+  mimeType     String
+  bytes        Int
+  status       ContentReviewStatus @default(PENDING)
+  reviewNote   String?
+  reviewedById String?
+  reviewedAt   DateTime?
+  createdAt    DateTime            @default(now())
+
+  volunteer  User  @relation("VolunteerVideos", fields: [volunteerId], references: [id], onDelete: Cascade)
+  reviewedBy User? @relation("VideoReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([volunteerId, createdAt])
+  @@map("volunteer_videos")
 }

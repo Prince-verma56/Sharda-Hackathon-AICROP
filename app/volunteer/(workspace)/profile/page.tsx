@@ -25,7 +25,17 @@ export default async function VolunteerProfilePage() {
       <div className="grid items-start gap-5 lg:grid-cols-12 lg:gap-6">
         <div className="lg:col-span-8">
           <VolunteerForm
-            initial={{ name: volunteer.name ?? '', serviceArea: profile?.serviceArea ?? '', district: profile?.district ?? '', state: profile?.state ?? '', languages: profile?.languages ?? [] }}
+            initial={{
+              name: volunteer.name ?? '',
+              serviceArea: profile?.serviceArea ?? '',
+              district: profile?.district ?? '',
+              state: profile?.state ?? '',
+              languages: profile?.languages ?? [],
+              village: profile?.village ?? '',
+              preferredLanguage: profile?.preferredLanguage ?? '',
+              bio: profile?.bio ?? '',
+              availability: profile?.availability ?? '',
+            }}
           />
         </div>
         <aside className="flex flex-col gap-4 rounded-[24px] bg-white p-5 ring-1 ring-border sm:p-6 lg:sticky lg:top-24 lg:col-span-4">

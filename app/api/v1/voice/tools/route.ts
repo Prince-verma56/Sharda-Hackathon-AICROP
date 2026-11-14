@@ -1,6 +1,7 @@
 /**
  * POST /api/v1/voice/tools — Vapi "tool-calls" server webhook.
- * 1. Shared secret header must match VAPI_WEBHOOK_SECRET (constant time).
+ * 1. Vapi's credential secret (Authorization: Bearer / x-vapi-secret) must match VAPI_WEBHOOK_SECRET
+ *    (constant time). It is configured in the Vapi dashboard, never sent to the browser.
  * 2. The farmer is resolved from the signed voice token we put in the assistant metadata —
  *    never from tool arguments.
  * 3. Each tool runs with that farmer's scope only.
@@ -17,10 +18,15 @@ interface ToolCall {
   function?: { name: string; arguments?: unknown };
 }
 
+/**
+ * The secret arrives from Vapi's servers (a Vapi credential referenced by id in the assistant
+ * config), as `Authorization: Bearer <secret>` or `x-vapi-secret` — never from the browser.
+ */
 function secretOk(req: Request) {
   const expected = process.env.VAPI_WEBHOOK_SECRET;
-  const supplied = req.headers.get('x-cropai-voice-secret') ?? '';
   if (!expected || expected.length < 24) return false;
+  const bearer = req.headers.get('authorization')?.match(/^Bearer\s+(.+)$/i)?.[1] ?? '';
+  const supplied = bearer || (req.headers.get('x-vapi-secret') ?? '');
   const a = Buffer.from(supplied);
   const b = Buffer.from(expected);
   return a.length === b.length && timingSafeEqual(a, b);

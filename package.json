@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^4.0.84",
+    "@aws-sdk/client-s3": "^3.1169.0",
     "@base-ui/react": "^1.8.0",
     "@hookform/resolvers": "^5.9.1",
     "@langchain/core": "^1.2.16",

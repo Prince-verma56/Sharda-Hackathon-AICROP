@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { AccountMenu } from '@/components/auth/account-menu';
 import { WorkspaceMenu } from '@/components/workspace/workspace-menu';
 import { brand } from '@/config/brand';
 import { cn } from '@/lib/utils';
@@ -79,6 +80,7 @@ export default async function PortalLayout({ children }: { children: React.React
             <Separator orientation="vertical" className="h-5" />
             <span className="truncate text-sm text-muted-foreground">Signed in as <b className="text-foreground">{ROLE_LABELS[staff.role]}</b> · phone verified</span>
             <WorkspaceMenu current="admin" className="ml-auto shrink-0" />
+            <AccountMenu className="shrink-0" label={staff.name ? `${staff.name} · ${ROLE_LABELS[staff.role]}` : ROLE_LABELS[staff.role]} />
           </header>
           <div className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 lg:px-8 lg:py-8">{children}</div>
         </SidebarInset>

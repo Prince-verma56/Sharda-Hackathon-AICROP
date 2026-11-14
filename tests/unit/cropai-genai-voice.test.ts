@@ -142,9 +142,21 @@ describe('voice tool webhook', () => {
     const body = { message: { type: 'tool-calls', assistant: { metadata: { cropaiVoiceToken: 'x.9999999999.00' } }, toolCallList: [{ id: 't1', function: { name: 'get_current_diagnosis' } }] } };
     const noSecret = await POST(new Request('http://x/api', { method: 'POST', body: JSON.stringify(body) }));
     expect(noSecret.status).toBe(401);
-    const forged = await POST(new Request('http://x/api', { method: 'POST', headers: { 'x-cropai-voice-secret': 's'.repeat(32) }, body: JSON.stringify(body) }));
+    // the old custom header (it was visible to browsers) is no longer accepted
+    const oldHeader = await POST(new Request('http://x/api', { method: 'POST', headers: { 'x-cropai-voice-secret': 's'.repeat(32) }, body: JSON.stringify(body) }));
+    expect(oldHeader.status).toBe(401);
+    // Vapi credential: Authorization: Bearer <secret> — a valid secret with a forged farmer token still gets nothing
+    const forged = await POST(new Request('http://x/api', { method: 'POST', headers: { authorization: `Bearer ${'s'.repeat(32)}` }, body: JSON.stringify(body) }));
     const json = await forged.json();
     expect(json.results[0].error).toMatch(/Session expired/);
     expect(json.results[0].result).toBeUndefined();
+    const vapiHeader = await POST(new Request('http://x/api', { method: 'POST', headers: { 'x-vapi-secret': 's'.repeat(32) }, body: JSON.stringify(body) }));
+    expect(vapiHeader.status).toBe(200);
+  });
+
+  it('never puts the webhook secret into the browser-visible assistant config', async () => {
+    const src = (await import('node:fs')).readFileSync('ai/voice/mitra.ts', 'utf8');
+    expect(src).not.toMatch(/headers:\s*\{[^}]*VAPI_WEBHOOK_SECRET/);
+    expect(src).toMatch(/credentialId: process\.env\.VAPI_TOOLS_CREDENTIAL_ID/);
   });
 });

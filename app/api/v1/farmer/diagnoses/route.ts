@@ -7,7 +7,7 @@ import { getCurrentFarmer } from '@/server/auth/dal';
 import { createDiagnosis, DiagnosisError } from '@/server/cropai/diagnosis-service';
 import { isSupportedCrop } from '@/server/cropai/taxonomy';
 import { db } from '@/server/db';
-import { fail, limit, ok } from '@/server/http/respond';
+import { fail, limit, ok, rejectCrossSiteUpload } from '@/server/http/respond';
 import { FieldContextSchema, sanitizeFieldContext, type FieldContext } from '@/lib/cropai/field-context';
 import { saveFieldContext } from '@/server/cropai/field-context';
 
@@ -29,6 +29,8 @@ const MESSAGES: Record<string, string> = {
 };
 
 export async function POST(req: Request) {
+  const blocked = rejectCrossSiteUpload(req);
+  if (blocked) return blocked;
   const farmer = await getCurrentFarmer();
   if (!farmer) return fail('UNAUTHORIZED', 401, 'Please sign in again.');
   const limited = await limit(req, `farmer-diagnose:${farmer.userId}`, 15);

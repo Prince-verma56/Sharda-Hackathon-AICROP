@@ -9,9 +9,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   const diagnosis = await db.diagnosis.findUnique({ where: { id }, select: { farmerId: true, imageKey: true, imageMime: true } });
   if (!diagnosis?.imageKey) return new Response('Not found', { status: 404 });
 
+  // Owner first; otherwise staff with permission (an account can be both farmer and admin).
   const farmer = await getCurrentFarmer();
-  const staff = farmer ? null : await getCurrentStaff();
-  const allowed = (farmer && farmer.userId === diagnosis.farmerId) || (staff && can(staff.role, 'diagnoses:view'));
+  const owner = Boolean(farmer && farmer.userId === diagnosis.farmerId);
+  const staff = owner ? null : await getCurrentStaff();
+  const allowed = owner || Boolean(staff && can(staff.role, 'diagnoses:view'));
   if (!allowed) return new Response('Not found', { status: 404 });
 
   const bytes = await readImage(diagnosis.imageKey);

@@ -25,8 +25,13 @@ export function verifyVoiceToken(token: unknown): string | null {
   return safeEqualHex(hmac(`voice:${id}:${exp}`), sig) ? id : null;
 }
 
+/**
+ * Server tools need a public https URL and a Vapi credential (configured in the Vapi dashboard with
+ * the VAPI_WEBHOOK_SECRET as its bearer token). The assistant config is built for the browser, so
+ * it references the credential by id and never contains the secret itself.
+ */
 function toolsEnabled() {
-  return /^https:\/\//.test(process.env.APP_PUBLIC_URL || '') && Boolean(process.env.VAPI_WEBHOOK_SECRET);
+  return /^https:\/\//.test(process.env.APP_PUBLIC_URL || '') && (process.env.VAPI_WEBHOOK_SECRET ?? '').length >= 24 && Boolean(process.env.VAPI_TOOLS_CREDENTIAL_ID);
 }
 
 export interface VoiceSessionResult {
@@ -94,7 +99,7 @@ export async function createVoiceSession(
             tools: MITRA_TOOL_DEFINITIONS.map((tool) => ({
               type: 'function',
               function: tool,
-              server: { url: serverUrl, headers: { 'x-cropai-voice-secret': process.env.VAPI_WEBHOOK_SECRET } },
+              server: { url: serverUrl, credentialId: process.env.VAPI_TOOLS_CREDENTIAL_ID },
             })),
           }
         : {}),

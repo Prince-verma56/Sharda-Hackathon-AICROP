@@ -60,3 +60,29 @@ export function rejectCrossSite(req: Request) {
   }
   return null;
 }
+
+/**
+ * CSRF guard for cookie-authenticated multipart uploads (files cannot be sent as JSON): the body
+ * must be multipart/form-data, a browser Origin header (always sent on POST) must match this host,
+ * and Fetch Metadata, when present, must not be cross-site. Native apps send neither header and
+ * authenticate with Bearer tokens.
+ */
+export function rejectCrossSiteUpload(req: Request) {
+  if (!req.headers.get('content-type')?.toLowerCase().startsWith('multipart/form-data')) {
+    return fail('UNSUPPORTED_MEDIA_TYPE', 415, 'Send the file as multipart/form-data.');
+  }
+  const site = req.headers.get('sec-fetch-site');
+  if (site && site !== 'same-origin' && site !== 'none') return fail('CROSS_SITE_REQUEST', 403, 'Cross-site request blocked.');
+  const origin = req.headers.get('origin');
+  if (origin) {
+    let originHost: string | null = null;
+    try {
+      originHost = new URL(origin).host;
+    } catch {
+      originHost = null;
+    }
+    const host = req.headers.get('x-forwarded-host') ?? req.headers.get('host');
+    if (!originHost || originHost !== host) return fail('CROSS_SITE_REQUEST', 403, 'Cross-site request blocked.');
+  }
+  return null;
+}

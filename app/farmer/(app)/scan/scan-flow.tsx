@@ -31,6 +31,7 @@ import { cropName } from "@/lib/crops";
 import { t } from "@/lib/i18n/farmer";
 import { cn } from "@/lib/utils";
 import { speakText } from "@/lib/voice/speak";
+import { shrinkPhoto } from "@/lib/cropai/shrink-photo";
 
 const MAX_BYTES = 8 * 1024 * 1024;
 const TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -189,14 +190,15 @@ export function ScanFlow({
     setError(null);
   }
 
-  function upload() {
+  async function upload() {
     if (!file || !crop) return;
     if (!consent) return setError(tx.consent);
     setError(null);
     setPhase("uploading");
     setProgress(0);
+    const photo = await shrinkPhoto(file).catch(() => file);
     const form = new FormData();
-    form.set("image", file, file.name || "leaf.jpg");
+    form.set("image", photo, photo.name || "leaf.jpg");
     form.set("crop", crop);
     form.set("consent", String(consent));
     // optional field details (automatic date/time + location if allowed + the farmer's answers)
