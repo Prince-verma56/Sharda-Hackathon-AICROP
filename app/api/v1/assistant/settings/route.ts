@@ -5,6 +5,7 @@
  */
 import { z } from 'zod';
 import { getMitraSettings, MITRA_LANGUAGES, MITRA_LENGTHS, MITRA_PACES, MITRA_TONES, MITRA_VOICES, saveFarmerMitraSettings, type ResolvedMitraSettings } from '@/ai/settings/mitra-settings';
+import { MITRA_SETTING_GROUPS } from '@/lib/mitra/settings-options';
 import { getCurrentFarmer } from '@/server/auth/dal';
 import { fail, limit, ok, readJson, rejectCrossSite } from '@/server/http/respond';
 
@@ -20,7 +21,8 @@ const schema = z.object({
 function present(s: ResolvedMitraSettings) {
   const { extraInstructions: _extra, ...defaults } = s.defaults;
   void _extra;
-  return { effective: s.effective, overrides: s.overrides, defaults };
+  // `options`: the labels/hints for each choice in English + Hindi (used by the mobile app).
+  return { effective: s.effective, overrides: s.overrides, defaults, options: MITRA_SETTING_GROUPS };
 }
 
 export async function GET() {

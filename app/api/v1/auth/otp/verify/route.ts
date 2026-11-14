@@ -5,7 +5,8 @@
  * 2. Roles are resolved from PostgreSQL (server/auth/identity.ts) — the requested role is only a
  *    request: farmers may self-register; volunteers/admins need an invitation or bootstrap.
  * 3. Only then is a session created (rotated): HttpOnly cookie for the web, or — with
- *    `client: "mobile"` — a Bearer token in the response body for the Flutter app.
+ *    `client: "mobile"` — a 15-minute Bearer access token + rotating refresh token in the
+ *    response body for the Flutter app (refresh: POST /api/v1/auth/token/refresh).
  */
 import { z } from 'zod';
 import { resolveDestination, workspacesForRoles } from '@/lib/auth/redirects';
@@ -24,6 +25,9 @@ const schema = z.object({
   requestedRole: REQUESTED_ROLE,
   language: LANGUAGE,
   client: z.enum(['web', 'mobile']).default('web'),
+  /** mobile only: random install id + readable label, kept with the session for the device list */
+  deviceId: z.string().trim().regex(/^[A-Za-z0-9_-]{8,64}$/).optional(),
+  deviceName: z.string().trim().max(120).optional(),
 });
 
 export async function POST(req: Request) {
@@ -48,7 +52,7 @@ export async function POST(req: Request) {
     return fail(login.reason, 403, DENIAL_MESSAGES[login.reason]);
   }
 
-  const session = await createSession(login.userId, login.roles, body.data.client);
+  const session = await createSession(login.userId, login.roles, body.data.client, { deviceId: body.data.deviceId, deviceName: body.data.deviceName });
   const user = await db.user.findUnique({ where: { id: login.userId }, include: { volunteerProfile: { select: { verificationStatus: true } } } });
   const workspaces = workspacesForRoles(login.roles, user?.volunteerProfile?.verificationStatus ?? null);
   const destination = resolveDestination(workspaces, requested, null);
@@ -58,6 +62,18 @@ export async function POST(req: Request) {
     roles: login.roles,
     workspaces,
     destination,
-    ...(body.data.client === 'mobile' ? { token: session.token, expiresAt: session.expiresAt.toISOString() } : {}),
+    ...(body.data.client === 'mobile'
+      ? {
+          sessionId: session.sessionId,
+          // `token`/`expiresAt` kept for older app builds; same value as the access token
+          token: session.token,
+          expiresAt: session.expiresAt.toISOString(),
+          accessToken: session.token,
+          accessTokenExpiresAt: session.expiresAt.toISOString(),
+          refreshToken: session.refreshToken,
+          refreshTokenExpiresAt: session.refreshExpiresAt?.toISOString(),
+          tokenType: 'Bearer',
+        }
+      : {}),
   });
 }

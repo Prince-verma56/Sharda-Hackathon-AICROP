@@ -60,22 +60,35 @@ model User {
 }
 
 /// Application sessions (phone OTP login). The cookie / Bearer token is random; only its SHA-256 is stored.
+/// Mobile sessions hold a short-lived access token (tokenHash/expiresAt) plus a rotating refresh
+/// token (refreshTokenHash/refreshExpiresAt); a replayed old refresh token revokes the session.
 model Session {
-  id         String    @id @default(cuid())
-  tokenHash  String    @unique
-  userId     String
+  id                  String    @id @default(cuid())
+  tokenHash           String    @unique
+  userId              String
   /// "web" (HttpOnly cookie) or "mobile" (Bearer token for the Flutter app)
-  client     String    @default("web")
-  userAgent  String?
-  createdAt  DateTime  @default(now())
-  lastSeenAt DateTime  @default(now())
-  expiresAt  DateTime
-  revokedAt  DateTime?
+  client              String    @default("web")
+  userAgent           String?
+  createdAt           DateTime  @default(now())
+  lastSeenAt          DateTime  @default(now())
+  /// web: session expiry; mobile: access-token expiry (short)
+  expiresAt           DateTime
+  revokedAt           DateTime?
+  /// mobile only: SHA-256 of the current refresh token
+  refreshTokenHash    String?   @unique
+  /// mobile only: SHA-256 of the refresh token it replaced (reuse detection)
+  previousRefreshHash String?
+  refreshExpiresAt    DateTime?
+  rotatedAt           DateTime?
+  /// mobile only: app-generated install id and a readable device label (no hardware identifiers)
+  deviceId            String?
+  deviceName          String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, revokedAt])
   @@index([expiresAt])
+  @@index([previousRefreshHash])
   @@map("sessions")
 }
 

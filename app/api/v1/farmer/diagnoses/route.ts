@@ -1,9 +1,15 @@
 /**
- * POST /api/v1/farmer/diagnoses  multipart: image, crop
+ * POST /api/v1/farmer/diagnoses  multipart: image, crop, consent?, context?
  * Authenticated farmer upload -> real model -> persisted report. Returns { id }.
+ * `crop=auto` (farmer does not know the crop): the model predicts crop and condition together
+ * (global scores, `cropSource: "model"`) — the report shows the crop was detected, not chosen.
+ *
+ * GET /api/v1/farmer/diagnoses?limit=20&cursor=<id>  the farmer's own reports, newest first.
  */
 import { MAX_IMAGE_BYTES } from '@/ai/diagnosis';
+import { cropName } from '@/lib/crops';
 import { getCurrentFarmer } from '@/server/auth/dal';
+import { getCropImages } from '@/server/cropai/crop-images';
 import { createDiagnosis, DiagnosisError } from '@/server/cropai/diagnosis-service';
 import { isSupportedCrop } from '@/server/cropai/taxonomy';
 import { db } from '@/server/db';
@@ -51,12 +57,15 @@ export async function POST(req: Request) {
   if (image.type && !ACCEPTED.includes(image.type)) return fail('IMAGE_FORMAT_UNSUPPORTED', 415, MESSAGES.IMAGE_FORMAT_UNSUPPORTED);
 
   const rawCrop = form.get('crop');
-  const crop = typeof rawCrop === 'string' && /^[a-z][a-z0-9_]{1,40}$/.test(rawCrop) ? rawCrop : null;
-  if (!crop) return fail('CROP_REQUIRED', 422, 'Please choose your crop first.');
-  try {
-    if (!(await isSupportedCrop(crop))) return fail('CROP_UNSUPPORTED', 422, MESSAGES.CROP_UNSUPPORTED);
-  } catch {
-    return fail('INFERENCE_OFFLINE', 503, MESSAGES.INFERENCE_OFFLINE);
+  const autoCrop = rawCrop === 'auto';
+  const crop = !autoCrop && typeof rawCrop === 'string' && /^[a-z][a-z0-9_]{1,40}$/.test(rawCrop) ? rawCrop : null;
+  if (!crop && !autoCrop) return fail('CROP_REQUIRED', 422, 'Please choose your crop first.');
+  if (crop) {
+    try {
+      if (!(await isSupportedCrop(crop))) return fail('CROP_UNSUPPORTED', 422, MESSAGES.CROP_UNSUPPORTED);
+    } catch {
+      return fail('INFERENCE_OFFLINE', 503, MESSAGES.INFERENCE_OFFLINE);
+    }
   }
 
   const profile = await db.farmerProfile.findUnique({ where: { userId: farmer.userId }, select: { photoConsentAt: true } });
@@ -105,4 +114,48 @@ export async function POST(req: Request) {
     console.error('[farmer-diagnosis] failed', (error as Error).message);
     return fail('DIAGNOSIS_FAILED', 500, 'The check failed. Please try again.');
   }
+}
+
+export async function GET(req: Request) {
+  const farmer = await getCurrentFarmer();
+  if (!farmer) return fail('UNAUTHORIZED', 401, 'Please sign in again.');
+  const params = new URL(req.url).searchParams;
+  const limitParam = Number(params.get('limit') ?? 20);
+  const take = Number.isInteger(limitParam) ? Math.min(Math.max(limitParam, 1), 50) : 20;
+  const cursor = params.get('cursor');
+  if (cursor !== null && !/^[a-z0-9]{8,40}$/i.test(cursor)) return fail('CURSOR_INVALID', 422, 'Invalid page cursor.');
+  const lang = params.get('lang') === 'en' || params.get('lang') === 'hi' ? (params.get('lang') as 'hi' | 'en') : farmer.language === 'en' ? 'en' : 'hi';
+
+  // A cursor is only honoured if it belongs to this farmer (no probing other farmers' ids).
+  if (cursor && !(await db.diagnosis.findFirst({ where: { id: cursor, farmerId: farmer.userId }, select: { id: true } }))) {
+    return fail('CURSOR_INVALID', 422, 'Invalid page cursor.');
+  }
+  const [rows, total, cropImages] = await Promise.all([
+    db.diagnosis.findMany({
+      where: { farmerId: farmer.userId },
+      orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+      take: take + 1,
+      ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
+      select: { id: true, createdAt: true, status: true, predictedCrop: true, selectedCrop: true, predictedCondition: true, isHealthy: true, confidence: true, reviewStatus: true, imageKey: true, advisories: true },
+    }),
+    db.diagnosis.count({ where: { farmerId: farmer.userId } }),
+    getCropImages(),
+  ]);
+  const page = rows.slice(0, take);
+  return ok({
+    items: page.map((d) => ({
+      id: d.id,
+      createdAt: d.createdAt.toISOString(),
+      status: d.status,
+      crop: { id: d.predictedCrop, name: cropName(d.predictedCrop, lang), imageUrl: cropImages[d.predictedCrop] ?? null },
+      condition: d.predictedCondition,
+      isHealthy: d.isHealthy,
+      score: d.confidence,
+      uncertain: Array.isArray(d.advisories) && d.advisories.length > 0,
+      reviewStatus: d.reviewStatus,
+      thumbnailUrl: d.imageKey ? `/api/v1/images/diagnoses/${d.id}` : null,
+    })),
+    total,
+    nextCursor: rows.length > take ? page.at(-1)?.id ?? null : null,
+  });
 }
