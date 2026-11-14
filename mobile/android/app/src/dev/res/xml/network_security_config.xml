@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DEVELOPMENT FLAVOR ONLY (src/dev overrides src/main): allows plain HTTP to the CropAI dev
+     backend on the LAN (http://192.168.x.x:3000), the emulator host (http://10.0.2.2:3000) or
+     USB reverse (http://localhost:3000). Android cannot scope cleartext to an IP range, so it is
+     enabled for this debug/testing flavor as a whole. staging/prod builds use src/main (HTTPS only). -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

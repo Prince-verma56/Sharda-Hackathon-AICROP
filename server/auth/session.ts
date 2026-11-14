@@ -112,35 +112,45 @@ export async function createSession(userId: string, roles: readonly AppRole[], c
   const previous = await presentedToken();
   if (previous) await revokeToken(previous.token);
 
-  const token = randomToken(32);
   const userAgent = (await headers()).get('user-agent')?.slice(0, 255) ?? null;
+  if (client === 'mobile') return insertMobileSession(userId, roles, { ...device, userAgent });
 
-  if (client === 'mobile') {
-    const now = new Date();
-    const refreshToken = randomToken(32);
-    const expiresAt = new Date(now.getTime() + MOBILE_ACCESS_TTL_MS);
-    const refreshExpiresAt = refreshExpiry(roles, now, now.getTime());
-    const session = await db.session.create({
-      data: {
-        tokenHash: sha256(token),
-        userId,
-        client,
-        userAgent,
-        expiresAt,
-        refreshTokenHash: sha256(refreshToken),
-        refreshExpiresAt,
-        deviceId: device.deviceId?.slice(0, 64) ?? null,
-        deviceName: device.deviceName?.slice(0, 120) ?? null,
-        createdAt: now,
-      },
-    });
-    return { sessionId: session.id, token, expiresAt, refreshToken, refreshExpiresAt };
-  }
-
+  const token = randomToken(32);
   const expiresAt = new Date(Date.now() + sessionTtlMs(roles));
   const session = await db.session.create({ data: { tokenHash: sha256(token), userId, client, userAgent, expiresAt } });
   (await cookies()).set(SESSION_COOKIE, token, cookieOptions(expiresAt));
   return { sessionId: session.id, token, expiresAt };
+}
+
+/**
+ * Stores a new mobile session (access + refresh token hashes). Used by createSession after a
+ * verified OTP, and by the development-only test-session script (no request context needed).
+ */
+export async function insertMobileSession(
+  userId: string,
+  roles: readonly AppRole[],
+  device: DeviceInfo & { userAgent?: string | null } = {},
+): Promise<CreatedSession> {
+  const now = new Date();
+  const token = randomToken(32);
+  const refreshToken = randomToken(32);
+  const expiresAt = new Date(now.getTime() + MOBILE_ACCESS_TTL_MS);
+  const refreshExpiresAt = refreshExpiry(roles, now, now.getTime());
+  const session = await db.session.create({
+    data: {
+      tokenHash: sha256(token),
+      userId,
+      client: 'mobile',
+      userAgent: device.userAgent ?? null,
+      expiresAt,
+      refreshTokenHash: sha256(refreshToken),
+      refreshExpiresAt,
+      deviceId: device.deviceId?.slice(0, 64) ?? null,
+      deviceName: device.deviceName?.slice(0, 120) ?? null,
+      createdAt: now,
+    },
+  });
+  return { sessionId: session.id, token, expiresAt, refreshToken, refreshExpiresAt };
 }
 
 export type RefreshResult =

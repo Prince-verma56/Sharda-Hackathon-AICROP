@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive-icon foreground: the CropAI leaf mark (path from components/marketing/home/brand.tsx),
+     scaled into the 66dp safe zone of the 108dp canvas. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <group android:translateX="32" android:translateY="31" android:scaleX="1.4" android:scaleY="1.4">
+        <path android:fillColor="#C9E3B3" android:pathData="M27.5,4.5C14,4.2 5.2,10.6 5,21.4c0,2 0.4,3.9 1.1,5.6C8,20.5 13,15.4 19.6,12.6 14.4,16 10.4,20.7 8.4,27.3c1.5,0.4 3,0.6 4.6,0.5C23.4,27.3 28.3,17.3 27.5,4.5Z" />
+    </group>
+</vector>

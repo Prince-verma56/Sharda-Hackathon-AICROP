@@ -1,0 +1,6 @@
+{
+  "APP_ENV": "development",
+  "APP_NAME": "CropAI Dev",
+  "API_BASE_URL": "http://192.168.1.10:3000",
+  "ALLOW_LOOPBACK": "false"
+}

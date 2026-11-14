@@ -1,0 +1,6 @@
+{
+  "APP_ENV": "staging",
+  "APP_NAME": "CropAI Preview",
+  "API_BASE_URL": "https://YOUR_STAGING_DOMAIN",
+  "ALLOW_LOOPBACK": "false"
+}

@@ -43,7 +43,9 @@
     "admin:bootstrap": "tsx scripts/bootstrap-admin.ts",
     "auth:owners": "tsx --conditions=react-server scripts/owner-access.ts",
     "dev:up": "powershell -ExecutionPolicy Bypass -File scripts/dev-up.ps1",
-    "dev:down": "powershell -ExecutionPolicy Bypass -File scripts/dev-down.ps1"
+    "dev:down": "powershell -ExecutionPolicy Bypass -File scripts/dev-down.ps1",
+    "mobile:test-session": "tsx --conditions=react-server scripts/mobile-test-session.ts",
+    "mobile:lan-ip": "powershell -ExecutionPolicy Bypass -File mobile/tool/lan-ip.ps1"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

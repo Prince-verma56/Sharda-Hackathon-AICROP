@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- CropAI brand colours (same values as the web: app/globals.css --crop-*). -->
+<resources>
+    <color name="crop_cream">#F7F6F1</color>
+    <color name="crop_green_950">#1C2E16</color>
+    <color name="crop_green_800">#2F4C25</color>
+    <color name="crop_green_600">#4A7A33</color>
+    <color name="crop_green_200">#C9E3B3</color>
+    <color name="ic_launcher_background">#1C2E16</color>
+</resources>

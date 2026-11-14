@@ -1,0 +1,6 @@
+{
+  "APP_ENV": "production",
+  "APP_NAME": "CropAI",
+  "API_BASE_URL": "https://YOUR_PRODUCTION_DOMAIN",
+  "ALLOW_LOOPBACK": "false"
+}
